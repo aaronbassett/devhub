@@ -1,4 +1,13 @@
 ---
+import Navbar from "@components/astro/Navbar.astro"
+import Sidebar from "@components/astro/Sidebar.astro"
+import Breadcrumbs from "@components/astro/Breadcrumbs.astro"
+import Aside from "@components/astro/Aside.astro"
+import RelatedRepos from "@components/astro/related/RelatedRepos.astro"
+import ArticleHeader from "@components/astro/article/ArticleHeader.astro"
+import RelatedPosts from "@components/astro/related/RelatedPosts.astro"
+import RelatedResources from "@components/astro/related/RelatedResources.astro"
+
 interface Props {
   title: string
 }
@@ -16,41 +25,49 @@ const { title } = Astro.props
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body class="bg-white dark:bg-gray-900">
+    <div class="antialiased bg-gray-50 dark:bg-gray-900">
+      <Navbar />
+      <Sidebar />
+      <Breadcrumbs />
 
-    <script
-      is:inline
-      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
-    ></script>
+      <main
+        class="bg-gray-50 dark:bg-gray-900 md:ml-64 lg:mr-64 min-h-full pt-20"
+      >
+        <div class="p-5">
+          <ArticleHeader />
+
+          <div
+            class="flex relative z-20 justify-between px-4 pt-8 mx-auto max-w-screen-xl bg-white rounded dark:bg-gray-800"
+          >
+            <article class="xl:w-[828px] w-full max-w-none">
+              <div class="pb-3 mb-4 lg:mb-8">
+                <div
+                  class="format format-sm sm:format-base lg:format-lg format-blue dark:format-invert dark:text-gray-100"
+                >
+                  <slot />
+                </div>
+
+                <RelatedRepos />
+                <RelatedResources />
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div
+          class="px-4 py-6 mx-auto max-w-screen-xl bg-white rounded dark:bg-gray-800"
+        >
+          <RelatedPosts />
+        </div>
+      </main>
+
+      <Aside />
+
+      <script
+        is:inline
+        src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
+      ></script>
+    </div>
   </body>
 </html>
-<style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
-    background-size: 224px;
-  }
-  code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
-      monospace;
-  }
-</style>

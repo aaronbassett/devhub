@@ -20,11 +20,13 @@
     "@expressive-code/plugin-line-numbers": "^0.35.3",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
+    "asciinema-player": "^3.7.1",
     "astro": "^4.8.6",
     "astro-analytics": "^2.7.0",
     "astro-auto-import": "^0.4.2",
     "astro-custom-toc": "^2.0.2",
     "astro-diagram": "^0.7.0",
+    "astro-embed": "^0.7.2",
     "astro-expressive-code": "^0.35.3",
     "astro-font": "^0.0.81",
     "astro-icon": "^1.1.0",
@@ -32,11 +34,15 @@
     "astro-pagefind": "^1.5.0",
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.3",
+    "astro-terminal-player": "^0.1.5",
     "flowbite": "^2.3.0",
     "mermaid": "^10.9.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "flowbite-typography": "^1.0.3"
   }
 }
