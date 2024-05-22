@@ -1,0 +1,256 @@
+---
+
+---
+
+<nav
+  class="bg-white border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+>
+  <div class="flex flex-wrap justify-between items-center">
+    <div class="flex justify-start items-center">
+      <button
+        data-drawer-target="drawer-navigation"
+        data-drawer-toggle="drawer-navigation"
+        aria-controls="drawer-navigation"
+        class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clip-rule="evenodd"></path>
+        </svg>
+        <svg
+          aria-hidden="true"
+          class="hidden w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Toggle sidebar</span>
+      </button>
+
+      <a href="/" class="flex mr-4 items-center justify-center">
+        <svg
+          class="mr-3 h-8"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 1500 1500"
+          style="enable-background:new 0 0 1500 1500;"
+          xml:space="preserve"
+        >
+          <style type="text/css">
+            .pink {
+              fill: #e6007a;
+            }
+          </style>
+          <g>
+            <ellipse class="pink" cx="750" cy="192.8" rx="254.3" ry="147.9"
+            ></ellipse>
+            <ellipse class="pink" cx="750" cy="1307.2" rx="254.3" ry="147.9"
+            ></ellipse>
+            <ellipse
+              transform="matrix(0.5 -0.866 0.866 0.5 -274.5191 467.3369)"
+              class="pink"
+              cx="267.5"
+              cy="471.4"
+              rx="254.3"
+              ry="147.9"></ellipse>
+
+            <ellipse
+              transform="matrix(0.5 -0.866 0.866 0.5 -274.5189 1581.7021)"
+              class="pink"
+              cx="1232.5"
+              cy="1028.6"
+              rx="254.3"
+              ry="147.9"></ellipse>
+            <ellipse
+              transform="matrix(0.866 -0.5 0.5 0.866 -478.4619 271.5379)"
+              class="pink"
+              cx="267.5"
+              cy="1028.6"
+              rx="148"
+              ry="254.3"></ellipse>
+            <ellipse
+              transform="matrix(0.866 -0.5 0.5 0.866 -70.5762 679.4238)"
+              class="pink"
+              cx="1232.5"
+              cy="471.4"
+              rx="148"
+              ry="254.3"></ellipse>
+          </g>
+        </svg>
+        <span
+          class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+          >Developer Hub</span
+        >
+      </a>
+
+      <form action="#" method="GET" class="hidden md:block lg:pl-2">
+        <label for="topbar-search" class="sr-only">Search</label>
+        <div class="relative md:w-64 lg:w-96">
+          <div
+            class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+          >
+            <svg
+              class="w-5 h-5 text-gray-500 dark:text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            name="email"
+            id="topbar-search"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Search"
+          />
+        </div>
+      </form>
+    </div>
+
+    <div class="flex items-center lg:order-2">
+      <button
+        type="button"
+        data-drawer-toggle="drawer-navigation"
+        aria-controls="drawer-navigation"
+        class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+      >
+        <span class="sr-only">Toggle search</span>
+        <svg
+          aria-hidden="true"
+          class="w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+          ></path>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="toggle-theme text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
+      >
+        <svg
+          class="theme-toggle-dark-icon hidden w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          ><path
+            d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+          ></path></svg
+        >
+        <svg
+          class="theme-toggle-light-icon hidden w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          ><path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+            fill-rule="evenodd"
+            clip-rule="evenodd"></path></svg
+        >
+      </button>
+
+      <button
+        type="button"
+        data-drawer-target="user-drawer"
+        data-drawer-show="user-drawer"
+        data-drawer-dismiss="drawer-navigation"
+        data-drawer-hide="drawer-navigation"
+        data-drawer-placement="right"
+        aria-controls="user-drawer"
+        class="flex md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
+        id="user-menu-button"
+      >
+        <span class="sr-only">Open user menu</span>
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          ><path
+            fill="currentColor"
+            d="M3 17v-2h14v2zm0-4v-2h14v2zm0-4V7h14v2zm17 8q-.425 0-.712-.288T19 16t.288-.712T20 15t.713.288T21 16t-.288.713T20 17m0-4q-.425 0-.712-.288T19 12t.288-.712T20 11t.713.288T21 12t-.288.713T20 13m0-4q-.425 0-.712-.288T19 8t.288-.712T20 7t.713.288T21 8t-.288.713T20 9"
+          ></path></svg
+        >
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function currentTheme() {
+    return localStorage.getItem("color-theme") === "dark" ||
+      (!("color-theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? "dark"
+      : "light"
+  }
+
+  function enableTheme() {
+    let theme = currentTheme()
+    document.documentElement.setAttribute("data-mode", theme)
+
+    if (theme === "dark") {
+      document
+        .querySelectorAll(".theme-toggle-dark-icon")
+        .forEach((darkIcon) => {
+          darkIcon.classList.add("hidden")
+        })
+      document
+        .querySelectorAll(".theme-toggle-light-icon")
+        .forEach((darkIcon) => {
+          darkIcon.classList.remove("hidden")
+        })
+    } else {
+      document
+        .querySelectorAll(".theme-toggle-dark-icon")
+        .forEach((darkIcon) => {
+          darkIcon.classList.remove("hidden")
+        })
+      document
+        .querySelectorAll(".theme-toggle-light-icon")
+        .forEach((darkIcon) => {
+          darkIcon.classList.add("hidden")
+        })
+    }
+  }
+
+  function toggleTheme() {
+    let theme = currentTheme() === "dark" ? "light" : "dark"
+    localStorage.setItem("color-theme", theme)
+    enableTheme()
+  }
+
+  document.querySelectorAll(".toggle-theme").forEach((toggle) => {
+    toggle.addEventListener("click", () => toggleTheme())
+  })
+
+  enableTheme()
+</script>
