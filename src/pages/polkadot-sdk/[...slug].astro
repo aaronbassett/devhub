@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content"
+import type { CollectionEntry } from "astro:content"
+import Layout from "@src/layouts/Layout.astro"
+
+export async function getStaticPaths() {
+  const polkadotSdkEntries: CollectionEntry<"polkadot-sdk">[] =
+    await getCollection("polkadot-sdk")
+  return polkadotSdkEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await entry.render()
+
+const pageProps = entry || {}
+---
+
+<Layout {...pageProps}>
+  <Content />
+</Layout>

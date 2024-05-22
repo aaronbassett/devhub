@@ -36,6 +36,7 @@
     "astro-seo": "^0.8.3",
     "astro-terminal-player": "^0.1.5",
     "flowbite": "^2.3.0",
+    "lodash": "^4.17.21",
     "mermaid": "^10.9.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -43,6 +44,7 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.4",
     "flowbite-typography": "^1.0.3"
   }
 }
