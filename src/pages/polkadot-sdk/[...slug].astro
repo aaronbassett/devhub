@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content"
 import type { CollectionEntry } from "astro:content"
 import Layout from "@src/layouts/Layout.astro"
+import { PolkadotSdkSchema } from "@schemas/collections/polkadot-sdk"
+import { z } from "astro:content"
 
 export async function getStaticPaths() {
   const polkadotSdkEntries: CollectionEntry<"polkadot-sdk">[] =
@@ -16,8 +18,9 @@ const { entry } = Astro.props
 const { Content } = await entry.render()
 
 const pageProps = entry || {}
+const data = entry.data as z.infer<typeof PolkadotSdkSchema>
 ---
 
-<Layout {...pageProps}>
+<Layout title={data.title} {...pageProps}>
   <Content />
 </Layout>

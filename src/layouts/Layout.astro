@@ -1,6 +1,6 @@
 ---
 import Navbar from "@components/astro/Navbar.astro"
-import Sidebar from "@components/astro/Sidebar.astro"
+import Sidebar from "@components/astro/sidebar/Sidebar.astro"
 import Breadcrumbs from "@components/astro/Breadcrumbs.astro"
 import Aside from "@components/astro/Aside.astro"
 import RelatedRepos from "@components/astro/related/RelatedRepos.astro"
@@ -10,9 +10,10 @@ import RelatedResources from "@components/astro/related/RelatedResources.astro"
 
 interface Props {
   title: string
+  collection: string
 }
 
-const { title } = Astro.props
+const { collection, title } = Astro.props
 ---
 
 <!doctype html>
@@ -28,7 +29,7 @@ const { title } = Astro.props
   <body class="bg-white dark:bg-gray-900">
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
       <Navbar />
-      <Sidebar />
+      <Sidebar collection={collection} />
       <Breadcrumbs />
 
       <main

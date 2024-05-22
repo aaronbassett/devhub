@@ -1,3 +1,3 @@
 import { BaseContentCollectionSchema } from "@schemas/collections/content-base"
 
-export const PolkadotSdkSchema = BaseContentCollectionSchema
+export const DappsSchema = BaseContentCollectionSchema
