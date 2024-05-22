@@ -1,7 +1,7 @@
 import _ from "lodash"
-import { DappsSchema } from "@schemas/collections/dapps"
-import { PolkadotSdkSchema } from "@schemas/collections/polkadot-sdk"
-import { SmartContractsSchema } from "@schemas/collections/smart-contracts"
+import { DappsSchema } from "@schemas/collections/content/dapps"
+import { PolkadotSdkSchema } from "@schemas/collections/content/polkadot-sdk"
+import { SmartContractsSchema } from "@schemas/collections/content/smart-contracts"
 import type { OGImageOptions } from "node_modules/astro-og-canvas/dist/types"
 import type { ZodType } from "zod"
 
