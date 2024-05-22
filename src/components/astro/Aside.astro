@@ -56,12 +56,48 @@
   <div
     class="absolute bottom-0 left-0 justify-center p-4 w-full bg-white dark:bg-gray-800 z-20"
   >
-    <p class="text-sm text-gray-500 dark:text-gray-400">Current Section</p>
-    <div class="font-medium text-gray-900 dark:text-white">2 of 6</div>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Current Progress</p>
+    <div class="font-medium text-gray-900 dark:text-white">section 2 of 6</div>
     <div
       class="w-full bg-gray-200 rounded-full h-2.5 mt-2 mb-4 dark:bg-gray-700"
     >
-      <div class="bg-accent-500 h-2.5 rounded-full" style="width: 50%"></div>
+      <div
+        id="section-progress-bar"
+        class="bg-accent-500 h-2.5 rounded-full"
+        style="width: 30%"
+        data-current-section="2"
+        data-total-sections="6"
+      >
+      </div>
     </div>
   </div>
 </aside>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("scroll", () => {
+      const mainArticleWrapper = document.getElementById("main-article-wrapper")
+      const progressBar = document.getElementById("section-progress-bar")
+
+      if (mainArticleWrapper && progressBar) {
+        const currentSection = Number(progressBar.dataset.currentSection)
+        const totalSections = Number(progressBar.dataset.totalSections)
+
+        const offsetScrollPosition =
+          window.scrollY + document.documentElement.clientHeight * 0.25
+        const articleBottomEdge =
+          mainArticleWrapper.offsetTop + mainArticleWrapper.offsetHeight
+        let completedPercentage =
+          (offsetScrollPosition / articleBottomEdge) * 100
+        completedPercentage =
+          completedPercentage > 100 ? 100 : completedPercentage
+
+        const totalCompletedPercentage =
+          (currentSection / totalSections) * 100 +
+          completedPercentage / totalSections
+
+        progressBar.setAttribute("style", `width: ${totalCompletedPercentage}%`)
+      }
+    })
+  })
+</script>

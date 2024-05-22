@@ -17,6 +17,27 @@ export default {
       fontFamily: {
         display: "unbounded, ui-serif",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            a: {
+              color: polkadotBrandColors.pink[500],
+            },
+            h1: {
+              fontFamily: "unbounded",
+            },
+            h2: {
+              fontFamily: "unbounded",
+            },
+            h3: {
+              fontFamily: "unbounded",
+            },
+            h4: {
+              fontFamily: "unbounded",
+            },
+          },
+        },
+      },
     },
   },
   plugins: [require("flowbite/plugin"), require("flowbite-typography")],
