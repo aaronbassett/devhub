@@ -3,7 +3,6 @@ import { BaseContentCollectionSchema } from "@schemas/collections/content/base"
 import { SidebarEntrySchema } from "@schemas/sidebar"
 import { toSentenceCase } from "@src/utils/typography/case-conversion"
 import type { DocsEntry, Path } from "@src/utils/routing/static-paths"
-import { type ContentCollectionKey } from "astro:content"
 
 import { z } from "astro:content"
 
