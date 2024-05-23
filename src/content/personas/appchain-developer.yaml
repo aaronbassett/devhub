@@ -1,0 +1,19 @@
+label: appchain
+title: Appchain Developer
+icon:
+  name: tokens/Polkadot
+description: |
+  A Substrate Appchain developer focuses on building application-specific blockchainsusing the
+  Substrate framework. These blockchains, known as "appchains", are designed for specific use cases
+  and can operate with more tailored functionality compared to general-purpose blockchains.
+
+  The developer's expertise would likely encompass Rust for core blockchain development and
+  potentially ink! for smart contract creation. They would be skilled in using Substrate's modular
+  architecture to customize various components of the blockchain such as consensus mechanisms,
+  governance models, and runtime modules.
+
+  Additionally, understanding how to integrate with the Polkadot network using the cross-chain
+  messaging protocol (XCMP) could be crucial if the appchain is intended to communicate with other
+  blockchains within the Polkadot ecosystem. This specialization allows for highly optimized
+  solutions tailored to specific business needs or industry requirements, leveraging the
+  scalability and interoperability that Polkadot provides.

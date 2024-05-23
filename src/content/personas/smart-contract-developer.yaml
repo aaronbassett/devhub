@@ -1,0 +1,20 @@
+label: smart-contract
+title: Smart Contract Developer
+icon:
+  name: w3f/Smart Contract
+description: |
+  A smart contract developer in the Polkadot ecosystem specializes in creating decentralized
+  applications (dApps) and contracts using ink!, a Rust-based eDSL for writing Wasm smart
+  contracts specifically designed for the Polkadot network. This developer would have a strong
+  background in Rust programming, as ink! leverages Rust's type safety and memory efficiency to
+  ensure that the smart contracts are secure and performant.
+
+  The role involves designing, coding, testing, and deploying smart contracts on blockchains built
+  with Substrate, which are capable of connecting to the Polkadot relay chain. The developer needs
+  to be knowledgeable about the unique aspects of the Polkadot ecosystem, such as its shared
+  security model, cross-chain interoperability, and the specific standards and protocols used for
+  contract interactions.
+
+  Moreover, they should be adept at understanding the economic and game-theoretic implications of
+  contract design to ensure that the contracts are not only technically robust but also
+  economically sound.
