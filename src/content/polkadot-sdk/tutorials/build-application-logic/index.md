@@ -2,6 +2,7 @@
 title: Build application logic
 description: Demonstrates how you can add pallets to customize the Substrate runtime environment.
 sidebar:
+  hidden: true
   group:
     order: 3
 ---
@@ -19,8 +20,3 @@ If you want to experiment with smart contract development for your blockchain, y
 There are compatibility issues between the pallets that support smart contracts and the current node template.
 To resolve these compatibility issues would require extensive changes to the configuration of the standard node template, including using older versions of all crates and modifying multiple files.
 To dive directly into smart contract development, see the tutorials in [Develop smart contracts](/tutorials/smart-contracts/).
-
-<!--
-- [Configure the contracts pallet](/tutorials/build-application-logic/contracts-pallet/) demonstrates how to configure a complex pallet to work with smart contracts.
-
--->

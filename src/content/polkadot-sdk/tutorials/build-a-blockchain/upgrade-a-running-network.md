@@ -14,14 +14,6 @@ Because updates to the runtime state are validated using the blockchain's consen
 This tutorial illustrates how to upgrade the runtime without creating a fork of the code base or stopping the progress of the chain.
 In this tutorial, you'll make the following changes to a Substrate runtime on a running network node:
 
-<!--
-
-- Add the Scheduler pallet to the runtime.
-- Submit a transaction to upload the modified runtime onto a running node.
-- Use the Scheduler pallet to increase the minimum balance for network accounts.
-
--->
-
 - Increase the `spec_version` of the runtime.
 - Add the Utility pallet to the runtime.
 - Increase the minimum balance for network accounts.
@@ -45,12 +37,6 @@ By completing this tutorial, you will accomplish the following objectives:
 - Upgrade the runtime for a running node to include a new pallet.
 
 - Submit a transaction to upload the modified runtime onto a running node.
-
-<!--
-
-- Use the Scheduler pallet to schedule an upgrade for a runtime.
-
--->
 
 ## Authorize an upgrade with Sudo
 
@@ -85,13 +71,6 @@ This setting allows for a block to take _an indefinite time to compute_ to ensur
 It can take all the time it needs to succeed or fail.
 
 ## Add the Utility pallet to the runtime
-
-<!--
-
-By default, the node template doesn't include the [Scheduler pallet](https://paritytech.github.io/substrate/master/pallet_scheduler/index.html) in its runtime.
-To illustrate a runtime upgrade, you can add the Scheduler pallet to a running node.
-
--->
 
 By default, the node template doesn't include the [Utility pallet](https://paritytech.github.io/substrate/master/pallet_utility/index.html) in its runtime.
 To illustrate a runtime upgrade, you can add the Utility pallet to a running node.
@@ -186,9 +165,7 @@ To update the dependencies for the runtime to include the Utility pallet:
 
 1. Save your changes and close the `Cargo.toml` file.
 
-<!--
-
-*** When the Scheduler pallet is added back to this tutorial, slot these sections in above in place of the Utility pallet sections. ***
+**_ When the Scheduler pallet is added back to this tutorial, slot these sections in above in place of the Utility pallet sections. _**
 
 1. Add the Scheduler pallet to the list.
 
@@ -211,15 +188,11 @@ To update the dependencies for the runtime to include the Utility pallet:
 
    Be sure to use the same **version** and **branch** information for the Scheduler pallet as you see used for the other pallets included in the runtime.
    In this example, all of the pallets in the node template runtime use `version = "4.0.0-dev"` and `branch = "polkadot-v1.0.0"`.
--->
+   -->
 
 ### Add the Utility pallet configuration
 
-<!--
-
 To add the Scheduler types and configuration trait:
-
-
 
 1. Open the `runtime/src/lib.rs` file in a text editor.
 
@@ -252,7 +225,7 @@ To add the Scheduler types and configuration trait:
    pub MaximumSchedulerWeight: Weight = Weight::from_parts(10, 10);
    ```
 
-   Alternatively, you could define only one dimension for weight, for example  using a specific value for execution time:
+   Alternatively, you could define only one dimension for weight, for example using a specific value for execution time:
 
    ```rust
    pub MaximumSchedulerWeight: Weight = Weight::from_ref_time(10_000_000);
@@ -346,9 +319,7 @@ To add the Utility types and configuration trait:
 
 1. Save your changes and close the `runtime/src/lib.rs` file.
 
-<!--
-
-*** When the Scheduler pallet is added back into the tutorial, replace the relevant Utility pallet steps with the Scheduler pallet steps. ***
+**_ When the Scheduler pallet is added back into the tutorial, replace the relevant Utility pallet steps with the Scheduler pallet steps. _**
 
 1. Add the implementation for the Config trait for the Scheduler pallet.
 
@@ -439,8 +410,6 @@ To update the network with the upgraded runtime:
 
 1. Click **Developer** and select **Extrinsics**. Click on _submit the following extrinsic_ and scroll to the bottom of the list. You will see **utility** as an option.
 
-<!--
-
 ## Schedule an upgrade
 
 In the previous upgrade example, you used the `sudo_unchecked_weight` function to skip the accounting safeguards that limit block length and weight to allow the `set_code` function call to take as long as necessary to complete the runtime upgrade.
@@ -468,7 +437,7 @@ To modify the value of the existential deposit for a runtime upgrade:
 
 1. Change to the root directory where you compiled the Substrate node template.
 
-3. Open the `runtime/src/lib.rs` file in a text editor.
+1. Open the `runtime/src/lib.rs` file in a text editor.
 
 1. Update the `spec_version` for the runtime to 102.
 
@@ -483,6 +452,8 @@ To modify the value of the existential deposit for a runtime upgrade:
       transaction_version: 1,
       state_version: 1,
    };
+
+   ```
 
 1. Update the value for the EXISTENTIAL_DEPOSIT for the Balances pallet.
 
@@ -512,7 +483,7 @@ To modify the value of the existential deposit for a runtime upgrade:
 
 You now have a WebAssembly artifact that describes the modified runtime logic.
 The Scheduler pallet is configured with the `Root` origin as its [`ScheduleOrigin`](https://paritytech.github.io/substrate/master/pallet_scheduler/pallet/trait.Config.html#associatedtype.ScheduleOrigin).
-With this configuration, you can use the `sudo` function—not_ `sudo_unchecked_weight`—to invoke the `schedule` function.
+With this configuration, you can use the `sudo` function—not\_ `sudo_unchecked_weight`—to invoke the `schedule` function.
 
 To schedule the runtime upgrade:
 
@@ -524,7 +495,7 @@ To schedule the runtime upgrade:
 
    - Notice that the **when** parameter specifies a block number for performing the scheduled operation.
    - The **maybePeriodic** parameter is optional, so you can use the default value (empty)
-   - Use the default value (0) for the **priority**  parameter.
+   - Use the default value (0) for the **priority** parameter.
    - Select **system** and **setCode(code)** as the call.
    - Click **file upload** and select the compressed WebAssembly file you generated for the updated runtime.
 
@@ -554,5 +525,3 @@ To schedule the runtime upgrade:
 - [Runtime version 101](/assets/tutorials/runtime-upgrade/lib-spec-version-101.rs)
 - [Runtime version 102](/assets/tutorials/runtime-upgrade/lib-spec-version-102.rs)
 - [Storage migrations](/maintain/runtime-upgrades/#storage-migration)
-
-<!-- - [How-to: Storage migration](/reference/how-to-guides/basics/storage-migration/) -->
