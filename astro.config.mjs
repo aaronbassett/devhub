@@ -4,7 +4,6 @@ import { defineConfig } from "astro/config"
 import expressiveCode from "astro-expressive-code"
 import icon from "astro-icon"
 import mdx from "@astrojs/mdx"
-import pagefind from "astro-pagefind"
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections"
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers"
 import react from "@astrojs/react"
@@ -25,7 +24,6 @@ export default defineConfig({
     tailwind(),
     icon(),
     sitemap(),
-    pagefind(),
     robotsTxt(),
     AutoImport({ imports: [] }),
     customToc(),
