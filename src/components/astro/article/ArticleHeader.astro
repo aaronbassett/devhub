@@ -1,7 +1,6 @@
 ---
 import { BaseContentCollectionSchema } from "@schemas/collections/content/base"
-import TimeAgo from "javascript-time-ago"
-import en from "javascript-time-ago/locale/en"
+import { timeAgo } from "@src/utils/humanize"
 
 import { z } from "astro:content"
 
@@ -10,9 +9,6 @@ type BaseData = z.infer<typeof BaseContentCollectionSchema>
 interface Props {
   data: BaseData
 }
-
-TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo("en-US")
 
 const { data } = Astro.props
 ---
