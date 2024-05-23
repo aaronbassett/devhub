@@ -3,6 +3,7 @@ title: Build a local blockchain
 description: Compile, launch, and interact with a single local blockchain node in a development environment.
 sidebar:
   order: 1
+status: published
 ---
 
 As you learned in [Blockchain basics](/learn/blockchain-basics/), a blockchain consists of decentralized computers—called nodes—to form a network.

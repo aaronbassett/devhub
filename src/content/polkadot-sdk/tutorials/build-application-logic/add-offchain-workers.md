@@ -3,6 +3,7 @@ title: Add offchain workers
 description: Illustrates how to modify a pallet to include an offchain worker and how to submit transactions from an offchain worker to update the on-chain state.
 sidebar:
   order: 5
+status: published
 ---
 
 <div class="warning">

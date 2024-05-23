@@ -3,6 +3,7 @@ title: Open message passing channels
 description: Demonstrates how to use horizontal relay-routed message passing (HRMP) for communication between parachains.
 sidebar:
   order: 4
+status: published
 ---
 
 In the Polkadot ecosystem, chains can communicate with each other by passing messages over secure channels.

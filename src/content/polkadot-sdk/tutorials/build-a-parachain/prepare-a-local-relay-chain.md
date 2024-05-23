@@ -3,6 +3,7 @@ title: Prepare a local relay chain
 description: Explains how to configure a local relay chain to set up a local test network for a parachain.
 sidebar:
   order: 1
+status: published
 ---
 
 This tutorial illustrates how to configure a local relay chain.

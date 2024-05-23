@@ -5,6 +5,7 @@ sidebar:
   hidden: true
   group:
     order: 1
+status: published
 ---
 
 The **Build a blockchain** tutorials illustrate the basics for working with Substrate-based blockchain nodes, including how to make nodes communicate with each other in a network of peers and how to collect metrics about node operations.

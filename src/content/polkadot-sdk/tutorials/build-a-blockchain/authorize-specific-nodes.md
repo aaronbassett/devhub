@@ -3,6 +3,7 @@ title: Authorize specific nodes
 description: Configure a network that has authorized nodes and nodes with restricted access.
 sidebar:
   order: 4
+status: published
 ---
 
 In [Add trusted nodes](/tutorials/build-a-blockchain/add-trusted-nodes/), you saw how to build a simple network with a known set of validator nodes.

@@ -3,6 +3,7 @@ title: Simulate a network
 description: Start a private blockchain network using predefined accounts as authorized validators.
 sidebar:
   order: 2
+status: published
 ---
 
 This tutorial provides a basic introduction to how you can start a private blockchain network with an **authority set** of private **validators**.

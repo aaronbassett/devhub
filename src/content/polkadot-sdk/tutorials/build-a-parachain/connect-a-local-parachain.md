@@ -3,6 +3,7 @@ title: Connect a local parachain
 description: Demonstrates how to deploy a parachain by connecting to a local relay chain.
 sidebar:
   order: 2
+status: published
 ---
 
 This tutorial illustrates how to reserve a parachain identifier with a local relay chain and how to connect a local parachain to that relay chain.

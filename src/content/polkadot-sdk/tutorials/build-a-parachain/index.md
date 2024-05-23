@@ -4,6 +4,7 @@ description: Tutorials that cover parachains, bridges, and messaging between the
 sidebar:
   group:
     order: 2
+status: published
 ---
 
 The **Build a parachain** tutorials delve into more advanced topics for moving beyond solo chain development, including how to connect your chain to other chains.

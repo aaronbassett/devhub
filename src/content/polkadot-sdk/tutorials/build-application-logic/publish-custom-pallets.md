@@ -3,6 +3,7 @@ title: Publish custom pallets
 description: Suggests how you can publish custom pallets and crates to make them available to the broader community.
 sidebar:
   order: 7
+status: published
 ---
 
 As a blockchain builder or parachain developer, you have access to a large library of specialized pallets that you can assemble to customize your runtime to suite your specific project goals.

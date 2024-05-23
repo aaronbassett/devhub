@@ -13,8 +13,6 @@ interface Props {
 const { collection, paths } = Astro.props
 
 const nav = new NavTree(paths, Astro.url.pathname).tree
-
-console.log(inspect(nav, { compact: false, depth: 10, breakLength: 80 }))
 ---
 
 <ul class="space-y-2">

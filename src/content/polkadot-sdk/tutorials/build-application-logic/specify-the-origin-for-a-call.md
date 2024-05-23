@@ -3,6 +3,7 @@ title: Specify the origin for a call
 description: Demonstrates how you can specify the account to use as the originator of a function call.
 sidebar:
   order: 3
+status: published
 ---
 
 In [Add a pallet to the runtime](/tutorials/build-application-logic/add-a-pallet), you added functions from `pallet_nicks` to the [Substrate node template](https://github.com/substrate-developer-hub/substrate-node-template) runtime.

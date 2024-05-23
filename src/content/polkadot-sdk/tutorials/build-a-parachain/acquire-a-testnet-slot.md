@@ -3,6 +3,7 @@ title: Acquire a testnet slot
 description: Acquire a slot on a public test network for parachains
 sidebar:
   order: 3
+status: published
 ---
 
 This tutorial demonstrates how you can deploy a parachain on a public test network, such as the [Rococo](https://wiki.polkadot.network/docs/build-pdk#rococo-testnet) test network.

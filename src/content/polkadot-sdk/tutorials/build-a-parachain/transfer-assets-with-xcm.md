@@ -3,6 +3,7 @@ title: Transfer assets with XCM
 description: Demonstrates how to use cross-consensus messages to execute a remote transfer to a parachain through the relay chain.
 sidebar:
   order: 5
+status: published
 ---
 
 In [Open message passing channels](/tutorials/build-a-parachain/open-message-passing-channels), you saw how to open a two-way communication channel between chains by sending messages to the relay chain.

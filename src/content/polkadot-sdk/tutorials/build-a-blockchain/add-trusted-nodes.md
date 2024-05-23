@@ -3,6 +3,7 @@ title: Add trusted nodes
 description: Generate account keys and a custom chain specification for a private blockchain network.
 sidebar:
   order: 3
+status: published
 ---
 
 This tutorial illustrates how you can start a small, standalone blockchain network with an **authority set** of private **validators**.

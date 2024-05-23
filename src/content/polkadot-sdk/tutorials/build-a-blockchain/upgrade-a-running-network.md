@@ -3,6 +3,7 @@ title: Upgrade a running network
 description: Illustrates ways you can update a running node.
 sidebar:
   order: 7
+status: published
 ---
 
 Unlike many blockchains, the Substrate development framework supports **forkless upgrades** to the runtime that is the core of the blockchain.

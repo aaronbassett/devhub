@@ -1,15 +1,7 @@
 ---
 title: Send cross-consensus messages (XCM)
 description: Configure a local relay chain & parachains, send XCM between parachains and the relay chain.
-keywords:
-  - XCM
-  - XCMP
-  - HRMP
-  - VMP
-  - DRMP 
-  - messaging
-  - cross chain 
-  - cross consensus
+status: published
 ---
 
 WIP
