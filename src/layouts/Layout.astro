@@ -7,13 +7,20 @@ import RelatedRepos from "@components/astro/related/RelatedRepos.astro"
 import ArticleHeader from "@components/astro/article/ArticleHeader.astro"
 import RelatedPosts from "@components/astro/related/RelatedPosts.astro"
 import RelatedResources from "@components/astro/related/RelatedResources.astro"
+import { BaseContentCollectionSchema } from "@schemas/collections/content/base"
+
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+import { z } from "astro:content"
+
+type BaseData = z.infer<typeof BaseContentCollectionSchema>
 
 interface Props {
-  title: string
-  collection: string
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
 }
 
-const { collection, title } = Astro.props
+const { entry } = Astro.props
+const data = entry.data as BaseData
 ---
 
 <!doctype html>
@@ -24,19 +31,19 @@ const { collection, title } = Astro.props
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{data.title}</title>
   </head>
   <body class="bg-white dark:bg-gray-900">
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
       <Navbar />
-      <Sidebar collection={collection} />
+      <Sidebar {...Astro.props} />
       <Breadcrumbs />
 
       <main
         class="bg-gray-50 dark:bg-gray-900 md:ml-64 lg:mr-64 min-h-full pt-20"
       >
         <div class="p-5">
-          <ArticleHeader />
+          <ArticleHeader data={data} />
 
           <div
             class="flex relative z-20 justify-between px-4 pt-8 mx-auto max-w-screen-xl bg-white rounded dark:bg-gray-800"

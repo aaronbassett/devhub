@@ -1,0 +1,26 @@
+---
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+import { inspect } from "node:util"
+import { NavTree } from "./utils/nav"
+import NavItem from "./NavItem.astro"
+import { type ContentCollectionKey } from "astro:content"
+
+interface Props {
+  collection: ContentCollectionKey
+  paths: Path<DocsEntry>[]
+}
+
+const { collection, paths } = Astro.props
+
+const nav = new NavTree(paths, Astro.url.pathname).tree
+
+console.log(inspect(nav, { compact: false, depth: 10, breakLength: 80 }))
+---
+
+<ul class="space-y-2">
+  {
+    "children" in nav && (
+      <NavItem collection={collection} items={nav.children} nested={false} />
+    )
+  }
+</ul>

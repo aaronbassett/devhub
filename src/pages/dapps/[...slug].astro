@@ -3,9 +3,7 @@ import Layout from "@src/layouts/Layout.astro"
 import { ContentCollectionStaticPaths } from "@src/utils/routing/static-paths"
 
 export async function getStaticPaths() {
-  const routing = new ContentCollectionStaticPaths<"polkadot-sdk">(
-    "polkadot-sdk"
-  )
+  const routing = new ContentCollectionStaticPaths<"dapps">("dapps")
   const paths = await routing.paths()
 
   return paths

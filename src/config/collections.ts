@@ -3,6 +3,7 @@ import { DappsSchema } from "@schemas/collections/content/dapps"
 import { PolkadotSdkSchema } from "@schemas/collections/content/polkadot-sdk"
 import { SmartContractsSchema } from "@schemas/collections/content/smart-contracts"
 import type { OGImageOptions } from "node_modules/astro-og-canvas/dist/types"
+import { PersonasSchema } from "@schemas/collections/data/personas"
 import type { ZodType } from "zod"
 
 export type ContentCollection = {
@@ -60,3 +61,17 @@ function getDefaultContentCollectionName(): ContentCollectionKey {
 
 export const DefaultCollectionName = getDefaultContentCollectionName()
 export type ContentCollectionKey = keyof typeof ContentCollections
+
+export type DataCollection = {
+  name: string
+  label: string
+  schema: ZodType
+}
+
+export const DataCollections: Record<string, DataCollection> = {
+  personas: {
+    name: "personas",
+    label: "Personas",
+    schema: PersonasSchema,
+  },
+}
