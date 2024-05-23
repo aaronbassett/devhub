@@ -1,0 +1,32 @@
+label: dapp
+title: dApp Developer
+icon:
+  name: w3f/Dapps
+description: |
+  A dApp developer in the Polkadot ecosystem is focused on building decentralized applications
+  leveraging the unique features of Polkadot, such as interoperability, scalability, and
+  security. This developer would typically use Substrate to create individual blockchains or
+  parachains tailored to the needs of their specific applications, or write smart contracts
+  using ink! to deploy on existing parachains.
+
+  Key skills include:
+
+  - Rust and ink! for Smart Contracts: Proficiency in Rust is essential, as it's the primary
+  language used for developing with Substrate and ink!. Developing smart contracts with ink!
+  involves understanding its syntax, which is designed for creating secure and efficient
+  contracts that compile into WebAssembly (Wasm).
+  - JavaScript/TypeScript for Frontend: For the dApp interfaces, knowledge of JavaScript and
+  frameworks like React or Angular is common. TypeScript is often preferred for its strong
+  typing features, which enhance the development of large-scale applications.
+  - Inter-chain Communication: Understanding the Polkadot's cross-chain message passing (XCMP)
+  to enable interaction between different parachains or with the main relay chain is crucial.
+  This allows the dApp to utilize assets or data from multiple chains within the ecosystem.
+  - Substrate for Custom Blockchains: If the dApp requires a custom blockchain or parachain,
+  knowledge of Substrate is necessary to design and implement the runtime and integrate
+  specific modules (pallets) that define the blockchain's functionality.
+  - Polkadot JS API: Proficiency with the Polkadot JS API is important for connecting the
+  frontend of a dApp with the blockchain components, facilitating transactions, retrievals,
+  and interactions with the blockchain network.
+  - Security and Testing: Given the financial implications often associated with dApps, a
+  strong emphasis on security, thorough testing, and auditing of contracts and applications is
+  essential to ensure robustness and trustworthiness.
