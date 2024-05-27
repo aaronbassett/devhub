@@ -1,10 +1,10 @@
-import { config } from '@config/config'
-import { ExtendSchema, OpenGraphSchema, TwitterSchema } from '@schemas/seo'
-import { HeadConfigSchema } from '@schemas/head'
-import { PageBannerSchema } from '@schemas/page-banner'
-import { PrevNextSchema } from '@schemas/links'
-import { SidebarEntrySchema } from '@schemas/sidebar'
-import { TableOfContentsSchema } from '@schemas/table-of-contents'
+import { config } from "@config/config"
+import { ExtendSchema, OpenGraphSchema, TwitterSchema } from "@schemas/seo"
+import { HeadConfigSchema } from "@schemas/head"
+import { PageBannerSchema } from "@schemas/page-banner"
+import { PrevNextSchema } from "@schemas/links"
+import { SidebarEntrySchema } from "@schemas/sidebar"
+import { TableOfContentsSchema } from "@schemas/table-of-contents"
 
 import { z } from "astro:content"
 
@@ -93,3 +93,5 @@ export const BaseContentCollectionSchema = z.object({
    */
   status: z.enum(["draft", "published"]).default("draft"),
 })
+
+export type BaseContentCollection = z.infer<typeof BaseContentCollectionSchema>

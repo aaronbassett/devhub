@@ -1,0 +1,57 @@
+---
+import type { MarkdownHeading } from "astro"
+
+export type Heading = MarkdownHeading & {
+  subheadings: Heading[]
+}
+
+interface Props {
+  heading: Heading
+}
+
+const { heading } = Astro.props
+---
+
+<li>
+  <a
+    href={`#${heading.slug}`}
+    class="hover:text-gray-600 hover:dark:text-gray-400">{heading.text}</a
+  >
+  {
+    heading.subheadings.length > 0 && (
+      <ul class="mt-1 ml-1">
+        {heading.subheadings.map((subheading) => (
+          <Astro.self heading={subheading} />
+        ))}
+      </ul>
+    )
+  }
+</li>
+
+<style>
+  a.in-viewport {
+    color: theme("colors.gray.500");
+  }
+</style>
+<script>
+  const observer = new IntersectionObserver((headings) => {
+    console.log(headings)
+    headings.forEach((heading) => {
+      const id = heading.target.getAttribute("id")
+      const link = document.querySelector(`nav.toc li a[href="#${id}"]`)
+      if (!link) return
+
+      const addRemove = heading.isIntersecting ? "add" : "remove"
+      link.classList[addRemove]("in-viewport")
+    })
+  })
+
+  // Observe all the sections of the article
+  document
+    .querySelectorAll(
+      "#main-article-wrapper section h1, #main-article-wrapper section h2, #main-article-wrapper section h3, #main-article-wrapper section h4, #main-article-wrapper section h5, #main-article-wrapper section h6"
+    )
+    .forEach((heading) => {
+      observer.observe(heading)
+    })
+</script>

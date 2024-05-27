@@ -1,5 +1,10 @@
 ---
+import TableOfContents from "./TableOfContents.astro"
+import type { MarkdownHeading } from "astro"
 
+interface Props {
+  headings: MarkdownHeading[]
+}
 ---
 
 <aside
@@ -11,47 +16,7 @@
     class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
   >
     <h3 class="text-base font-semibold">On this page</h3>
-    <ul
-      class="pt-3 mt-4 text-sm space-y-2 border-t border-gray-200 dark:border-gray-700"
-    >
-      <li>
-        <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-          >Overview</a
-        >
-      </li>
-      <li>
-        <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-          >Quickstart</a
-        >
-        <ul class="ps-3 mt-1 space-y-1">
-          <li>
-            <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-              >Create a new project</a
-            >
-          </li>
-          <li>
-            <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-              >Start the development server</a
-            >
-          </li>
-          <li>
-            <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-              >Add content</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-          >Updating Starlight</a
-        >
-      </li>
-      <li>
-        <a href="#" class="hover:text-gray-600 hover:dark:text-gray-400"
-          >Troubleshooting Starlight</a
-        >
-      </li>
-    </ul>
+    <TableOfContents {...Astro.props} />
   </div>
   <div
     class="absolute bottom-0 left-0 justify-center p-4 w-full bg-white dark:bg-gray-800 z-20"

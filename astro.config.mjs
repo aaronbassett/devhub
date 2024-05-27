@@ -9,6 +9,7 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers"
 import react from "@astrojs/react"
 import remarkMermaid from "astro-diagram/remark-mermaid"
 import robotsTxt from "astro-robots-txt"
+import sectionize from "remark-sectionize"
 import sitemap from "@astrojs/sitemap"
 import tailwind from "@astrojs/tailwind"
 
@@ -18,7 +19,7 @@ export default defineConfig({
     format: "file",
   },
   markdown: {
-    remarkPlugins: [remarkMermaid],
+    remarkPlugins: [remarkMermaid, sectionize],
   },
   integrations: [
     tailwind(),

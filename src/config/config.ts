@@ -5,6 +5,39 @@ export const config = {
     DESCRIPTION_MAX_LENGTH:
       Number(process.env.ARTICLE_DESCRIPTION_MAX_LENGTH) || 300,
   },
+  seo: {
+    SITE_NAME: process.env.SITE_NAME || "Polkadot Developer Hub",
+    twitter: {
+      DEFAULT_SITE_USERNAME:
+        process.env.TWITTER_DEFAULT_SITE_USERNAME || "@Polkadot",
+      DEFAULT_CREATOR_USERNAME:
+        process.env.TWITTER_DEFAULT_CREATOR_USERNAME || "@PolkadotDevs",
+    },
+    OG_IMAGE_DEFAULT: {
+      logo: {
+        path: "./src/assets/og/logomark-token-white.png",
+        size: [150, 150],
+      },
+      bgGradient: [
+        [230, 0, 122],
+        [154, 0, 81],
+      ],
+      fonts: [
+        "https://cdn.jsdelivr.net/fontsource/fonts/unbounded@latest/latin-400-normal.ttf",
+        "https://cdn.jsdelivr.net/fontsource/fonts/unbounded@latest/latin-800-normal.ttf",
+      ],
+      font: {
+        title: {
+          families: ["Unbounded"],
+          weight: "ExtraBold",
+        },
+        description: {
+          families: ["Unbounded"],
+          weight: "Normal",
+        },
+      },
+    },
+  },
   toc: {
     MIN_HEADING_LEVEL: Number(process.env.TOC_MIN_HEADING_LEVEL) || 2,
     MAX_HEADING_LEVEL: Number(process.env.TOC_MAX_HEADING_LEVEL) || 3,

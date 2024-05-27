@@ -1,4 +1,4 @@
-import { z } from 'astro/zod'
+import { z } from "astro/zod"
 
 const BasicSchema = z.object({
   title: z.string(),
@@ -110,3 +110,8 @@ export const ExtendSchema = z.object({
   link: z.array(ExtendLinkSchema).optional(),
   meta: z.array(ExtendMetaSchema).optional(),
 })
+
+export type OpenGraph = z.infer<typeof OpenGraphSchema>
+export type Twitter = z.infer<typeof TwitterSchema>
+export type ExtendLink = z.infer<typeof ExtendLinkSchema>
+export type ExtendMeta = z.infer<typeof ExtendMetaSchema>

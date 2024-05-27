@@ -1,0 +1,115 @@
+---
+import TableOfContentsHeading, {
+  type Heading,
+} from "./TableOfContentsHeading.astro"
+import type { MarkdownHeading } from "astro"
+import _ from "lodash"
+
+interface Props {
+  headings: MarkdownHeading[]
+}
+
+function buildToc(headings: MarkdownHeading[]) {
+  const root: Heading = { depth: 0, text: "", slug: "", subheadings: [] }
+  const stack: Heading[] = [root]
+
+  for (const heading of headings) {
+    const node: Heading = { ...heading, subheadings: [] }
+
+    while (stack.length > heading.depth) {
+      stack.pop()
+    }
+
+    stack[stack.length - 1].subheadings!.push(node)
+    stack.push(node)
+  }
+
+  return root.subheadings!
+}
+
+const { headings } = Astro.props
+const toc = buildToc(headings)
+---
+
+<nav class="toc text-gray-700 dark:text-gray-700 text-base font-semibold">
+  <ul class="pt-3 mt-4 space-y-2 border-t border-gray-200 dark:border-gray-700">
+    {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+  </ul>
+</nav>
+
+<style>
+  nav.toc,
+  nav.toc ul,
+  nav.toc :global(li) {
+    position: relative;
+  }
+
+  nav.toc :global(ul) {
+    list-style: none;
+    padding-left: 12px;
+  }
+  nav.toc > ul {
+    padding-left: 0px;
+  }
+
+  nav.toc :global(li::before),
+  nav.toc :global(li::after) {
+    content: "";
+    position: absolute;
+    left: -12px;
+  }
+
+  nav.toc :global(li::before) {
+    border-top: 1px solid theme("colors.gray.700");
+    top: 9px;
+    width: 8px;
+    height: 0;
+  }
+
+  nav.toc :global(li::after) {
+    border-left: 1px solid theme("colors.gray.700");
+    height: 100%;
+    width: 0px;
+    top: 2px;
+  }
+
+  nav.toc :global(li.active::before) {
+    border-top: 1px solid theme("colors.gray.500");
+  }
+
+  nav.toc :global(li.active::after) {
+    border-left: 1px solid theme("colors.gray.500");
+  }
+
+  nav.toc > :global(ul > li:first-of-type::before),
+  nav.toc > :global(ul > li:first-of-type::after) {
+    border: none;
+  }
+
+  nav.toc :global(ul > li:last-child::after) {
+    height: 8px;
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver((sections) => {
+    sections.forEach((section) => {
+      const heading = section.target.querySelector("h2, h3, h4, h5, h6")
+      if (!heading) return
+      const id = heading.getAttribute("id")
+
+      const link = document.querySelector(`nav.toc li a[href="#${id}"]`)
+      if (!link) return
+
+      const addRemove = section.isIntersecting ? "add" : "remove"
+      link.parentElement?.classList[addRemove]("active")
+    })
+  })
+
+  // Observe all the sections of the article
+  document
+    .querySelectorAll("#main-article-wrapper section")
+    .forEach((section) => {
+      observer.observe(section)
+    })
+</script>
