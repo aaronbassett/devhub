@@ -1,5 +1,6 @@
 import { config } from "@config/config"
 import { ExtendSchema, OpenGraphSchema, TwitterSchema } from "@schemas/seo"
+import { ExternalLinkSchema } from "@schemas/links"
 import { HeadConfigSchema } from "@schemas/head"
 import { PageBannerSchema } from "@schemas/page-banner"
 import { PrevNextSchema } from "@schemas/links"
@@ -50,8 +51,7 @@ export const BaseContentCollectionSchema = z.object({
   tableOfContents: TableOfContentsSchema().optional(),
 
   /**
-   * Set the layout style for this page.
-   * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
+   * Related GitHub repositories
    */
   relatedCode: z
     .array(
@@ -61,6 +61,11 @@ export const BaseContentCollectionSchema = z.object({
       })
     )
     .optional(),
+
+  /**
+   * External links to related pages
+   */
+  relatedLinks: z.array(ExternalLinkSchema).optional(),
 
   /**
    * Set the layout style for this page.
