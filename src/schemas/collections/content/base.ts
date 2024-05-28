@@ -68,6 +68,11 @@ export const BaseContentCollectionSchema = z.object({
   relatedLinks: z.array(ExternalLinkSchema).optional(),
 
   /**
+   * Related YouTube videos
+   */
+  relatedVideos: z.array(z.string()).optional(),
+
+  /**
    * Set the layout style for this page.
    * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
    */
