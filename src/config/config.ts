@@ -42,4 +42,15 @@ export const config = {
     MIN_HEADING_LEVEL: Number(process.env.TOC_MIN_HEADING_LEVEL) || 2,
     MAX_HEADING_LEVEL: Number(process.env.TOC_MAX_HEADING_LEVEL) || 3,
   },
+  GITHUB_TOKEN: process.env.GITHUB_TOKEN || "",
+  cache: {
+    github: {
+      PATH: process.env.GITHUB_CACHE_PATH || "/tmp/cache/github",
+      DATA_PATH_ROOT: process.env.GITHUB_CACHE_DATA_PATH_ROOT || "cache-github",
+      TTL:
+        Number(process.env.GITHUB_CACHE_TTL) ||
+        Number(process.env.CACHES_TTL) ||
+        60 * 5 * 1000, // 5 mins
+    },
+  },
 }

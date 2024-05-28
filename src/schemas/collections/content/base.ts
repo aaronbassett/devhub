@@ -53,6 +53,19 @@ export const BaseContentCollectionSchema = z.object({
    * Set the layout style for this page.
    * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
    */
+  relatedCode: z
+    .array(
+      z.object({
+        owner: z.string(),
+        repo: z.string(),
+      })
+    )
+    .optional(),
+
+  /**
+   * Set the layout style for this page.
+   * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
+   */
   template: z.enum(["doc", "splash"]).default("doc"),
 
   /**

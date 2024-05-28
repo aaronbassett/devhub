@@ -1,0 +1,30 @@
+---
+import { type Languages } from "@src/utils/github/types"
+import { languagesTailwindClasses } from "@src/utils/github/language-meta"
+import { Icon } from "astro-icon/components"
+import clsx from "clsx"
+import { simpleIconsVariations } from "@src/utils/icons"
+
+interface Props {
+  language: Languages
+}
+
+const { language } = Astro.props
+
+const iconName = simpleIconsVariations(language.name)
+const tailwindColorClass = languagesTailwindClasses[language.name] ?? undefined
+---
+
+{
+  iconName && (
+    <a
+      href={language.url}
+      class={clsx("no-underline", tailwindColorClass.colorHover)}
+      title={language.name}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name={`simple-icons:${iconName}`} class={clsx("w-4, h-4")} />
+    </a>
+  )
+}
