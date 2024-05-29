@@ -2,7 +2,6 @@
 import type { DocsEntry } from "@src/utils/routing/static-paths"
 import { type BaseContentCollection } from "@schemas/collections/content/base"
 import { getRelated } from "./posts/posts"
-import { abstractFromMarkdown } from "@src/utils/typography/abstract"
 
 interface Props {
   entry: DocsEntry
@@ -26,15 +25,17 @@ const firstPost = posts.shift()
     {
       firstPost && (
         <article class="mx-auto w-full max-w-2xl lg:mx-0 lg:max-w-lg">
-          <h2
-            id="featured-post"
-            class="font-display mt-4 text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl"
-          >
-            {firstPost.data.title}
-          </h2>
-          <div class="format mt-4 text-lg leading-8 text-gray-600 dark:text-gray-200">
-            <Fragment set:html={abstractFromMarkdown(firstPost.body)} />
-          </div>
+          <a href={`/${firstPost.collection}/${firstPost.slug}`}>
+            <img
+              class="h-auto max-w-lg rounded-lg"
+              src={`/og/${firstPost.collection}-${firstPost.slug}.png`}
+              alt={firstPost.data.title}
+            />
+          </a>
+
+          <p class="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-200">
+            {firstPost.data.description}
+          </p>
           <div class="mt-4 flex flex-col justify-between gap-6 sm:mt-8 sm:flex-row-reverse sm:gap-8 lg:mt-4 lg:flex-col">
             <div class="flex">
               <a
