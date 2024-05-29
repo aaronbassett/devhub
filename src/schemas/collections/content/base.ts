@@ -1,13 +1,13 @@
 import { config } from "@config/config"
 import { ExtendSchema, OpenGraphSchema, TwitterSchema } from "@schemas/seo"
-import { ExternalLinkSchema } from "@schemas/links"
+import { ExternalLinkSchema, InternalLinkSchema } from "@schemas/links"
 import { HeadConfigSchema } from "@schemas/head"
 import { PageBannerSchema } from "@schemas/page-banner"
 import { PrevNextSchema } from "@schemas/links"
 import { SidebarEntrySchema } from "@schemas/sidebar"
 import { TableOfContentsSchema } from "@schemas/table-of-contents"
 
-import { z } from "astro:content"
+import { reference, z } from "astro:content"
 
 export const BaseContentCollectionSchema = z.object({
   /** The title of the current page. Required. */
@@ -49,6 +49,11 @@ export const BaseContentCollectionSchema = z.object({
 
   /** Override global table of contents configuration for this page. */
   tableOfContents: TableOfContentsSchema().optional(),
+
+  /**
+   * Related internal links
+   */
+  relatedPosts: z.array(InternalLinkSchema).optional(),
 
   /**
    * Related GitHub repositories
