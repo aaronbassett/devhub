@@ -10,7 +10,7 @@ interface Props {
 const { entry } = Astro.props
 const { relatedPosts } = entry.data as BaseContentCollection
 
-const posts = await getRelated({
+let posts = await getRelated({
   relatedPosts,
   collections: [entry.collection],
 })
@@ -29,12 +29,12 @@ const firstPost = posts.shift()
             <img
               class="h-auto max-w-lg rounded-lg"
               src={`/og/${firstPost.collection}-${firstPost.slug}.png`}
-              alt={firstPost.data.title}
+              alt={(firstPost.data as BaseContentCollection).title}
             />
           </a>
 
           <p class="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-200">
-            {firstPost.data.description}
+            {(firstPost.data as BaseContentCollection).description}
           </p>
           <div class="mt-4 flex flex-col justify-between gap-6 sm:mt-8 sm:flex-row-reverse sm:gap-8 lg:mt-4 lg:flex-col">
             <div class="flex">
@@ -62,11 +62,11 @@ const firstPost = posts.shift()
                 <h2 class="font-display mt-2 text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-accent-300">
                   <a href={`/${post.collection}/${post.slug}`}>
                     <span class="absolute inset-0" />
-                    {post.data.title}
+                    {(post.data as BaseContentCollection).title}
                   </a>
                 </h2>
                 <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-200">
-                  {post.data.description}
+                  {(post.data as BaseContentCollection).description}
                 </p>
               </div>
             </article>

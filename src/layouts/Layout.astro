@@ -1,5 +1,4 @@
 ---
-import type { MarkdownLayoutProps } from "astro"
 import Navbar from "@components/astro/Navbar.astro"
 import Sidebar from "@components/astro/sidebar/Sidebar.astro"
 import Breadcrumbs from "@components/astro/Breadcrumbs.astro"
@@ -26,10 +25,10 @@ import faviconSvgSrc from "../assets/icons/favicon.svg"
 
 import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
 
-type Props = MarkdownLayoutProps<{
+type Props = {
   entry: DocsEntry
   paths: Path<DocsEntry>[]
-}>
+}
 
 const appleTouchIcon = await getImage({
   src: faviconSrc,
@@ -39,8 +38,9 @@ const appleTouchIcon = await getImage({
 })
 const faviconSvg = await getImage({ src: faviconSvgSrc, format: "svg" })
 
-const { entry, headings } = Astro.props
+const { entry } = Astro.props
 const data = entry.data as BaseContentCollection
+const { headings } = await entry.render()
 ---
 
 <!doctype html>
@@ -109,7 +109,7 @@ const data = entry.data as BaseContentCollection
         </div>
       </main>
 
-      <Aside {...Astro.props} />
+      <Aside headings={headings} {...Astro.props} />
 
       <script
         is:inline

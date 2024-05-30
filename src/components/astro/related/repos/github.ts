@@ -6,7 +6,7 @@ type RepoData = Repo & { languages: Languages[] }
 export const fetchRepos = async (
   repos: { owner: string; repo: string }[]
 ): Promise<RepoData[]> => {
-  const repoData = await repos.map(async ({ owner, repo }) => {
+  const repoData = repos.map(async ({ owner, repo }) => {
     const ghRepo = new GitHubRepository(owner, repo)
     const data = await ghRepo.get()
     return data

@@ -7,7 +7,7 @@ import { PrevNextSchema } from "@schemas/links"
 import { SidebarEntrySchema } from "@schemas/sidebar"
 import { TableOfContentsSchema } from "@schemas/table-of-contents"
 
-import { reference, z } from "astro:content"
+import { z } from "astro:content"
 
 export const BaseContentCollectionSchema = z.object({
   /** The title of the current page. Required. */
