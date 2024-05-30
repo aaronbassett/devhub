@@ -1,0 +1,173 @@
+---
+import type { DocsEntry } from "@src/utils/routing/static-paths"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+
+interface Props {
+  entry: DocsEntry
+}
+
+const { entry } = Astro.props
+const data = entry.data as BaseContentCollection
+---
+
+{
+  data.progress && (
+    <div class="absolute bottom-0 left-0 justify-center p-4 w-full bg-white dark:bg-gray-800 z-20">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Current Progress</p>
+      <div class="font-medium text-gray-900 dark:text-white">
+        page {data.progress.page} of {data.progress.total}
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2 mb-4 dark:bg-gray-700">
+        <div
+          id="section-progress-bar"
+          class="bg-accent-500 h-2.5 rounded-full"
+          style="width: 30%"
+          data-current-section={data.progress.page}
+          data-total-sections={data.progress.total}
+        />
+      </div>
+    </div>
+  )
+}
+
+<script>
+  // @ts-ignore
+  import confetti from "canvas-confetti"
+  import brandColors from "@src/config/polkadot-brand-colors"
+  import _ from "lodash"
+
+  var progressCompletedPercentage = 0
+  var celebrating = false
+
+  function updateProgress() {
+    const mainArticleWrapper = document.getElementById("main-article-wrapper")
+    const progressBar = document.getElementById("section-progress-bar")
+
+    if (mainArticleWrapper && progressBar) {
+      const currentSection = Number(progressBar.dataset.currentSection)
+      const totalSections = Number(progressBar.dataset.totalSections)
+
+      const offsetScrollPosition =
+        window.scrollY + document.documentElement.clientHeight * 0.25
+      const articleBottomEdge =
+        mainArticleWrapper.offsetTop + mainArticleWrapper.offsetHeight
+      let completedPercentage = (offsetScrollPosition / articleBottomEdge) * 100
+      completedPercentage =
+        completedPercentage > 100 ? 100 : completedPercentage
+
+      const totalCompletedPercentage =
+        ((currentSection - 1) / totalSections) * 100 +
+        completedPercentage / totalSections
+
+      progressCompletedPercentage =
+        totalCompletedPercentage > 100 ? 100 : totalCompletedPercentage
+
+      progressBar.setAttribute(
+        "style",
+        `width: ${progressCompletedPercentage}%`
+      )
+      if (progressCompletedPercentage === 100) {
+        setTimeout(() => {
+          // stop it from triggering if scrolling up
+          if (progressCompletedPercentage === 100) celebrate()
+        }, 100)
+      }
+    }
+  }
+
+  function randomColors() {
+    const allowedColors = [
+      "amber",
+      "cyan",
+      "fuchsia",
+      "green",
+      "lime",
+      "pink",
+      "purple",
+      "rose",
+    ]
+    let colors = []
+
+    for (const [key, value] of Object.entries(brandColors)) {
+      if (allowedColors.includes(key)) {
+        const randomColors = _.sampleSize(
+          value,
+          Math.floor(Math.random() * 5) + 1
+        )
+        for (const randomColor of randomColors) {
+          colors.push(randomColor)
+        }
+      }
+    }
+    return colors
+  }
+
+  type fireOpts = {
+    spread?: number
+    particleCount?: number
+    startVelocity?: number
+    decay?: number
+    scalar?: number
+    shapes?: any[]
+  }
+
+  function fire(particleRatio: number, opts: fireOpts) {
+    const defaults = {
+      spread: 180,
+      particleCount: 30,
+      origin: { y: -0.1 },
+      startVelocity: -35,
+    }
+    const count = 200
+    confetti({
+      ...defaults,
+      ...opts,
+      colors: randomColors(),
+      particleCount: Math.floor(count * particleRatio),
+    })
+  }
+
+  function celebrate() {
+    if (!celebrating) {
+      var polkadots = confetti.shapeFromPath({
+        path: "M12 0c2.39 0 4.328 1.127 4.328 2.517S14.39 5.034 12 5.034S7.672 3.907 7.672 2.517S9.61 0 12 0m0 18.966c2.39 0 4.328 1.127 4.328 2.517S14.39 24 12 24s-4.328-1.127-4.328-2.517S9.61 18.966 12 18.966M1.606 6C2.8 3.93 4.747 2.816 5.952 3.511s1.212 2.937.017 5.007s-3.141 3.182-4.345 2.489S.411 8.07 1.606 6m16.427 9.483c1.2-2.07 3.139-3.184 4.343-2.489s1.211 2.936.016 5.006s-3.14 3.185-4.344 2.49s-1.211-2.937-.015-5.007m-16.409-2.49c1.205-.7 3.15.419 4.346 2.489s1.187 4.311-.018 5.007S2.8 20.07 1.607 18s-1.187-4.311.017-5.007m16.425-9.481c1.2-.695 3.149.419 4.344 2.489s1.188 4.311-.016 5.007s-3.148-.42-4.343-2.49s-1.188-4.311.015-5.006",
+      })
+
+      fire(0.5, {
+        shapes: [polkadots],
+      })
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+      })
+      fire(0.2, {
+        spread: 60,
+      })
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8,
+      })
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        scalar: 1.2,
+      })
+      fire(0.1, {
+        spread: 180,
+        startVelocity: 35,
+      })
+
+      celebrating = true
+      setTimeout(() => (celebrating = false), 5000) // Only celebrate once every 5 seconds
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("scroll", () => {
+      updateProgress()
+    })
+    updateProgress()
+  })
+</script>
