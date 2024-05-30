@@ -78,6 +78,16 @@ export const BaseContentCollectionSchema = z.object({
   relatedVideos: z.array(z.string()).optional(),
 
   /**
+   * Progress bar configuration for this page.
+   */
+  progress: z
+    .object({
+      page: z.number(),
+      total: z.number(),
+    })
+    .optional(),
+
+  /**
    * Set the layout style for this page.
    * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
    */

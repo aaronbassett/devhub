@@ -4,6 +4,9 @@ description: Demonstrates how to use horizontal relay-routed message passing (HR
 sidebar:
   order: 4
 status: published
+progress:
+  page: 5
+  total: 6
 ---
 
 In the Polkadot ecosystem, chains can communicate with each other by passing messages over secure channels.

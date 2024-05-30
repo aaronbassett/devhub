@@ -36,6 +36,7 @@
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.3",
     "astro-terminal-player": "^0.1.5",
+    "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "flowbite": "^2.3.0",
     "javascript-time-ago": "^2.5.10",
@@ -57,6 +58,7 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
     "@types/lodash": "^4.17.4",
     "@types/markdown-it": "^14.1.1",
     "eslint": "^8.57.0",

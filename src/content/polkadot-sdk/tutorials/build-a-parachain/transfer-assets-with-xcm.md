@@ -4,6 +4,9 @@ description: Demonstrates how to use cross-consensus messages to execute a remot
 sidebar:
   order: 5
 status: published
+progress:
+  page: 6
+  total: 6
 ---
 
 In [Open message passing channels](/tutorials/build-a-parachain/open-message-passing-channels), you saw how to open a two-way communication channel between chains by sending messages to the relay chain.
