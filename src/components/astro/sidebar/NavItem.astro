@@ -22,7 +22,9 @@ const { collection, items, nested } = Astro.props
             {item.hasIndex ? (
                 <>
                 <a href={`/${collection}/${item.indexSlug}`}
-                class={clsx("flex items-center p-1 px-2 w-full text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700")}>{item.label}</a>
+                class={clsx("opacity-70 flex items-center p-1 px-2 w-full text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700",
+                  {"open":item.isOpen}
+                )}>{item.label}</a>
                 {item.isOpen && <ul class={clsx("p-0 pl-2 space-y-0")}>
                     <Astro.self collection={collection} items={item.children} nested={true} />
                 </ul>}
@@ -57,7 +59,10 @@ const { collection, items, nested } = Astro.props
         ) : (
         <a
           href={`/${collection}/${item.slug}`}
-          class={clsx("flex items-center p-1 px-2 w-full text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700")}
+          class={clsx(
+            "opacity-70 flex items-center p-1 px-2 w-full text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700",
+            {"current":item.active}
+          )}
           >{item.label}</a
         >
         )}
@@ -67,3 +72,13 @@ const { collection, items, nested } = Astro.props
     </>
 ))}
 
+<style>
+  .current {
+    color: theme(colors.gray.100);
+    background-color: theme(colors.gray.400);
+    opacity: 100;
+  }
+  .open {
+    opacity: 100;
+  }
+</style>
