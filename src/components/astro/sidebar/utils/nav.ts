@@ -189,7 +189,71 @@ export class NavTree {
     return node
   }
 
+  private getNextAndPrevious(node: Tree): {
+    next: Leaf | undefined
+    prev: Leaf | undefined
+  } {
+    const branchWithActiveChild = (
+      node: Tree
+    ): undefined | boolean | Branch => {
+      if ("isOpen" in node && node.isOpen) {
+        // Iterate over the children of the branch
+        for (const child of node.children) {
+          // Recursively call the method for each child
+          const currentBranch = branchWithActiveChild(child)
+          if (typeof currentBranch === "object") return currentBranch
+          if (currentBranch === true) return node
+        }
+      }
+      return ("active" in node && node.active) as boolean
+    }
+
+    const getFirstChild = (node: Tree): Tree => {
+      if ("children" in node) {
+        for (const child of node.children) {
+          return getFirstChild(child)
+        }
+      }
+      return node
+    }
+
+    let next = undefined
+    let prev = undefined
+
+    const currentBranch = branchWithActiveChild(node)
+
+    if (typeof currentBranch === "object") {
+      currentBranch.children.forEach((child, index) => {
+        if ("active" in child && child.active) {
+          if (index + 1 < currentBranch.children.length) {
+            const nextNode = currentBranch.children[index + 1]
+            next = getFirstChild(nextNode) as Leaf
+          }
+          if (index - 1 >= 0) {
+            const prevNode = currentBranch.children[index - 1]
+            prev = getFirstChild(prevNode) as Leaf
+          }
+        }
+      })
+    }
+
+    return {
+      next,
+      prev,
+    }
+  }
+
   public get tree(): Tree {
     return this._tree
+  }
+
+  public get next(): Leaf | undefined {
+    const { next } = this.getNextAndPrevious(this._tree)
+    return next
+  }
+
+  public get prev(): Leaf | undefined {
+    const { prev } = this.getNextAndPrevious(this._tree)
+    return prev
   }
 }

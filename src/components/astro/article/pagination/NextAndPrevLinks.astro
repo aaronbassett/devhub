@@ -1,0 +1,131 @@
+---
+import { NavTree, type Leaf } from "@components/astro/sidebar/utils/nav"
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import type { PrevNext, InternalLink, ExternalLink } from "@schemas/links"
+import Link from "@components/astro/ui/link/Link.astro"
+import type { LinkProps } from "@components/astro/ui/link/types"
+import { type ContentCollectionKey } from "astro:content"
+import clsx from "clsx"
+
+interface Props {
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const getFromTree = (np: PrevNext | undefined) =>
+  np === true || np === undefined
+
+const { paths, entry } = Astro.props
+const { next, prev } = entry.data as BaseContentCollection
+
+type Link = Leaf | InternalLink | ExternalLink | undefined
+
+const nav = new NavTree(paths, Astro.url.pathname)
+
+const setLink = (
+  np: PrevNext | undefined,
+  type: "next" | "prev"
+): LinkProps | undefined => {
+  if (getFromTree(np)) {
+    const npLeaf = nav[type]
+    if (npLeaf) {
+      return {
+        slug: npLeaf.entry.slug,
+        collection: npLeaf.entry.collection,
+        text: (npLeaf.entry.data as BaseContentCollection).title,
+        validate: false,
+      }
+    }
+  } else if (typeof np !== "boolean") {
+    if (np) {
+      if ("href" in np) {
+        return {
+          href: np.href,
+          text: np.text,
+          newTab: np.newTab,
+          validate: np.validate,
+        }
+      } else {
+        return {
+          collection: np.collection as ContentCollectionKey,
+          slug: np.slug,
+          text: np.text,
+          newTab: np.newTab,
+          validate: np.validate,
+        }
+      }
+    }
+  }
+  return undefined
+}
+
+let nextLink = setLink(next, "next")
+let prevLink = setLink(prev, "prev")
+---
+
+{
+  (prevLink || nextLink) && (
+    <div class="flex w-full py-10 justify-center">
+      <div
+        class="inline-flex rounded-md shadow-sm text-2xl font-semibold"
+        role="group"
+      >
+        {prevLink && (
+          <Link
+            {...prevLink}
+            text={undefined}
+            class:list={[
+              "inline-flex items-center px-4 py-2 text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:text-white",
+              { "rounded-s-lg": nextLink, "rounded-lg": !nextLink },
+            ]}
+          >
+            <svg
+              class="w-3.5 h-3.5 me-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 5H1m0 0 4 4M1 5l4-4"
+              />
+            </svg>
+            {prevLink.text}
+          </Link>
+        )}
+        {nextLink && (
+          <Link
+            {...nextLink}
+            text={undefined}
+            class:list={[
+              "inline-flex items-center px-4 py-2 text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:text-white",
+              { "rounded-e-lg": prevLink, "rounded-lg": !prevLink },
+            ]}
+          >
+            {nextLink.text}
+            <svg
+              class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </Link>
+        )}
+      </div>
+    </div>
+  )
+}
