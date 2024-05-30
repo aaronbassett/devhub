@@ -35,7 +35,6 @@ const { heading } = Astro.props
 </style>
 <script>
   const observer = new IntersectionObserver((headings) => {
-    console.log(headings)
     headings.forEach((heading) => {
       const id = heading.target.getAttribute("id")
       const link = document.querySelector(`nav.toc li a[href="#${id}"]`)
