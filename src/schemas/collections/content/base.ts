@@ -1,12 +1,13 @@
 import { config } from "@config/config"
 import { ExtendSchema, OpenGraphSchema, TwitterSchema } from "@schemas/seo"
+import { ExternalLinkSchema, InternalLinkSchema } from "@schemas/links"
 import { HeadConfigSchema } from "@schemas/head"
 import { PageBannerSchema } from "@schemas/page-banner"
 import { PrevNextSchema } from "@schemas/links"
 import { SidebarEntrySchema } from "@schemas/sidebar"
 import { TableOfContentsSchema } from "@schemas/table-of-contents"
 
-import { z } from "astro:content"
+import { reference, z } from "astro:content"
 
 export const BaseContentCollectionSchema = z.object({
   /** The title of the current page. Required. */
@@ -50,8 +51,12 @@ export const BaseContentCollectionSchema = z.object({
   tableOfContents: TableOfContentsSchema().optional(),
 
   /**
-   * Set the layout style for this page.
-   * Can be `'doc'` (the default) or `'splash'` for a wider layout without any sidebars.
+   * Related internal links
+   */
+  relatedPosts: z.array(InternalLinkSchema).optional(),
+
+  /**
+   * Related GitHub repositories
    */
   relatedCode: z
     .array(
@@ -61,6 +66,16 @@ export const BaseContentCollectionSchema = z.object({
       })
     )
     .optional(),
+
+  /**
+   * External links to related pages
+   */
+  relatedLinks: z.array(ExternalLinkSchema).optional(),
+
+  /**
+   * Related YouTube videos
+   */
+  relatedVideos: z.array(z.string()).optional(),
 
   /**
    * Set the layout style for this page.

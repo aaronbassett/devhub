@@ -29,3 +29,4 @@ export const InternalLinkSchema = z.object({
 export const LinkSchema = z.union([ExternalLinkSchema, InternalLinkSchema])
 
 export const PrevNextSchema = z.union([z.boolean(), LinkSchema])
+export type InternalLink = z.infer<typeof InternalLinkSchema>

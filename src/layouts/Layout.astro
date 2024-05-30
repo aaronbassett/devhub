@@ -8,6 +8,7 @@ import RelatedRepos from "@components/astro/related/RelatedRepos.astro"
 import ArticleHeader from "@components/astro/article/ArticleHeader.astro"
 import RelatedPosts from "@components/astro/related/RelatedPosts.astro"
 import RelatedResources from "@components/astro/related/RelatedResources.astro"
+import RelatedVideos from "@components/astro/related/RelatedVideos.astro"
 import { type BaseContentCollection } from "@schemas/collections/content/base"
 import { config } from "@config/config"
 import { SEO } from "astro-seo"
@@ -94,7 +95,8 @@ const data = entry.data as BaseContentCollection
                 </div>
 
                 <RelatedRepos {...Astro.props} />
-                <RelatedResources />
+                <RelatedResources {...Astro.props} />
+                <RelatedVideos {...Astro.props} />
               </div>
             </article>
           </div>
@@ -103,7 +105,7 @@ const data = entry.data as BaseContentCollection
         <div
           class="mx-auto max-w-screen-xl rounded bg-white px-4 py-6 dark:bg-gray-800"
         >
-          <RelatedPosts />
+          <RelatedPosts {...Astro.props} />
         </div>
       </main>
 
