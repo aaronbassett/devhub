@@ -36,8 +36,14 @@ export class NavTree {
 
   constructor(paths: Path<DocsEntry>[], currentPage: string) {
     this.paths = paths
-    this.currentPage = currentPage
+    this.currentPage = this.removeExtension(currentPage)
     this._tree = this.buildTree()
+  }
+
+  private removeExtension(page: string): string {
+    const parts = page.split(".")
+    if (parts.length > 1) parts.pop()
+    return parts.join(".")
   }
 
   private buildTree(): Tree {

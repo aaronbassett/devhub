@@ -14,6 +14,10 @@ const { collection, paths } = Astro.props
 const nav = new NavTree(paths, Astro.url.pathname).tree
 ---
 
+<h1>The current URL is: {Astro.url}</h1>
+<h1>The current URL pathname is: {Astro.url.pathname}</h1>
+<h1>The current URL origin is: {Astro.url.origin}</h1>
+
 <ul class="space-y-2">
   {
     "children" in nav && (
