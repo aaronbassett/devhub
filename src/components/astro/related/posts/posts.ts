@@ -1,14 +1,11 @@
 import _ from "lodash"
 import { getCollection, getEntry } from "astro:content"
-import { type BaseContentCollection } from "@schemas/collections/content/base"
 import { type InternalLink } from "@schemas/links"
 import { type ContentCollectionKey, type CollectionEntry } from "astro:content"
 import { type DocsEntry } from "@src/utils/routing/static-paths"
 
 type FrontmatterRelatedPosts = InternalLink[]
-type RelatedPost = Omit<CollectionEntry<ContentCollectionKey>, "data"> & {
-  data: BaseContentCollection
-}
+type RelatedPost = CollectionEntry<ContentCollectionKey>
 
 type Opts = {
   entry?: DocsEntry
