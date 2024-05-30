@@ -1,8 +1,5 @@
 import { Octokit } from "octokit"
-import type {
-  GetResponseTypeFromEndpointMethod,
-  GetResponseDataTypeFromEndpointMethod,
-} from "@octokit/types"
+import type { GetResponseDataTypeFromEndpointMethod } from "@octokit/types"
 
 import type { CacheEntry } from "@src/utils/basic-cache/types"
 
