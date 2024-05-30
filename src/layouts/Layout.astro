@@ -3,11 +3,12 @@ import Navbar from "@components/astro/Navbar.astro"
 import Sidebar from "@components/astro/sidebar/Sidebar.astro"
 import Breadcrumbs from "@components/astro/Breadcrumbs.astro"
 import Aside from "@components/astro/aside/Aside.astro"
-import RelatedRepos from "@components/astro/related/RelatedRepos.astro"
+import RelatedRepos from "@components/astro/article/related/RelatedRepos.astro"
 import ArticleHeader from "@components/astro/article/ArticleHeader.astro"
-import RelatedPosts from "@components/astro/related/RelatedPosts.astro"
-import RelatedResources from "@components/astro/related/RelatedResources.astro"
-import RelatedVideos from "@components/astro/related/RelatedVideos.astro"
+import RelatedPosts from "@components/astro/article/related/RelatedPosts.astro"
+import RelatedResources from "@components/astro/article/related/RelatedResources.astro"
+import RelatedVideos from "@components/astro/article/related/RelatedVideos.astro"
+import NextAndPrevLinks from "@components/astro/article/pagination/NextAndPrevLinks.astro"
 import { type BaseContentCollection } from "@schemas/collections/content/base"
 import { config } from "@config/config"
 import { SEO } from "astro-seo"
@@ -101,6 +102,8 @@ const { headings } = await entry.render()
             </article>
           </div>
         </div>
+
+        <NextAndPrevLinks {...Astro.props} />
 
         <div
           class="mx-auto max-w-screen-xl rounded bg-white px-4 py-6 dark:bg-gray-800"

@@ -1,0 +1,75 @@
+---
+import { getEntry } from "astro:content"
+import {
+  LinkError,
+  ExternalLinkValidationError,
+  InternalLinkValidationError,
+} from "./errors"
+import type { LinkProps } from "./types"
+
+type Props = LinkProps
+
+const {
+  text,
+  href,
+  collection,
+  slug,
+  newTab = false,
+  validate = true,
+  ...attrs
+} = Astro.props
+
+let to: string | undefined = undefined
+let external: boolean = false
+
+if (href) {
+  // External Link
+  external = true
+  if (validate) {
+    try {
+      const response = await fetch(href)
+      if (response.ok) {
+        to = href
+      } else {
+        throw new ExternalLinkValidationError(
+          `External link validation returned a non-200 status code.\n${href} - (${response.status}) ${response.statusText}`
+        )
+      }
+    } catch (error) {
+      throw new ExternalLinkValidationError(
+        `External link validation failed for href: ${href}`
+      )
+    }
+  } else {
+    to = href
+  }
+} else if (collection && slug) {
+  // Internal collection link
+  if (validate) {
+    const page = await getEntry(collection, slug)
+    if (page) {
+      to = `/${collection}/${slug}`
+    } else {
+      throw new InternalLinkValidationError(
+        `Internal link validation could not find page in collection "${collection}" with slug "${slug}".`
+      )
+    }
+  } else {
+    to = `/${collection}/${slug}`
+  }
+} else {
+  // Can't have a Link where href, and collection and slug are all undefined
+  throw new LinkError(
+    `Link must have either href or collection and slug defined.`
+  )
+}
+---
+
+<a
+  href={to}
+  target={newTab ? "_blank" : "_self"}
+  rel={external ? "noopener nofollow" : undefined}
+  {...attrs}
+>
+  {text ? text : <slot />}
+</a>
