@@ -28,10 +28,13 @@ relatedVideos:
 
 import Aside from "@components/user/Aside.astro"
 import Kbd from "@components/user/Kbd.astro"
+import PopOver from "@components/user/PopOver.astro"
 
 ## Heading Level 1
 
 Please press <Kbd>Shift</Kbd> to re-render an MDN page.
+
+This is some text that has <PopOver title="A cool popover tooltip">a tooltip<Fragment slot="body">And here's some amazing content. It's very engaging. Right?</Fragment></PopOver> right in the middle
 
 <Aside type="info" title="This is an aside" border="left" dismissable>
   More info about this info alert goes here. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.

@@ -1,0 +1,51 @@
+---
+import { generateUniqueElementId } from "@src/utils/uniqueIds"
+
+const positionVariants = ["top", "right", "bottom", "left"]
+const triggerVariants = ["hover", "click"]
+
+interface Props {
+  title?: string
+  position?: (typeof positionVariants)[number]
+  trigger?: (typeof triggerVariants)[number]
+}
+
+let { title, position = "top", trigger = "hover" } = Astro.props
+
+const uid = generateUniqueElementId("popover")
+---
+
+<span
+  data-popover-target={uid}
+  data-popover-placement={position}
+  data-popover-trigger={trigger}
+  class="underline decoration-wavy decoration-cyan-200"><slot /></span
+>
+
+<div
+  data-popover
+  id={uid}
+  role="tooltip"
+  class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+>
+  {
+    title && (
+      <div class="not-format px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+        <h3 class="font-semibold text-base text-gray-900 dark:text-white">
+          {title}
+        </h3>
+      </div>
+    )
+  }
+  <div class="px-3 py-2"><slot name="body" /></div>
+  <div data-popper-arrow></div>
+</div>
+
+<style>
+  [role="tooltip"] > [data-popper-arrow]:after {
+    border-color: theme(colors.gray.200);
+  }
+  html[data-mode="dark"] [role="tooltip"] > [data-popper-arrow]:after {
+    border-color: theme(colors.gray.600);
+  }
+</style>
