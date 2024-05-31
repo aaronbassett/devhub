@@ -81,7 +81,10 @@ export function populateExtendLinks(
   return linksEntries
 }
 
-export function populateExtendMeta(entry: DocsEntry): ExtendMeta[] {
+export function populateExtendMeta(
+  entry: DocsEntry,
+  defaultMeta: ExtendMeta[] = []
+): ExtendMeta[] {
   const data = entry.data as BaseContentCollection
   const metas = data?.seo?.extend?.meta
 
@@ -93,5 +96,5 @@ export function populateExtendMeta(entry: DocsEntry): ExtendMeta[] {
     }
   }
 
-  return metaEntries
+  return _.union(defaultMeta, metaEntries)
 }
