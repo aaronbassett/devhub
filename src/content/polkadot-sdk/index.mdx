@@ -27,55 +27,13 @@ relatedVideos:
 ---
 
 import Aside from "@components/user/Aside.astro"
-import { Icon } from 'astro-icon/components'
-import FileTree from '@components/user/FileTree.astro'
-import Steps from '@components/user/Steps.astro'
-import Tabs from '@components/user/Tabs.astro'
-import TabItem from '@components/user/TabItem.astro'
+import Kbd from "@components/user/Kbd.astro"
 
 ## Heading Level 1
 
-_Some stars:_
-
-<Tabs syncKey="constellations">
-  <TabItem label="Orion" icon="star">Bellatrix, Rigel, Betelgeuse</TabItem>
-  <TabItem label="Gemini" icon="moon">Pollux, Castor A, Castor B</TabItem>
-</Tabs>
-
-_Some exoplanets:_
-
-<Tabs syncKey="constellations">
-  <TabItem label="Orion" icon="star">HD 34445 b, Gliese 179 b, Wasp-82 b</TabItem>
-  <TabItem label="Gemini" icon="moon">Pollux b, HAT-P-24b, HD 50554 b</TabItem>
-</Tabs>
-
-<Steps>
-
-1. Import the component into your MDX file:
-
-   ```js
-   import Steps from '@components/user/Steps.astro'
-   ```
-
-2. Wrap `<Steps>` around your ordered list items.
-
-</Steps>
-
-<FileTree>
-
-- astro.config.mjs an **important** file
-- package.json
-- README.md
-- src
-  - components
-    - **Header.astro**
-  - …
-- pages/
-
-</FileTree>
+Please press <Kbd>Shift</Kbd> to re-render an MDN page.
 
 <Aside type="info" title="This is an aside" border="left" dismissable>
-  <Icon name="simple-icons:rocket" slot="icon" />
   More info about this info alert goes here. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.
 </Aside>
 
