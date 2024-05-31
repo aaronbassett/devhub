@@ -16,9 +16,6 @@ import tailwind from "@astrojs/tailwind"
 // https://astro.build/config
 export default defineConfig({
   site: process.env.SITE_URL,
-  build: {
-    format: "file",
-  },
   markdown: {
     remarkPlugins: [remarkMermaid, sectionize],
   },
