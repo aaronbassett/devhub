@@ -30,8 +30,24 @@ import Aside from "@components/user/Aside.astro"
 import { Icon } from 'astro-icon/components'
 import FileTree from '@components/user/FileTree.astro'
 import Steps from '@components/user/Steps.astro'
+import Tabs from '@components/user/Tabs.astro'
+import TabItem from '@components/user/TabItem.astro'
 
 ## Heading Level 1
+
+_Some stars:_
+
+<Tabs syncKey="constellations">
+  <TabItem label="Orion" icon="star">Bellatrix, Rigel, Betelgeuse</TabItem>
+  <TabItem label="Gemini" icon="moon">Pollux, Castor A, Castor B</TabItem>
+</Tabs>
+
+_Some exoplanets:_
+
+<Tabs syncKey="constellations">
+  <TabItem label="Orion" icon="star">HD 34445 b, Gliese 179 b, Wasp-82 b</TabItem>
+  <TabItem label="Gemini" icon="moon">Pollux b, HAT-P-24b, HD 50554 b</TabItem>
+</Tabs>
 
 <Steps>
 
