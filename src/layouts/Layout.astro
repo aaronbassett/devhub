@@ -61,6 +61,12 @@ const { headings } = await entry.render()
         link: populateExtendLinks(entry, [
           { rel: "icon", href: faviconSvg.src, type: "image/svg+xml" },
           { rel: "apple-touch-icon", href: appleTouchIcon.src },
+          { rel: "preconnect", href: "https://fonts.googleapis.com" },
+          { rel: "preconnect", href: "https://fonts.gstatic.com" },
+          {
+            rel: "stylesheet",
+            href: "https://fonts.googleapis.com/css2?family=Sedan+SC&family=Unbounded:wght@200..900&display=swap",
+          },
         ]),
         meta: populateExtendMeta(entry, [
           { name: "viewport", content: "width=device-width" },
