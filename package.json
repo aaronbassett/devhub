@@ -3,10 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
+    "dotenvx": "dotenvx",
+    "dev": "dotenvx --debug run -- astro dev",
+    "start": "dotenvx --debug run -- astro dev",
+    "build": "astro check && dotenvx --verbose run -f .env.production -- astro build",
+    "preview": "dotenvx run -- astro preview",
     "astro": "astro"
   },
   "dependencies": {
@@ -15,7 +16,7 @@
     "@astrojs/react": "^3.3.4",
     "@astrojs/sitemap": "^3.1.4",
     "@astrojs/tailwind": "^5.1.0",
-    "@dotenvx/dotenvx": "^0.43.0",
+    "@dotenvx/dotenvx": "^0.43.2",
     "@expressive-code/plugin-collapsible-sections": "^0.35.3",
     "@expressive-code/plugin-line-numbers": "^0.35.3",
     "@iconify-json/simple-icons": "^1.1.103",
