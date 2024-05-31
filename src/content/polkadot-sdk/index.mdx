@@ -28,8 +28,22 @@ relatedVideos:
 
 import Aside from "@components/user/Aside.astro"
 import { Icon } from 'astro-icon/components'
+import FileTree from '@components/user/FileTree.astro'
 
 ## Heading Level 1
+
+<FileTree>
+
+- astro.config.mjs an **important** file
+- package.json
+- README.md
+- src
+  - components
+    - **Header.astro**
+  - …
+- pages/
+
+</FileTree>
 
 <Aside type="info" title="This is an aside" border="left" dismissable>
   <Icon name="simple-icons:rocket" slot="icon" />
