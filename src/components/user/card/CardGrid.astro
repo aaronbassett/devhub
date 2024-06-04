@@ -1,0 +1,62 @@
+---
+import rehypeFormat from "rehype-format"
+import { AstroError } from "astro/errors"
+import { rehype } from "rehype"
+import type { Element, Root } from "hast"
+import type { VFile } from "vfile"
+
+const prettyPrintProcessor = rehype()
+  .data("settings", { fragment: true })
+  .use(rehypeFormat)
+const prettyPrintHtml = (html: string) =>
+  prettyPrintProcessor.processSync({ value: html }).toString()
+
+const cardGridProcessor = rehype()
+  .data("settings", { fragment: true })
+  .use(function cards() {
+    return (tree: Root, vfile: VFile) => {
+      const rootElements = tree.children.filter(
+        (item): item is Element => item.type === "element"
+      )
+
+      if (rootElements.length === 0) {
+        throw new CardGridError(
+          "The `<CardGrid>` component expects one or more Card elements as children."
+        )
+      }
+
+      for (const card of rootElements) {
+        if (card.tagName !== "card-component") {
+          throw new CardGridError(
+            "The `<CardGrid>` component expects its content to be one or more Card elements, but found the following element: " +
+              `\`<${card.tagName}>\`.`,
+            vfile.value.toString()
+          )
+        }
+      }
+    }
+  })
+
+const processCards = (html: string | undefined) => {
+  const file = cardGridProcessor.processSync({ value: html })
+  return { html: file.toString() }
+}
+
+class CardGridError extends AstroError {
+  constructor(message: string, html?: string) {
+    let hint =
+      "To learn more about the `<Steps>` component, see https://starlight.astro.build/guides/components/#steps"
+    if (html) {
+      hint += "\n\nFull HTML passed to `<Steps>`:\n" + prettyPrintHtml(html)
+    }
+    super(message, hint)
+  }
+}
+
+const content = await Astro.slots.render("default")
+processCards(content)
+---
+
+<div class="my-4 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+  <slot />
+</div>

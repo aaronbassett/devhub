@@ -26,13 +26,39 @@ relatedVideos:
   - jL-N_IWiYVA
 ---
 
+import { Icon } from 'astro-icon/components'
 import Aside from "@components/user/Aside.astro"
 import Kbd from "@components/user/Kbd.astro"
 import PopOver from "@components/user/PopOver.astro"
+import Card from "@components/user/card/Card.astro"
+import CardGrid from "@components/user/card/CardGrid.astro"
+
 
 ## Heading Level 1
 
 Please press <Kbd>Shift</Kbd> to re-render an MDN page.
+<CardGrid>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}} image={{src:"/src/assets/image-1.jpg"}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}} image={{src:"/src/assets/image-1.jpg"}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}} image={{src:"/src/assets/image-1.jpg"}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+</CardGrid>
+<CardGrid>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+  <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}}>
+    Go to this step by step guideline process on how to certify for your weekly benefits:
+  </Card>
+</CardGrid>
 
 This is some text that has <PopOver title="A cool popover tooltip">a tooltip<Fragment slot="body">And here's some amazing content. It's very engaging. Right?</Fragment></PopOver> right in the middle
 
