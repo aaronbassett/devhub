@@ -1,6 +1,8 @@
 ---
-import Layout from "@src/layouts/Layout.astro"
+import LayoutDoc from "@src/layouts/Doc.astro"
+import LayoutSplash from "@src/layouts/Splash.astro"
 import { ContentCollectionStaticPaths } from "@src/utils/routing/static-paths"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
 
 export async function getStaticPaths() {
   const routing = new ContentCollectionStaticPaths<"polkadot-sdk">(
@@ -12,10 +14,19 @@ export async function getStaticPaths() {
 }
 
 const { Content } = await Astro.props.entry.render()
+const { template } = Astro.props.entry.data as BaseContentCollection
 
 const paths = await getStaticPaths()
 ---
 
-<Layout paths={paths} {...Astro.props}>
-  <Content />
-</Layout>
+{
+  template === "doc" ? (
+    <LayoutDoc paths={paths} {...Astro.props}>
+      <Content />
+    </LayoutDoc>
+  ) : (
+    <LayoutSplash paths={paths} {...Astro.props}>
+      <Content />
+    </LayoutSplash>
+  )
+}
