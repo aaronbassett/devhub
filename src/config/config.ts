@@ -52,5 +52,14 @@ export const config = {
         Number(process.env.CACHES_TTL) ||
         60 * 5 * 1000, // 5 mins
     },
+    remote_code: {
+      PATH: process.env.REMOTE_CODE_CACHE_PATH || "/tmp/cache/remote-code",
+      DATA_PATH_ROOT:
+        process.env.REMOTE_CODE_CACHE_DATA_PATH_ROOT || "cache-remote-code",
+      TTL:
+        Number(process.env.REMOTE_CODE_CACHE_TTL) ||
+        Number(process.env.CACHES_TTL) ||
+        60 * 5 * 1000, // 5 mins
+    },
   },
 }
