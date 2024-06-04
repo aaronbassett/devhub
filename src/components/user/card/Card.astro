@@ -1,0 +1,59 @@
+---
+import type { LinkProps } from "@components/astro/ui/link/types"
+import Link from "@components/astro/ui/link/Link.astro"
+
+interface Props {
+  title?: string
+  link?: LinkProps
+  image?: {
+    src: string
+    alt: string
+  }
+}
+
+let { title, link, image } = Astro.props
+---
+
+<card-component>
+  <div
+    class="not-format my-2 group relative w-full bg-gray-100 border border-gray-50 hover:bg-gray-200 hover:border-gray-100 rounded-lg shadow dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:border-gray-500"
+  >
+    {image && <img class="rounded-t-lg" src={image.src} alt={image.alt} />}
+
+    <div class="p-6">
+      {
+        link ? (
+          <Link {...link}>
+            {title && (
+              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-700 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-gray-50">
+                {title}
+              </h5>
+            )}
+
+            <div class="mb-3 font-normal text-gray-500 group-hover:text-gray-700 dark:text-gray-400  dark:group-hover:text-gray-200">
+              <slot />
+            </div>
+            <span class="absolute inset-0" aria-hidden="true" />
+          </Link>
+        ) : (
+          <>
+            {title && (
+              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-700 group-hover:text-gray-900 dark:text-gray-200 dark:group-hover:text-gray-50">
+                {title}
+              </h5>
+            )}
+
+            <div class="mb-3 font-normal text-gray-500 group-hover:text-gray-700 dark:text-gray-400  dark:group-hover:text-gray-200">
+              <slot />
+            </div>
+          </>
+        )
+      }
+    </div>
+  </div>
+</card-component>
+
+<script>
+  class CardComponent extends HTMLElement {}
+  customElements.define("card-component", CardComponent)
+</script>

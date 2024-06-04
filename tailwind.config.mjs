@@ -38,6 +38,19 @@ export default {
           },
         },
       },
+      animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
+        "mini-ping": "mini-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+      },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        "mini-ping": {
+          "75%, 100%": { transform: "scale(1.3)", opacity: 0 },
+        },
+      },
     },
   },
   plugins: [require("flowbite/plugin"), require("flowbite-typography")],

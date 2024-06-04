@@ -1,0 +1,198 @@
+---
+import { AstroError } from "astro/errors"
+import { toHeaderCase } from "@src/utils/typography/case-conversion"
+import { generateUniqueElementId } from "@src/utils/uniqueIds"
+import clsx from "clsx"
+
+const asideVariants = [
+  "caution",
+  "danger",
+  "error",
+  "info",
+  "note",
+  "success",
+  "tip",
+  "warning",
+] as const
+
+const defaultIcons = {
+  caution: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M2 3h20v10h-4v8h-2v-8H8v8H6v-8H2zm16.97 8L20 9.97V7.15L16.15 11zm-5.65 0l6-6H16.5l-6 6zm-5.66 0l6-6h-2.83l-6 6zM5.18 5L4 6.18V9l4-4z"/></svg>`,
+  danger: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="currentColor" d="M16.726 25.981c0 2.318 2.036 4.194 4.548 4.194c.237 0 .47-.016.698-.049c-.286.655-.62 1.469-.698 1.877c-.335 1.721 1.537 3.166 3.432 3.166c0 0 .917.076 1.114-.104c.709-.654 0-3.593 0-3.593c0-.496.436-.897.974-.897c.536 0 .97.401.97.897c0 0-.707 3.043 0 3.697c.578.532 2.688.532 3.265 0c.709-.654 0-3.697 0-3.697c0-.496.437-.897.972-.897s.972.401.972.897c0 0-.709 3.043 0 3.697c.576.532 2.687.532 3.263 0c.709-.654 0-3.697 0-3.697c0-.496.436-.897.972-.897c.538 0 .972.401.972.897c0 0-.709 2.938 0 3.593c.197.181 1.116.104 1.116.104c1.896 0 3.766-1.445 3.433-3.166c-.078-.408-.412-1.222-.7-1.877c.228.033.463.049.7.049c2.512 0 4.548-1.876 4.548-4.194c0-1.35-.69-2.549-1.765-3.316a13.16 13.16 0 0 0 1.765-6.577C47.274 8.309 40.437 2 32 2S16.726 8.309 16.726 16.088c0 2.377.639 4.614 1.765 6.577c-1.074.768-1.765 1.967-1.765 3.316m26.195-8.752c3.681.203-.769 5.066-2.486 6.227c-1.716 1.161-5.839-.999-5.601-2.407c.353-2.07 5.819-3.945 8.087-3.82m-12.304 8.472c.541-.946.814-1.804 1.479-1.804s.937.857 1.48 1.804c.467.814 1.797 1.415.995 2.153c-.875.808-4.078.808-4.953 0c-.819-.755.53-1.338.999-2.153m-9.343-8.472c2.265-.125 7.734 1.75 8.086 3.819c.239 1.408-3.885 3.568-5.601 2.407c-1.716-1.159-6.167-6.022-2.485-6.226"/><path fill="currentColor" d="M57.684 50.325c-2.099-1.119-3.493-.295-3.493-.295c-1.442.85-3.829.901-5.312.111l-11.44-6.091l11.439-6.092c1.482-.787 3.871-.737 5.312.112c0 0 1.395.822 3.493-.295c2.214-1.18 2.975-3.792 1.695-5.838l-.424-.674c-.699-.488-1.361-1.547-1.471-2.353l-.423-.674c-1.279-2.044-4.112-2.743-6.329-1.563c-2.099 1.116-2.021 2.642-2.021 2.642c.076 1.577-1.07 3.511-2.551 4.298L32 41.153l-14.161-7.54c-1.48-.787-2.628-2.721-2.55-4.298c0 0 .077-1.525-2.021-2.642c-2.217-1.18-5.051-.48-6.33 1.563l-.422.674c-.11.806-.771 1.864-1.473 2.353l-.421.674c-1.28 2.046-.52 4.658 1.696 5.838c2.097 1.118 3.492.295 3.492.295c1.44-.85 3.83-.899 5.31-.112l11.441 6.092l-11.441 6.092c-1.48.79-3.87.738-5.31-.111c0 0-1.395-.824-3.492.295c-2.215 1.179-2.976 3.794-1.696 5.837l.421.674c.701.489 1.363 1.548 1.473 2.354l.422.674c1.278 2.043 4.113 2.744 6.33 1.563c2.099-1.117 2.021-2.643 2.021-2.643c-.078-1.574 1.07-3.51 2.55-4.297L32 46.947l14.16 7.54c1.48.787 2.627 2.723 2.551 4.297c0 0-.077 1.525 2.021 2.643c2.217 1.181 5.05.479 6.329-1.563l.423-.674c.109-.806.771-1.864 1.471-2.354l.424-.674c1.279-2.043.518-4.658-1.695-5.837"/></svg>`,
+  error: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m10.25 5.75l-4.5 4.5m0-4.5l4.5 4.5"/><circle cx="8" cy="8" r="6.25"/></g></svg>`,
+  info: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg>`,
+  note: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"/></svg>`,
+  success: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z" clip-rule="evenodd"/></svg>`,
+  tip: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M17.252 12.49c-.284 2.365-1.833 3.31-2.502 3.996c-.67.688-.55.825-.505 1.834a.916.916 0 0 1-.916.971h-2.658a.918.918 0 0 1-.917-.971c0-.99.092-1.22-.504-1.834c-.76-.76-2.548-1.833-2.548-4.784a5.307 5.307 0 1 1 10.55.788"/><path d="M10.46 19.236v1.512c0 .413.23.752.513.752h2.053c.285 0 .514-.34.514-.752v-1.512m-2.32-10.54a2.227 2.227 0 0 0-2.226 2.227m10.338.981h1.834m-3.68-6.012l1.301-1.301M18.486 17l1.301 1.3M12 2.377V3.86m-6.76.73l1.292 1.302M4.24 18.3L5.532 17m-.864-5.096H2.835"/></g></svg>`,
+  warning: `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M928.99 755.83L574.6 203.25c-12.89-20.16-36.76-32.58-62.6-32.58s-49.71 12.43-62.6 32.58L95.01 755.83c-12.91 20.12-12.9 44.91.01 65.03c12.92 20.12 36.78 32.51 62.59 32.49h708.78c25.82.01 49.68-12.37 62.59-32.49s12.92-44.91.01-65.03M554.67 768h-85.33v-85.33h85.33zm0-426.67v298.66h-85.33V341.32z"/></svg>`,
+}
+
+const borderVariants = [
+  "none",
+  "all",
+  "top",
+  "right",
+  "bottom",
+  "left",
+] as const
+
+interface Props {
+  type?: (typeof asideVariants)[number]
+  title?: string
+  dismissable?: boolean
+  border?: (typeof borderVariants)[number]
+}
+
+let { type = "note", title, dismissable = false, border = "all" } = Astro.props
+
+if (!asideVariants.includes(type)) {
+  throw new AstroError(
+    "Invalid `type` prop passed to the `<Aside>` component.\n",
+    `Received: ${JSON.stringify(type)}\n` +
+      `Expected one of ${asideVariants.map((i) => JSON.stringify(i)).join(", ")}`
+  )
+}
+
+if (!borderVariants.includes(border)) {
+  throw new AstroError(
+    "Invalid `border` prop passed to the `<Aside>` component.\n",
+    `Received: ${JSON.stringify(border)}\n` +
+      `Expected one of ${borderVariants.map((i) => JSON.stringify(i)).join(", ")}`
+  )
+}
+
+title = title ? toHeaderCase(title) : toHeaderCase(type)
+const uid = generateUniqueElementId("aside")
+
+// We can't build class names using template literals or similar as tailwind won't know to include those styles then
+const styles = {
+  base: {
+    body: clsx("not-format p-4 mb-4", {
+      "rounded-lg": border === "none",
+      "border rounded-lg": border === "all",
+      "border-t-8": border === "top",
+      "border-r-8": border === "right",
+      "border-b-8": border === "bottom",
+      "border-l-8": border === "left",
+    }),
+    button:
+      "ms-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 focus:ring-2 inline-flex items-center justify-center h-8 w-8",
+  },
+  caution: {
+    body: clsx(
+      "text-orange-800 bg-orange-50 dark:bg-orange-800 dark:text-orange-100",
+      {
+        "border-orange-300 dark:border-orange-600": border !== "none",
+      }
+    ),
+    button:
+      "bg-orange-100 text-orange-500 focus:ring-orange-400 hover:bg-orange-200 dark:bg-orange-700 dark:text-orange-400 dark:hover:bg-orange-600",
+  },
+  danger: {
+    body: clsx("text-red-800 bg-red-50 dark:bg-red-800 dark:text-red-50", {
+      "border-red-300 dark:border-red-950": border !== "none",
+    }),
+    button:
+      "bg-red-100 text-red-500 focus:ring-red-400 hover:bg-red-200 dark:bg-red-700 dark:text-red-400 dark:hover:bg-red-600",
+  },
+  error: {
+    body: clsx("text-rose-800 bg-rose-50 dark:bg-rose-800 dark:text-rose-200", {
+      "border-rose-300 dark:border-rose-950": border !== "none",
+    }),
+    button:
+      "bg-rose-100 text-rose-500 focus:ring-rose-400 hover:bg-rose-200 dark:bg-rose-700 dark:text-rose-400 dark:hover:bg-rose-600",
+  },
+  info: {
+    body: clsx("text-cyan-800 bg-cyan-50 dark:bg-cyan-800 dark:text-cyan-200", {
+      "border-cyan-300 dark:border-cyan-900": border !== "none",
+    }),
+    button:
+      "bg-cyan-100 text-cyan-500 focus:ring-cyan-400 hover:bg-cyan-200 dark:bg-cyan-700 dark:text-cyan-400 dark:hover:bg-cyan-600",
+  },
+  note: {
+    body: clsx(
+      "text-slate-800 bg-slate-100 dark:bg-slate-800 dark:text-slate-200",
+      {
+        "border-slate-300 dark:border-slate-900": border !== "none",
+      }
+    ),
+    button:
+      "bg-slate-100 text-slate-500 focus:ring-slate-400 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600",
+  },
+  success: {
+    body: clsx(
+      "text-green-800 bg-green-50 dark:bg-green-800 dark:text-green-200",
+      {
+        "border-green-300 dark:border-green-700": border !== "none",
+      }
+    ),
+    button:
+      "bg-green-100 text-green-500 focus:ring-green-400 hover:bg-green-200 dark:bg-green-700 dark:text-green-400 dark:hover:bg-green-600",
+  },
+  tip: {
+    body: clsx(
+      "text-purple-800 bg-purple-50 dark:bg-purple-800 dark:text-purple-200",
+      {
+        "border-purple-300 dark:border-purple-950": border !== "none",
+      }
+    ),
+    button:
+      "bg-purple-100 text-purple-500 focus:ring-purple-400 hover:bg-purple-200 dark:bg-purple-700 dark:text-purple-400 dark:hover:bg-purple-600",
+  },
+  warning: {
+    body: clsx(
+      "text-amber-800 bg-amber-50 dark:bg-amber-800 dark:text-amber-50",
+      {
+        "border-amber-300 dark:border-amber-950": border !== "none",
+      }
+    ),
+    button:
+      "bg-amber-100 text-amber-500 focus:ring-amber-400 hover:bg-amber-200 dark:bg-amber-700 dark:text-amber-400 dark:hover:bg-amber-600",
+  },
+}
+---
+
+<div
+  id={uid}
+  class={clsx(styles["base"]["body"], styles[type]["body"])}
+  role="alert"
+>
+  <div class="flex items-center">
+    <span class="flex-shrink-0 w-4 h-4 me-2">
+      <slot name="icon">
+        <Fragment set:html={defaultIcons[type]} />
+      </slot>
+    </span>
+    <h3 class="text-lg font-medium">{title}</h3>
+
+    {
+      dismissable && (
+        <button
+          type="button"
+          class={clsx(styles["base"]["button"], styles[type]["button"])}
+          data-dismiss-target={`#${uid}`}
+          aria-label="Close"
+        >
+          <span class="sr-only">Dismiss</span>
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+        </button>
+      )
+    }
+  </div>
+  <div class="mt-2 mb-4 text-sm">
+    <slot />
+  </div>
+</div>

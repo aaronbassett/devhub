@@ -216,6 +216,7 @@
   function enableTheme() {
     let theme = currentTheme()
     document.documentElement.setAttribute("data-mode", theme)
+    document.documentElement.classList.remove("hidden")
 
     if (theme === "dark") {
       document
