@@ -1,0 +1,81 @@
+---
+/**
+ * A component that renders a highlighted text element.
+ * This component is used to highlight or call attention to a specific piece of text.
+ *
+ * The component has several animation types:
+ * - `mini-ping`
+ * - `ping`
+ * - `wiggle`
+ * - `bounce`
+ *
+ * Example:
+ *
+ * ```astro
+ * <Mark animate="wiggle">This text will wiggle!</Mark>
+ * ```
+ */
+
+import clsx from "clsx"
+
+type AnimationType = "mini-ping" | "ping" | "wiggle" | "bounce"
+
+interface Props {
+  animate?: AnimationType
+  bgColor?: string
+  className?: string
+}
+
+const { animate, bgColor = "bg-accent-500", className } = Astro.props
+---
+
+{
+  /* We cannot use template literals for the animation classes as then they will
+     not be included in the compiled CSS. */
+}
+
+{
+  animate === "mini-ping" || animate === "ping" ? (
+    <span
+      class={clsx(
+        "relative px-2 rounded content-center inline-flex not-content",
+        bgColor
+      )}
+    >
+      <span
+        class={clsx(
+          "absolute left-0 h-full w-full rounded opacity-55",
+          { "animate-mini-ping": animate === "mini-ping" },
+          { "animate-ping": animate === "ping" },
+          bgColor
+        )}
+      />
+      <mark class={clsx("text-white bg-transparent relative", className)}>
+        <slot />
+      </mark>
+    </span>
+  ) : animate === "wiggle" || animate === "bounce" ? (
+    <span
+      class={clsx(
+        "relative px-2 rounded content-center inline-flex not-content",
+        { "animate-wiggle": animate === "wiggle" },
+        { "animate-bounce": animate === "bounce" },
+        bgColor
+      )}
+    >
+      <mark class={clsx("text-white bg-transparent", className)}>
+        <slot />
+      </mark>
+    </span>
+  ) : (
+    <mark
+      class={clsx(
+        "text-white px-2 rounded content-center inline-flex not-content",
+        bgColor,
+        className
+      )}
+    >
+      <slot />
+    </mark>
+  )
+}
