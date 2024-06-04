@@ -27,6 +27,11 @@
 </button>
 
 <script>
+  const expressiveCodeThemes: Record<string, string> = {
+    dark: "dracula",
+    light: "github-light",
+  }
+
   function currentTheme() {
     return localStorage.getItem("color-theme") === "dark" ||
       (!("color-theme" in localStorage) &&
@@ -38,6 +43,10 @@
   function enableTheme() {
     let theme = currentTheme()
     document.documentElement.setAttribute("data-mode", theme)
+    document.documentElement.setAttribute(
+      "data-theme",
+      expressiveCodeThemes[theme]
+    )
     document.documentElement.classList.remove("hidden")
 
     if (theme === "dark") {
