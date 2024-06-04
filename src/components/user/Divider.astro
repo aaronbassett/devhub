@@ -1,0 +1,148 @@
+---
+/**
+ * A horizontal divider component that can be used to visually separate content.
+ * The divider can be styled in various ways via props.
+ *
+ * Divider Types (default: default):
+ *  - default: an unbroken line
+ *  - icon: a line with an icon in the middle
+ *          pass the `icon` prop to be set to the name of the icon to use (default: tokens/Polkadot)
+ *  - text: a line with a text in the middle
+ *          pass the `text` prop to be set to the text to use (default: ፠)
+ *
+ * Variants (default: none):
+ *  - trimmed: shortens the width of the divider (w-48)
+ *
+ * Other customizations:
+ *  - size: sets the height of the divider: small, medium, large (default: small)
+ *  - gap: sets the space between the divider and the content: small, medium, large (default: small)
+ *  - isRounded: if true, the divider ends will be rounded (default: true)
+ *  - bgColor: sets the background color of the divider (default: bg-gray-200 dark:bg-gray-700)
+ *  - pageColor: sets the background color of the icon or text
+ *               should be the same color as the element behind the divider (default: bg-white dark:bg-gray-900)
+ *  - textColor: sets the color of the icon or text (default: text-gray-200 dark:text-gray-700)
+ *  - strokeColor: sets the color of the icon, only required if using an icon from the w3f set (default: text-gray-200 dark:text-gray-700)
+ *
+ * Example:
+ *
+ * ```astro
+ * <Divider type="text" text="OR" variant="trimmed" size="large" />
+ * ```
+ */
+
+import clsx from "clsx"
+import { Icon } from "astro-icon/components"
+
+type DividerType = "default" | "icon" | "text"
+type DividerVariant = "trimmed"
+type DividerSize = "small" | "medium" | "large"
+type DividerGap = "small" | "medium" | "large"
+
+interface Props {
+  type?: DividerType
+  icon?: string
+  text?: string
+  variant?: DividerVariant
+  size?: DividerSize
+  gap?: DividerGap
+  isRounded?: boolean
+  bgColor?: string
+  pageColor?: string
+  textColor?: string
+  strokeColor?: string
+}
+
+const {
+  type = "default",
+  icon = "tokens/Polkadot",
+  text = "፠",
+  variant,
+  size = "small",
+  gap = "small",
+  isRounded = true,
+  bgColor = "bg-gray-200 dark:bg-gray-700",
+  // pageColor and textColor are used for icon and text dividers
+  pageColor = "bg-white dark:bg-gray-800",
+  textColor = "text-gray-200 dark:text-gray-700",
+  // w3f icons need the stroke color set as well
+  strokeColor = "stroke-gray-200 dark:stroke-gray-700",
+} = Astro.props
+
+const margin = gap === "small" ? "my-2" : gap === "medium" ? "my-4" : "my-8"
+const height = size === "small" ? "h-px" : size === "medium" ? "h-1" : "h-2"
+const width = variant === "trimmed" ? "w-48" : "w-full"
+const iconSize =
+  size === "small" ? "w-4 h-4" : size === "medium" ? "w-6 h-6" : "w-10 h-10"
+const iconTop =
+  size === "small" ? "top-0" : size === "medium" ? "top-0" : "-top-2"
+const textSize =
+  size === "small" ? "text-xl" : size === "medium" ? "text-2xl" : "text-4xl"
+---
+
+{
+  type === "default" && (
+    <hr
+      class={clsx(
+        "mx-auto border-0 not-content",
+        width,
+        height,
+        margin,
+        { rounded: isRounded },
+        bgColor
+      )}
+    />
+  )
+}
+
+{
+  type === "icon" && (
+    <div class="not-format relative inline-flex items-center justify-center w-full not-content">
+      <hr
+        class={clsx(
+          "mx-auto border-0 not-content",
+          width,
+          height,
+          margin,
+          { rounded: isRounded },
+          bgColor
+        )}
+      />
+      <div
+        class={clsx(
+          "absolute px-4 -translate-x-1/2 left-1/2",
+          iconTop,
+          pageColor
+        )}
+      >
+        <Icon name={icon} class={clsx(iconSize, strokeColor, textColor)} />
+      </div>
+    </div>
+  )
+}
+
+{
+  type === "text" && (
+    <div class="relative inline-flex items-center justify-center w-full not-content">
+      <hr
+        class={clsx(
+          "mx-auto border-0 not-content",
+          width,
+          height,
+          margin,
+          { rounded: isRounded },
+          bgColor
+        )}
+      />
+      <span
+        class={clsx(
+          "absolute px-3 font-medium -translate-x-1/2 left-1/2 font-display",
+          textSize,
+          textColor,
+          pageColor
+        )}
+      >
+        {text}
+      </span>
+    </div>
+  )
+}
