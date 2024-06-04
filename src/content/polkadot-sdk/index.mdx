@@ -33,11 +33,14 @@ import PopOver from "@components/user/PopOver.astro"
 import Card from "@components/user/card/Card.astro"
 import CardGrid from "@components/user/card/CardGrid.astro"
 import Divider from "@components/user/Divider.astro"
-
+import Mark from "@components/user/Mark.astro"
+import Heading from "@components/user/Heading.astro"
 
 ## Heading Level 1
 
-Please press <Kbd>Shift</Kbd> to re-render an MDN page.
+Please press <Kbd>Shift</Kbd> to re-render an <Mark animate="mini-ping">MDN page</Mark>.
+
+
 <CardGrid>
   <Card title="This is the card title!" link={{href:"https://example.com", newTab: true}} image={{src:"/src/assets/image-1.jpg"}}>
     Go to this step by step guideline process on how to certify for your weekly benefits:
@@ -89,7 +92,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Heading Level 2
 
-Tempor nec feugiat nisl pretium. Consequat ac felis donec et odio pellentesque diam. Mus mauris vitae ultricies leo integer malesuada nunc. Malesuada pellentesque elit eget gravida cum sociis natoque. Risus nec feugiat in fermentum posuere urna nec tincidunt.
+Tempor nec feugiat nisl pretium. 
+
+<Heading highlight={{pattern: "Polkadot SDK"}}>
+  ### Start building with the Polkadot SDK
+</Heading>
+
+Consequat ac felis donec et odio pellentesque diam. Mus mauris vitae ultricies leo integer malesuada nunc. Malesuada pellentesque elit eget gravida cum sociis natoque. Risus nec feugiat in fermentum posuere urna nec tincidunt.
 
 ### Heading Level 3
 

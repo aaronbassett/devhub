@@ -1,0 +1,172 @@
+---
+/**
+ * A React component that renders a heading at the specified level\
+ * with an optional highlight and anchor link.
+ *
+ * When creating the anchor link a random UID will be prepended to the ID to ensure that element IDs are unique.
+ *
+ * Props:
+ *  - As: the HTML element to use for the heading (default: h1)
+ *  - id: Optional id to use for the anchor link
+ *  - highlight: Optional object with properties `pattern` and `className` that will be used to render a highlight text
+ *  - className: Optional additional CSS classes to apply to the heading
+ *
+ * Example:
+ *
+ * ```astro
+ * <Heading As="h1" id="splash" highlight={{pattern: "Polkadot SDK"}}>Start building with the Polkadot SDK</Heading>
+ * ```
+ *
+ * Note:
+ *
+ * The rehype plugiun which collects headings for usage in page ToCs does not find headings in MDX components.
+ * To get around this you can passs the Markdown heading to the component as the `default` slot.
+ *
+ * Example:
+ *
+ * ```astro
+ * <Heading>
+ *   ## Your heading text
+ * </Heading>
+ * ```
+ *
+ * These headings will appear in your ToC, but can also have anchors, highlights, etc.
+ * Note though that the IDs for the anchor links will use the slugified node text without a random UID so that they
+ * work with the ToC links.
+ *
+ * You do not need to pass the As prop, instead the component will use the first heading level found in the Markdown.
+ *
+ * Don't pass multiple children in the default slot, things will get weird.
+ *
+ * Example:
+ *
+ * ```astro
+ * <Heading>
+ *   Some regular text
+ *   ## Some heading text
+ * </Heading>
+ * ```
+ *
+ * Will render as:
+ *
+ * ```html
+ * <h2 id="some-heading-text">Some regular text</h2>
+ * ```
+ *
+ * (it will take the first text node value and the first heading element's level and ID)
+ */
+
+import clsx from "clsx"
+import { generateUniqueElementId } from "@src/utils/uniqueIds"
+import { fromHtml } from "hast-util-from-html"
+
+export type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+
+interface Props {
+  As?: HeadingType
+  id?: string
+  highlight?: {
+    pattern: string | RegExp
+    className?: string
+  }
+  className?: string
+}
+
+const { As, id, highlight, className } = Astro.props
+
+const html = await Astro.slots.render("default")
+const tree = fromHtml(html, { fragment: true })
+
+function getTextNodeValue(node: any): string | undefined {
+  if (node.type === "text") {
+    return node.value
+  }
+  if (node.children) {
+    for (const child of node.children) {
+      const value = getTextNodeValue(child)
+      if (value) {
+        return value
+      }
+    }
+  }
+  return undefined
+}
+
+function getFirstHeading(node: any): any | undefined {
+  if (
+    node.type === "element" &&
+    ["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName)
+  ) {
+    return node
+  }
+
+  if (node.children) {
+    for (const child of node.children) {
+      const level = getFirstHeading(child)
+      if (level) {
+        return level
+      }
+    }
+  }
+  return undefined
+}
+
+function getFirstHeadingLevel(node: any): HeadingType | undefined {
+  return getFirstHeading(node)?.tagName
+}
+
+function getFirstHeadingId(node: any): HeadingType | undefined {
+  return getFirstHeading(node)?.properties?.id
+}
+
+let headingText = getTextNodeValue(tree) || ""
+const Hn = As || getFirstHeadingLevel(tree) || "h1"
+const uniqueId =
+  getFirstHeadingId(tree) || (id ? generateUniqueElementId(id, 3) : null)
+
+if (highlight && highlight.pattern) {
+  const pattern =
+    highlight.pattern instanceof RegExp
+      ? new RegExp(
+          `(?<found>${highlight.pattern.source})`,
+          Array.from(new Set((highlight.pattern.flags + "g").split(""))).join(
+            ""
+          )
+        )
+      : new RegExp(`(?<found>${highlight.pattern})`, "g")
+
+  headingText = headingText.replaceAll(pattern, function (_, found) {
+    return `<span class="inline-flex font-black text-transparent bg-clip-text bg-gradient-to-b from-accent-700 to-accent-400 dark:from-accent-500 dark:to-accent-200 ${highlight.className}">${found}</span>`
+  })
+}
+---
+
+<Hn class={clsx("anchor font-display not-content", className)} id={uniqueId}>
+  <Fragment set:html={headingText} />
+  {
+    uniqueId && (
+      <>
+        <a
+          class="hash-link no-underline text-accent-500 before:text-accent-500 hover:text-accent-500"
+          href={`#${uniqueId}`}
+        />
+      </>
+    )
+  }
+</Hn>
+
+<style>
+  .hash-link::after {
+    content: "#";
+  }
+
+  .hash-link {
+    opacity: 0;
+    user-select: none;
+  }
+
+  .hash-link:focus,
+  *:hover > .hash-link {
+    opacity: 1;
+  }
+</style>
