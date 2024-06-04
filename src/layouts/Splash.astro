@@ -1,0 +1,70 @@
+---
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import { config } from "@config/config"
+import { SEO } from "astro-seo"
+
+import {
+  populateOpenGraphTags,
+  populateTwitterTags,
+  populateExtendLinks,
+  populateExtendMeta,
+} from "@src/utils/seo"
+
+import { getImage } from "astro:assets"
+import faviconSrc from "../assets/icons/favicon.png"
+import faviconSvgSrc from "../assets/icons/favicon.svg"
+
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+
+type Props = {
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const appleTouchIcon = await getImage({
+  src: faviconSrc,
+  width: 180,
+  height: 180,
+  format: "png",
+})
+const faviconSvg = await getImage({ src: faviconSvgSrc, format: "svg" })
+
+const { entry } = Astro.props
+const data = entry.data as BaseContentCollection
+const { headings } = await entry.render()
+---
+
+<!doctype html>
+<html lang="en" class="hidden scroll-pt-32 scroll-smooth">
+  <head>
+    <SEO
+      charset="UTF-8"
+      titleTemplate={"%s — " + config.seo.SITE_NAME}
+      title={data.title}
+      canonical={data.canonical}
+      noindex={data.seo?.noindex}
+      nofollow={data.seo?.nofollow}
+      description={data.description}
+      openGraph={populateOpenGraphTags(entry, Astro.url.origin)}
+      twitter={populateTwitterTags(entry, Astro.url.origin)}
+      extend={{
+        link: populateExtendLinks(entry, [
+          { rel: "icon", href: faviconSvg.src, type: "image/svg+xml" },
+          { rel: "apple-touch-icon", href: appleTouchIcon.src },
+          { rel: "preconnect", href: "https://fonts.googleapis.com" },
+          { rel: "preconnect", href: "https://fonts.gstatic.com" },
+          {
+            rel: "stylesheet",
+            href: "https://fonts.googleapis.com/css2?family=Sedan+SC&family=Unbounded:wght@200..900&display=swap",
+          },
+        ]),
+        meta: populateExtendMeta(entry, [
+          { name: "viewport", content: "width=device-width" },
+        ]),
+      }}
+    />
+  </head>
+  <body class="bg-white dark:bg-gray-900">
+    <h1>Splash</h1>
+  </body>
+</html>
