@@ -1,7 +1,4 @@
 import { type ContentCollectionKey } from "astro:content"
-import type { InternalLink, ExternalLink } from "@schemas/links"
-import type { HTMLAttributes } from "astro/types"
-import type { AstroBuiltinAttributes } from "astro"
 
 /**
  * The Link component needs to accept both types as Props

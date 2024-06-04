@@ -1,4 +1,3 @@
-import type { AstroBuiltinAttributes } from "astro"
 import type { HTMLAttributes } from "astro/types"
 import { z } from "astro:content"
 
