@@ -5,6 +5,7 @@ import { Icon } from "astro-icon/components"
 const networks = [
   {
     name: "Polkadot",
+    url: "https://polkadot.network/",
     type: "main",
     description:
       "Felis imperdiet proin fermentum leo. In arcu cursus euismod quis viverra nibh cras pulvinar mattis.",
@@ -12,6 +13,7 @@ const networks = [
   },
   {
     name: "Kusama",
+    url: "https://kusama.network/",
     type: "canary",
     description:
       "Et egestas quis ipsum suspendisse ultrices gravida. Nisl vel pretium lectus quam id.",
@@ -20,6 +22,7 @@ const networks = [
   {
     name: "Westend",
     type: "test",
+    url: "https://medium.com/polkadot-network/westend-introducing-a-new-testnet-for-polkadot-and-kusama-9e10aad75710",
     description:
       "Tortor posuere ac ut consequat. Mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum",
     icon: "networks/westend",
@@ -28,6 +31,7 @@ const networks = [
   {
     name: "Paseo",
     type: "test",
+    url: "https://github.com/paseo-network",
     description:
       "Consectetur lorem donec massa sapien faucibus et molestie ac feugiat. Praesent tristique magna sit amet.",
     icon: "networks/paseo",
@@ -35,6 +39,7 @@ const networks = [
   },
   {
     name: "Rococo",
+    url: "https://substrate.io/developers/rococo-network/",
     type: "test",
     description:
       "Sit amet massa vitae tortor condimentum. Justo laoreet sit amet cursus. Enim facilisis gravida neque convallis a cras semper auctor.",
@@ -81,12 +86,16 @@ const networks = [
       {
         networks.map((network) => (
           <div>
-            <Icon
-              name={network.icon}
-              class="mb-4 w-10 h-10 lg:h-12 lg:w-12 rounded-full"
-            />
+            <Link href={network.url} newTab={true}>
+              <Icon
+                name={network.icon}
+                class="mb-4 w-10 h-10 lg:h-12 lg:w-12 rounded-full"
+              />
+            </Link>
             <h3 class="flex items-center mb-2 text-xl font-bold dark:text-white">
-              {network.name}
+              <Link href={network.url} newTab={true}>
+                {network.name}
+              </Link>
               {network.type === "main" && (
                 <span class="ml-2 group h-5 w-5 hover:w-16 overflow-hidden inline-block transition-width duration-300 bg-green-100 text-green-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                   <span class="cursor-default opacity-0 group-hover:opacity-100 transition-opacity duration-200">
