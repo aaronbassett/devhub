@@ -101,10 +101,12 @@ codeExamples = codeExamples.map((example) => {
   <div
     class="max-w-screen-xl px-4 py-4 mx-auto sm:py-16 lg:py-24 pt-10 sm:pt-12 lg:pt-16"
   >
-    <div class="md:flex">
+    <div
+      class="grid grid-cols-1 space-y-8 lg:grid-cols-12 lg:gap-12 lg:space-y-0"
+    >
       <ul
         id="example-code-tabs"
-        class="m-w-52 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+        class="lg:col-span-3 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
         data-tabs-active-classes="text-accent-600 hover:text-accent-600 dark:text-accent-500 dark:hover:text-accent-500 border-purple-600 dark:border-purple-500 hidden"
         data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
       >
@@ -131,13 +133,13 @@ codeExamples = codeExamples.map((example) => {
         }
       </ul>
       <div
-        class="pt-0 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg"
+        class="lg:col-span-9 pt-0 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg max-w-fit"
         id="code-examples-tabs-content"
       >
         {
           codeExamples.map((example) => (
             <div
-              class="hidden rounded-lg bg-gray-50 dark:bg-gray-800 max-w-fit"
+              class="hidden rounded-lg bg-gray-50 dark:bg-gray-800"
               id={example.contentId}
               aria-labelledby={example.buttonId}
             >
