@@ -1,0 +1,228 @@
+---
+import { getCollection } from "astro:content"
+import { type ContentCollectionKey } from "astro:content"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import type { DocsEntry } from "@src/utils/routing/static-paths"
+import type { InternalLink } from "@schemas/links"
+import { FrontmatterParser } from "@src/utils/routing/frontmatter"
+import { timeAgo } from "@src/utils/humanize"
+import { totalReadingTime } from "@src/utils/entry"
+import Link from "@components/astro/ui/link/Link.astro"
+import _ from "lodash"
+
+import { isIndexPage, hasRoot } from "@src/utils/entry"
+
+type ChoosenCollection = {
+  name: ContentCollectionKey
+  roots: string[]
+}
+
+type LatestArticles = {
+  lastUpdated: string | false
+  readingTime: string
+  title: string
+  description: string
+  link: Omit<InternalLink, "text" | "collection"> & {
+    collection: ContentCollectionKey
+  }
+}
+
+const choosenCollections: ChoosenCollection[] = [
+  { name: "polkadot-sdk", roots: ["tutorials"] },
+]
+
+let collectionEntries: DocsEntry[] = []
+
+for (const c of choosenCollections) {
+  for (const root of c.roots) {
+    const articles = await getCollection(
+      c.name as ContentCollectionKey,
+      ({ id, slug, data }) => {
+        const article = data as BaseContentCollection
+        if (article.status === "published") {
+          if (hasRoot(id, root)) {
+            // Only link to the first page in a series (index)
+            if (isIndexPage(id, slug)) {
+              return true
+            }
+          }
+        }
+        return false
+      }
+    )
+    collectionEntries = _.union(collectionEntries, articles)
+  }
+}
+
+const frontmatterParser = new FrontmatterParser()
+
+let latestArticles: LatestArticles[] = []
+
+for (let entry of collectionEntries) {
+  entry = frontmatterParser.parse(entry)
+  const data = entry.data as BaseContentCollection
+
+  // Get the total reading time of all entries in the same directory as this one
+  const relatedEntries = await getCollection(entry.collection, ({ id }) => {
+    const fullRoot = (id: string) => {
+      const parts = id.split("/")
+      parts.pop()
+      return parts.join("/")
+    }
+    return hasRoot(id, fullRoot(entry.id))
+  })
+
+  latestArticles.push({
+    title: data.title,
+    description: data.description,
+    lastUpdated:
+      data.lastUpdated === false
+        ? false
+        : timeAgo.format(data.lastUpdated as Date),
+    readingTime: totalReadingTime(relatedEntries),
+    link: {
+      collection: entry.collection,
+      slug: entry.slug,
+      validate: false, // we know this entry exists
+    },
+  })
+}
+
+latestArticles = _.sortBy(_.sampleSize(latestArticles, 18), [
+  "lastUpdated",
+  "title",
+])
+---
+
+<aside
+  aria-label="Related articles"
+  class="py-8 bg-gray-100 dark:bg-gray-700 lg:py-16 antialiased"
+>
+  <div class="px-4 mx-auto w-full max-w-screen-xl">
+    <h2
+      class="mb-8 text-2xl text-center font-display font-bold text-gray-900 dark:text-white"
+    >
+      Latest Articles
+    </h2>
+    <div
+      id="animation-carousel"
+      class="relative"
+      data-carousel="slide"
+      data-carousel-interval={60 * 1000}
+    >
+      <div class="relative overflow-hidden rounded-lg h-[255px]">
+        {
+          _.chunk(latestArticles, 3).map((chunk) => (
+            <div
+              class="hidden bg-gray-100 duration-700 ease-in-out dark:bg-gray-700 space-y-4"
+              data-carousel-item
+            >
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {chunk.map((article) => (
+                  <article class="p-4 mx-auto max-w-sm bg-gray-300 rounded-lg shadow-md border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="flex items-center mb-3 space-x-2">
+                      <div class="font-medium dark:text-white" />
+                    </div>
+                    <h3 class="mb-1 text-xl font-bold tracking-tight text-gray-900 lg:text-2xl dark:text-white">
+                      <Link text={article.title} {...article.link} />
+                    </h3>
+                    <div class="mb-2 text-xs font-normal text-gray-500 dark:text-gray-400">
+                      {article.lastUpdated ? (
+                        <p>last updated: {article.lastUpdated}</p>
+                      ) : (
+                        <p>
+                          last updated: <em>unknown</em>
+                        </p>
+                      )}
+                      <p>{article.readingTime} read</p>
+                    </div>
+                    <p class="mb-3 text-gray-500 dark:text-gray-400">
+                      {article.description}
+                    </p>
+
+                    <Link
+                      {...article.link}
+                      class:list="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 hover:no-underline"
+                    >
+                      Read more{" "}
+                      <svg
+                        class="mt-px ml-1 w-3 h-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 10"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M1 5h12m0 0L9 1m4 4L9 9"
+                        />
+                      </svg>
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        latestArticles.length > 3 && (
+          <>
+            <button
+              type="button"
+              class="absolute top-0 start-0 xl:-start-16 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-prev
+            >
+              <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                  />
+                </svg>
+                <span class="sr-only">Previous</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              class="absolute top-0 end-0 xl:-end-16 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-next
+            >
+              <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span class="sr-only">Next</span>
+              </span>
+            </button>
+          </>
+        )
+      }
+    </div>
+  </div>
+</aside>

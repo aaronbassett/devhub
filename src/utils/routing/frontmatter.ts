@@ -1,5 +1,6 @@
 import { BaseContentCollectionSchema } from "@schemas/collections/content/base"
 import { getNewestCommitDate } from "@src/utils/git"
+import { readingTime } from "reading-time-estimator"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import { z } from "astro:content"
 import { type DocsEntry } from "@src/utils/routing/static-paths"
@@ -8,7 +9,7 @@ type BaseData = z.infer<typeof BaseContentCollectionSchema>
 
 export class FrontmatterParser {
   public parse(entry: DocsEntry): DocsEntry {
-    return this.updateLastUpdated(entry)
+    return this.updateReadingTime(this.updateLastUpdated(entry))
   }
   public updateLastUpdated(entry: DocsEntry): DocsEntry {
     const data = entry.data as BaseData
@@ -37,6 +38,19 @@ export class FrontmatterParser {
           },
         }
       }
+    }
+  }
+
+  public updateReadingTime(entry: DocsEntry): DocsEntry {
+    const data = entry.data as BaseData
+    if (data.readingTime) return entry
+
+    return {
+      ...entry,
+      data: {
+        ...data,
+        readingTime: readingTime(entry.body).text,
+      },
     }
   }
 }
