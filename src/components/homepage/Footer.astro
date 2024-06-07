@@ -1,10 +1,11 @@
 ---
 import { config } from "@config/config"
+import _ from "lodash"
 
 import { Icon } from "astro-icon/components"
 import Link from "@components/astro/ui/link/Link.astro"
 
-const footerLinks: {
+let footerLinks: {
   title: string
   links: { text: string; href: string }[]
 }[] = [
@@ -96,6 +97,18 @@ const footerLinks: {
     ],
   },
 ]
+
+for (let i = 0; i < footerLinks.length; i++) {
+  footerLinks[i] = {
+    ...footerLinks[i],
+    links: _.sortBy(footerLinks[i].links, [
+      (l) => {
+        return l.text.length
+      },
+      "text",
+    ]).reverse(),
+  }
+}
 ---
 
 <footer class="bg-gray-50 dark:bg-gray-800">
