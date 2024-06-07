@@ -169,38 +169,21 @@ const footerLinks: {
           scelerisque.
         </p>
         <div class="mt-5 space-y-3">
-          <select
-            id="socials"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
+          <ul class="flex space-x-6">
             {
-              config.socials.map((org) => (
-                <option>
-                  <Icon
-                    name={org.icon}
-                    class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                  />
-                </option>
+              config.socials[0].links.map((link) => (
+                <li>
+                  <Link
+                    href={link.url}
+                    class:list="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                  >
+                    <Icon name={link.icon} class="w-5 h-5" />
+                    <span class="sr-only">{link.name}</span>
+                  </Link>
+                </li>
               ))
             }
-          </select>
-          {
-            config.socials.map((org) => (
-              <ul class="flex space-x-6">
-                {org.links.map((link) => (
-                  <li>
-                    <Link
-                      href={link.url}
-                      class:list="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
-                    >
-                      <Icon name={link.icon} class="w-5 h-5" />
-                      <span class="sr-only">{link.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ))
-          }
+          </ul>
         </div>
       </div>
       {
