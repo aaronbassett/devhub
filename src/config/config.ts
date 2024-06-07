@@ -62,4 +62,115 @@ export const config = {
         60 * 5 * 1000, // 5 mins
     },
   },
+  socials: [
+    {
+      org: "Polkadot",
+      icon: "networks/polkadot",
+      links: [
+        {
+          name: "twitter",
+          url: "https://twitter.com/Polkadot",
+          icon: "mdi:twitter",
+        },
+        {
+          name: "github",
+          url: "https://github.com/paritytech/",
+          icon: "mdi:github",
+        },
+        {
+          name: "discord",
+          url: "https://dot.li/discord",
+          icon: "simple-icons:discord",
+        },
+        {
+          name: "reddit",
+          url: "https://www.reddit.com/r/polkadot/",
+          icon: "mdi:reddit",
+        },
+        {
+          name: "youtube",
+          url: "https://www.youtube.com/channel/UCB7PbjuZLEba_znc7mEGNgw",
+          icon: "mdi:youtube",
+        },
+        {
+          name: "blog",
+          url: "https://polkadot.network/blog/",
+          icon: "mdi:blog",
+        },
+        {
+          name: "newsletter",
+          url: "https://share.hsforms.com/1LL1CBwiASxC5pJUYZAiDVw4752a",
+          icon: "mdi:email-newsletter",
+        },
+      ],
+    },
+    {
+      org: "Kusama",
+      icon: "networks/kusama",
+      links: [
+        {
+          name: "twitter",
+          url: "https://twitter.com/kusamanetwork",
+          icon: "mdi:twitter",
+        },
+        {
+          name: "discord",
+          url: "https://kusa.ma/discord",
+          icon: "simple-icons:discord",
+        },
+        {
+          name: "reddit",
+          url: "https://www.reddit.com/r/Kusama",
+          icon: "mdi:reddit",
+        },
+        {
+          name: "youtube",
+          url: "http://youtube.com/c/kusamanetwork",
+          icon: "mdi:youtube",
+        },
+      ],
+    },
+    {
+      org: "Web3 Foundation",
+      icon: "brands/w3f",
+      links: [
+        {
+          name: "twitter",
+          url: "https://twitter.com/web3foundation",
+          icon: "mdi:twitter",
+        },
+        {
+          name: "github",
+          url: "https://github.com/w3f",
+          icon: "mdi:github",
+        },
+        {
+          name: "medium",
+          url: "https://medium.com/@web3",
+          icon: "mdi:medium",
+        },
+        {
+          name: "youtube",
+          url: "https://www.youtube.com/channel/UClnw_bcNg4CAzF772qEtq4g",
+          icon: "mdi:youtube",
+        },
+      ],
+    },
+    {
+      org: "Developer Hub",
+      icon: "networks/polkadot",
+      links: [
+        {
+          name: "twitter",
+          url: "https://twitter.com/PolkadotDevs",
+          icon: "mdi:twitter",
+        },
+        {
+          name: "github",
+          url: "https://github.com/AcceleratePolkadot/",
+          icon: "mdi:github",
+        },
+      ],
+    },
+  ],
 }
