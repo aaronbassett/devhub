@@ -1,4 +1,7 @@
 export const config = {
+  disable: {
+    LINK_VALIDATION: process.env.DISABLE_LINK_VALIDATION === "true",
+  },
   article: {
     TITLE_MAX_LENGTH: Number(process.env.ARTICLE_TITLE_MAX_LENGTH) || 75,
     TAGLINE_MAX_LENGTH: Number(process.env.ARTICLE_TAGLINE_MAX_LENGTH) || 150,
@@ -173,4 +176,7 @@ export const config = {
       ],
     },
   ],
+  fetch: {
+    RETRIES: Number(process.env.FETCH_RETRIES) || 3,
+  },
 }

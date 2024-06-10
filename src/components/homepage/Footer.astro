@@ -189,7 +189,6 @@ for (let i = 0; i < footerLinks.length; i++) {
                   <Link
                     href={link.url}
                     class:list="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
-                    validate={false}
                   >
                     <Icon name={link.icon} class="w-5 h-5" />
                     <span class="sr-only">{link.name}</span>
@@ -209,7 +208,7 @@ for (let i = 0; i < footerLinks.length; i++) {
             <ul class="text-gray-500 dark:text-gray-400">
               {column.links.map((link) => (
                 <li class="mb-4">
-                  <Link text={link.text} href={link.href} validate={false} />
+                  <Link text={link.text} href={link.href} />
                 </li>
               ))}
             </ul>
