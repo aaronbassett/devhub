@@ -1,6 +1,7 @@
 export const config = {
   disable: {
-    LINK_VALIDATION: process.env.DISABLE_LINK_VALIDATION === "true",
+    LINK_VALIDATION:
+      process.env.DISABLE_LINK_VALIDATION === "true" ? true : false,
   },
   article: {
     TITLE_MAX_LENGTH: Number(process.env.ARTICLE_TITLE_MAX_LENGTH) || 75,
