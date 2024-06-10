@@ -30,18 +30,12 @@ if (href) {
   // External Link
   external = true
   if (validate && !config.disable.LINK_VALIDATION) {
-    try {
-      const response = await fetchWithRetry(href)
-      if (response.ok) {
-        to = href
-      } else {
-        throw new ExternalLinkValidationError(
-          `External link validation returned a non-200 status code.\n${href} - (${response.status}) ${response.statusText}`
-        )
-      }
-    } catch (error) {
+    const response = await fetchWithRetry(href)
+    if (response.ok) {
+      to = href
+    } else {
       throw new ExternalLinkValidationError(
-        `External link validation failed for href: ${href}`
+        `External link validation returned a non-200 status code.\n${href} - (${response.status}) ${response.statusText}`
       )
     }
   } else {
