@@ -1,11 +1,15 @@
 ---
 import { getEntry } from "astro:content"
+import { fetchWithRetryBuilder } from "@src/utils/fetchWithRetry"
+import { config } from "@config/config"
 import {
   LinkError,
   ExternalLinkValidationError,
   InternalLinkValidationError,
 } from "./errors"
 import type { LinkProps } from "./types"
+
+const fetchWithRetry = fetchWithRetryBuilder()
 
 type Props = LinkProps
 
@@ -25,19 +29,13 @@ let external: boolean = false
 if (href) {
   // External Link
   external = true
-  if (validate) {
-    try {
-      const response = await fetch(href)
-      if (response.ok) {
-        to = href
-      } else {
-        throw new ExternalLinkValidationError(
-          `External link validation returned a non-200 status code.\n${href} - (${response.status}) ${response.statusText}`
-        )
-      }
-    } catch (error) {
+  if (validate && !config.disable.LINK_VALIDATION) {
+    const response = await fetchWithRetry(href)
+    if (response.ok) {
+      to = href
+    } else {
       throw new ExternalLinkValidationError(
-        `External link validation failed for href: ${href}`
+        `External link validation returned a non-200 status code.\n${href} - (${response.status}) ${response.statusText}`
       )
     }
   } else {
@@ -45,7 +43,7 @@ if (href) {
   }
 } else if (collection && slug) {
   // Internal collection link
-  if (validate) {
+  if (validate && !config.disable.LINK_VALIDATION) {
     const page = await getEntry(collection, slug)
     if (page) {
       to = `/${collection}/${slug}`
