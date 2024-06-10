@@ -1,0 +1,169 @@
+---
+import Link from "@components/astro/ui/link/Link.astro"
+import { Icon } from "astro-icon/components"
+
+const networks = [
+  {
+    name: "Polkadot",
+    url: "https://polkadot.network/",
+    type: "main",
+    description:
+      "Felis imperdiet proin fermentum leo. In arcu cursus euismod quis viverra nibh cras pulvinar mattis.",
+    icon: "networks/polkadot",
+  },
+  {
+    name: "Kusama",
+    url: "https://kusama.network/",
+    type: "canary",
+    description:
+      "Et egestas quis ipsum suspendisse ultrices gravida. Nisl vel pretium lectus quam id.",
+    icon: "networks/kusama",
+  },
+  {
+    name: "Westend",
+    type: "test",
+    url: "https://medium.com/polkadot-network/westend-introducing-a-new-testnet-for-polkadot-and-kusama-9e10aad75710",
+    description:
+      "Tortor posuere ac ut consequat. Mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum",
+    icon: "networks/westend",
+    faucet: "https://faucet.polkadot.io/westend",
+  },
+  {
+    name: "Paseo",
+    type: "test",
+    url: "https://github.com/paseo-network",
+    description:
+      "Consectetur lorem donec massa sapien faucibus et molestie ac feugiat. Praesent tristique magna sit amet.",
+    icon: "networks/paseo",
+    faucet: "https://faucet.polkadot.io/paseo",
+  },
+  {
+    name: "Rococo",
+    url: "https://substrate.io/developers/rococo-network/",
+    type: "test",
+    description:
+      "Sit amet massa vitae tortor condimentum. Justo laoreet sit amet cursus. Enim facilisis gravida neque convallis a cras semper auctor.",
+    icon: "networks/rococo",
+    faucet: "https://faucet.polkadot.io/",
+  },
+]
+---
+
+<section class="bg-white dark:bg-gray-900">
+  <div
+    class="items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid xl:grid-cols-3 lg:gap-8 xl:gap-24 sm:py-16 lg:px-6"
+  >
+    <div class="mb-8 lg:mb-0">
+      <h2
+        class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+      >
+        Polkadot Ecosystem Networks
+      </h2>
+      <p class="mb-4 text-gray-500 sm:text-xl dark:text-gray-400">
+        Sit amet nulla facilisi morbi tempus iaculis. Mauris vitae ultricies leo
+        integer malesuada nunc vel risus.
+      </p>
+      <Link
+        href="https://wiki.polkadot.network/docs/build-network-overview"
+        class:list="inline-flex items-center text-lg font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-700"
+      >
+        Learn more
+        <svg
+          class="ml-1 w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          ><path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"></path></svg
+        >
+      </Link>
+    </div>
+    <div
+      class="col-span-2 space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0"
+    >
+      {
+        networks.map((network) => (
+          <div>
+            <Link href={network.url} newTab={true}>
+              <Icon
+                name={network.icon}
+                class="mb-4 w-10 h-10 lg:h-12 lg:w-12 rounded-full"
+              />
+            </Link>
+            <h3 class="flex items-center mb-2 text-xl font-bold dark:text-white">
+              <Link href={network.url} newTab={true}>
+                {network.name}
+              </Link>
+              {network.type === "main" && (
+                <span class="ml-2 group h-5 w-5 hover:w-16 overflow-hidden inline-block transition-width duration-300 bg-green-100 text-green-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                  <span class="cursor-default opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Mainnet
+                  </span>
+                </span>
+              )}
+              {network.type === "canary" && (
+                <span class="ml-2 group h-5 w-5 hover:w-28 overflow-hidden inline-block transition-width duration-300 bg-amber-100 text-amber-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-amber-900 dark:text-amber-300">
+                  <span class="text-nowrap cursor-default opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Canary Network
+                  </span>
+                </span>
+              )}
+              {network.type === "test" && (
+                <span class="ml-2 group h-5 w-5 hover:w-24 overflow-hidden inline-block transition-width duration-300 bg-fuchsia-100 text-fuchsia-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-fuchsia-900 dark:text-fuchsia-300">
+                  <span class="text-nowrap cursor-default opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Test Network
+                  </span>
+                </span>
+              )}
+
+              {network.faucet && (
+                <Link
+                  href={network.faucet}
+                  newTab={true}
+                  class:list="ml-0 group h-5 w-7 hover:w-28 overflow-hidden inline-block transition-width duration-300 bg-slate-100 text-slate-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-slate-900 dark:text-slate-300"
+                >
+                  <svg
+                    class="h-3 w-3 inline"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <path
+                        fill="currentColor"
+                        d="M391.248,228.074c-31.089,0-177.01,0-198.889,0l-1.202-32.734H23.197L2.716,455.967h198l-2.731-74.452
+		c48.06-18.296,117.453-41.336,178.316-60.047c35.708-10.974,47.046,32.442,47.046,32.442l85.936-18.681
+		C483.124,215.686,424.866,228.074,391.248,228.074z"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M189.509,150.501c0,0,130.761-85.926,168.123-104.606c37.351-18.681,33.617-52.298-3.745-44.83
+		C316.536,8.543,72.229,66.052,72.229,66.052C48.576,71.856,31.31,92.181,29.39,116.458l-4.498,57.29h165.469L189.509,150.501z"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M432.344,477.134c0,19.263,15.603,34.866,34.866,34.866c19.253,0,34.865-15.603,34.865-34.866
+		c0-19.263-34.677-77.209-34.865-77.209C467.012,399.925,432.344,457.871,432.344,477.134z"
+                      />
+                    </g>
+                  </svg>
+
+                  <span class="ml-2 text-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Get Tokens
+                  </span>
+                </Link>
+              )}
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400">
+              {network.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

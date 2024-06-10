@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { isIndexPage } from "@src/utils/entry"
 import { getCollection, getEntry } from "astro:content"
 import { type InternalLink } from "@schemas/links"
 import { type ContentCollectionKey, type CollectionEntry } from "astro:content"
@@ -14,21 +15,14 @@ type Opts = {
   min?: number
 }
 
-const isIndexPage = (slug: string, id: string) => {
-  return (
-    slug.endsWith("index") ||
-    id.split("/")[id.split("/").length - 1].startsWith("index")
-  )
-}
-
 const getTopLevelPagesFromCollection = async (
   collection: ContentCollectionKey
 ) => {
   let otherPosts: RelatedPost[] = []
   const entries = await getCollection(collection)
-  _.each(entries, (entry) => {
+  _.each(entries, (entry): void => {
     if (entry) {
-      if (isIndexPage(entry.slug, entry.id)) {
+      if (isIndexPage(entry.id, entry.slug)) {
         otherPosts.push(entry)
       }
     }

@@ -1,0 +1,82 @@
+---
+import { Icon } from "astro-icon/components"
+import Link from "@components/astro/ui/link/Link.astro"
+
+const systemChains = [
+  {
+    name: "Asset Hub",
+    url: "https://parachains.info/details/statemint",
+    icon: "chains/asset-hub",
+    description:
+      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Semper morbi. Odio urna massa nunc massa.",
+  },
+  {
+    name: "Encointer",
+    url: "https://parachains.info/details/encointer/",
+    icon: "chains/encointer",
+    description:
+      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Semper morbi. Odio urna massa nunc massa.",
+  },
+  {
+    name: "Collectives",
+    url: "https://parachains.info/details/collectives/",
+    icon: "chains/collectives",
+    description:
+      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Semper morbi. Odio urna massa nunc massa.",
+  },
+  {
+    name: "Bridge Hub",
+    url: "https://parachains.info/details/bridgehub_polkadot/",
+    icon: "chains/bridge-hub",
+    description:
+      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Semper morbi. Odio urna massa nunc massa.",
+  },
+]
+---
+
+<div class="bg-gray-200 dark:bg-gray-700 py-24">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:text-center">
+      <h2
+        class="text-sm uppercase font-semibold leading-7 text-accent-500 dark:text-gray-400"
+      >
+        for the common good
+      </h2>
+      <p
+        class="font-display mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl"
+      >
+        System Chains
+      </p>
+      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-100">
+        Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
+        Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In
+        mi viverra elit nunc.
+      </p>
+    </div>
+    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+      <dl
+        class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16"
+      >
+        {
+          systemChains.map((chain) => (
+            <div class="relative pl-16">
+              <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-50">
+                <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center">
+                  <Link href={chain.url} newTab={true}>
+                    <Icon name={chain.icon} class:list="h-10 w-10" />
+                  </Link>
+                </div>
+                <Link href={chain.url} newTab={true}>
+                  {chain.name}
+                </Link>
+              </dt>
+              <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-400">
+                {chain.description}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+---
+import { type RemoteCodeProps } from "./schemas"
+import { Code } from "astro-expressive-code/components"
+
+import { CodeFetcher } from "./CodeFetcher"
+import { CodeSections } from "./CodeSections"
+import { CodeDiff } from "./CodeDiff"
+import { CodeComments } from "./CodeComments"
+
+type Props = RemoteCodeProps
+
+const {
+  url,
+  lang,
+  lines,
+  tags,
+  strict = false,
+  diff = { enabled: false },
+  locale,
+  title,
+  frame,
+  mark,
+  ins,
+  del,
+  wrap,
+  preserveIndent,
+  stripCommentMarkers,
+  commentMarkersRegEx = new RegExp(/(?:#|\/\/!?|\/?\*)\s/, "gm"),
+  ...rest
+} = Astro.props
+
+if (diff.enabled) {
+  const codeDiff = await new CodeDiff({
+    urlA: url,
+    urlB: diff.url,
+    level: diff.level,
+    lines: lines,
+    tags: tags,
+    strict: strict,
+    contentToDiff: diff.contentToDiff,
+  })
+
+  await codeDiff.alerts()
+}
+
+const codeFetcher = await new CodeFetcher({
+  url: url,
+})
+
+const content = await codeFetcher.fetch()
+
+const codeSections = await new CodeSections({
+  url,
+  content,
+  lines,
+  tags,
+  strict,
+})
+
+const sections = await codeSections.sections
+
+let code = sections.join("\n")
+
+if (stripCommentMarkers) {
+  const codeComments = new CodeComments({
+    content: code,
+    regex: commentMarkersRegEx,
+  })
+  code = codeComments.strip()
+}
+---
+
+<Code
+  code={code}
+  lang={lang}
+  locale={locale}
+  title={title}
+  frame={frame}
+  mark={mark}
+  ins={ins}
+  del={del}
+  wrap={wrap}
+  preserveIndent={preserveIndent}
+  {...rest}
+/>

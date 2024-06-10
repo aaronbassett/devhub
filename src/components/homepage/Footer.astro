@@ -1,0 +1,221 @@
+---
+import { config } from "@config/config"
+import _ from "lodash"
+
+import { Icon } from "astro-icon/components"
+import Link from "@components/astro/ui/link/Link.astro"
+
+let footerLinks: {
+  title: string
+  links: { text: string; href: string }[]
+}[] = [
+  {
+    title: "Ecosystem",
+    links: [
+      {
+        text: "Wallets",
+        href: "https://polkadot.network/ecosystem/wallets/",
+      },
+      {
+        text: "Telemetry",
+        href: "https://telemetry.polkadot.io/#map/",
+      },
+      {
+        text: "Dapps",
+        href: "https://polkadot.network/ecosystem/dapps/",
+      },
+      {
+        text: "Community",
+        href: "https://polkadot.network/ecosystem/community/",
+      },
+      {
+        text: "Jobs",
+        href: "https://polkadot.network/ecosystem/jobs/",
+      },
+      {
+        text: "Blockchain Academy",
+        href: "https://polkadot.network/development/blockchain-academy/",
+      },
+    ],
+  },
+  {
+    title: "Features",
+    links: [
+      {
+        text: "Technology",
+        href: "https://polkadot.network/features/technology/",
+      },
+      {
+        text: "Blockspace",
+        href: "https://polkadot.network/features/blockspace/",
+      },
+      {
+        text: "DOT token",
+        href: "https://polkadot.network/features/dot-token/",
+      },
+      {
+        text: "Staking",
+        href: "https://polkadot.network/features/staking/",
+      },
+      {
+        text: "Parachains",
+        href: "https://polkadot.network/features/parachains/",
+      },
+      {
+        text: "System parachains",
+        href: "https://polkadot.network/features/system-parachains/",
+      },
+      {
+        text: "XCM",
+        href: "https://polkadot.network/features/cross-chain-communication/",
+      },
+      {
+        text: "Auctions",
+        href: "https://polkadot.network/features/auctions/",
+      },
+      {
+        text: "OpenGov",
+        href: "https://polkadot.network/features/opengov/",
+      },
+    ],
+  },
+  {
+    title: "Funding",
+    links: [
+      {
+        text: "Grants",
+        href: "https://web3.foundation/grants/",
+      },
+      {
+        text: "Bounties",
+        href: "https://www.parity.io/bug-bounty/",
+      },
+      {
+        text: "Treasury",
+        href: "https://polkadot.network/ecosystem/treasury/",
+      },
+    ],
+  },
+]
+
+for (let i = 0; i < footerLinks.length; i++) {
+  footerLinks[i] = {
+    ...footerLinks[i],
+    links: _.sortBy(footerLinks[i].links, [
+      (l) => {
+        return l.text.length
+      },
+      "text",
+    ]).reverse(),
+  }
+}
+---
+
+<footer class="bg-gray-50 dark:bg-gray-800">
+  <div class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
+    <div class="grid grid-cols-2 gap-8 lg:grid-cols-6">
+      <div class="col-span-2">
+        <a
+          href="/"
+          class="flex items-center mb-2 text-2xl font-semibold text-gray-900 sm:mb-0 dark:text-white"
+        >
+          <svg
+            class="mr-3 h-8"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 1500 1500"
+            style="enable-background:new 0 0 1500 1500;"
+            xml:space="preserve"
+          >
+            <style type="text/css">
+              .pink {
+                fill: #e6007a;
+              }
+            </style>
+            <g>
+              <ellipse class="pink" cx="750" cy="192.8" rx="254.3" ry="147.9"
+              ></ellipse>
+              <ellipse class="pink" cx="750" cy="1307.2" rx="254.3" ry="147.9"
+              ></ellipse>
+              <ellipse
+                transform="matrix(0.5 -0.866 0.866 0.5 -274.5191 467.3369)"
+                class="pink"
+                cx="267.5"
+                cy="471.4"
+                rx="254.3"
+                ry="147.9"></ellipse>
+
+              <ellipse
+                transform="matrix(0.5 -0.866 0.866 0.5 -274.5189 1581.7021)"
+                class="pink"
+                cx="1232.5"
+                cy="1028.6"
+                rx="254.3"
+                ry="147.9"></ellipse>
+              <ellipse
+                transform="matrix(0.866 -0.5 0.5 0.866 -478.4619 271.5379)"
+                class="pink"
+                cx="267.5"
+                cy="1028.6"
+                rx="148"
+                ry="254.3"></ellipse>
+              <ellipse
+                transform="matrix(0.866 -0.5 0.5 0.866 -70.5762 679.4238)"
+                class="pink"
+                cx="1232.5"
+                cy="471.4"
+                rx="148"
+                ry="254.3"></ellipse>
+            </g>
+          </svg>
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >Developer Hub</span
+          >
+        </a>
+        <p class="my-4 font-light text-gray-500 dark:text-gray-400">
+          Pellentesque elit ullamcorper dignissim cras. Proin nibh nisl
+          condimentum id venenatis a. Amet venenatis urna cursus eget nunc
+          scelerisque.
+        </p>
+        <div class="mt-5 space-y-3">
+          <ul class="flex space-x-6">
+            {
+              config.socials[0].links.map((link) => (
+                <li>
+                  <Link
+                    href={link.url}
+                    class:list="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                    validate={false}
+                  >
+                    <Icon name={link.icon} class="w-5 h-5" />
+                    <span class="sr-only">{link.name}</span>
+                  </Link>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      {
+        footerLinks.map((column) => (
+          <div class="lg:mx-auto">
+            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              {column.title}
+            </h2>
+            <ul class="text-gray-500 dark:text-gray-400">
+              {column.links.map((link) => (
+                <li class="mb-4">
+                  <Link text={link.text} href={link.href} validate={false} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</footer>

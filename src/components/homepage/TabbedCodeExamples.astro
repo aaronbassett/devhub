@@ -1,0 +1,200 @@
+---
+import RemoteCode from "@components/user/code/RemoteCode.astro"
+import { generateUniqueElementId } from "@src/utils/uniqueIds"
+import { Icon } from "astro-icon/components"
+
+type codeExample = {
+  title: string
+  url: string
+  lang: string
+  filename?: string
+  icon: string
+  buttonId?: string
+  contentId?: string
+}
+
+let codeExamples: codeExample[] = [
+  {
+    title: "Hello World",
+    url: "https://raw.githubusercontent.com/use-ink/ink-examples/main/flipper/lib.rs#L3-L53",
+    lang: "rust",
+    filename: "flipper/lib.rs",
+    icon: "w3f/Smart Contract",
+  },
+  {
+    title: "ERC-20 Token",
+    url: "https://raw.githubusercontent.com/use-ink/ink-examples/main/erc20/lib.rs#L3-L219",
+    lang: "rust",
+    filename: "erc20/ib.rs",
+    icon: "w3f/Smart Contract",
+  },
+  {
+    title: "ERC-1155 Multi-token",
+    url: "https://raw.githubusercontent.com/use-ink/ink-examples/main/erc1155/lib.rs#L2-L618",
+    lang: "rust",
+    filename: "erc1155/lib.rs",
+    icon: "w3f/Smart Contract",
+  },
+  {
+    title: "Multi-sig wallet",
+    url: "https://raw.githubusercontent.com/use-ink/ink-examples/main/multisig/lib.rs#L56-L1112",
+    lang: "rust",
+    filename: "multisig/lib.rs",
+    icon: "w3f/Smart Contract",
+  },
+]
+
+codeExamples = codeExamples.map((example) => {
+  return {
+    ...example,
+    buttonId: generateUniqueElementId(`${example.title}-button`),
+    contentId: generateUniqueElementId(`${example.title}-content`),
+  }
+})
+---
+
+<section class="bg-gray-100 dark:bg-gray-800">
+  <div class="pt-12 px-4 mx-auto max-w-screen-xl lg:px-6">
+    <div class="mx-auto max-w-screen-sm text-center">
+      <h2
+        class="font-display mb-4 text-3xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white"
+      >
+        Write smart contracts with ink!
+      </h2>
+      <p class="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a
+          href="/smart-contracts/"
+          title=""
+          class="text-white bg-primary-500 justify-center hover:bg-primary-700 inline-flex items-center focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          role="button"
+        >
+          Learn more
+        </a>
+
+        <a
+          href="https://use.ink/examples/smart-contracts"
+          title=""
+          class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-purple-400 dark:text-purple-200 focus:outline-none rounded-lg hover:bg-purple-200 hover:text-purple-500 focus:z-10 focus:ring-4 focus:ring-gray-200"
+          role="button"
+        >
+          view all examples
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5 ml-2 -mr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="max-w-screen-xl px-4 py-4 mx-auto sm:py-16 lg:py-24 pt-10 sm:pt-12 lg:pt-16"
+  >
+    <div
+      class="grid grid-cols-1 space-y-8 lg:grid-cols-12 lg:gap-12 lg:space-y-0"
+    >
+      <ul
+        id="example-code-tabs"
+        class="lg:col-span-3 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+        data-tabs-active-classes="text-accent-600 hover:text-accent-600 dark:text-accent-500 dark:hover:text-accent-500 border-purple-600 dark:border-purple-500 hidden"
+        data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+      >
+        {
+          codeExamples.map((example) => (
+            <li role="presentation">
+              <button
+                id={example.buttonId}
+                data-tab-target-id={example.contentId}
+                role="tab"
+                aria-controls={example.contentId}
+                aria-selected="false"
+                class="inline-flex items-center px-4 py-3 bg-gray-200 rounded-lg dark:text-gray-400 w-full dark:bg-gray-600"
+                aria-current="page"
+              >
+                <Icon
+                  name={example.icon}
+                  class="w-4 h-4 me-2 stroke-gray-100 dark:stroke-gray-100"
+                />
+                {example.title}
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+      <div
+        class="lg:col-span-9 pt-0 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg"
+        id="code-examples-tabs-content"
+      >
+        {
+          codeExamples.map((example) => (
+            <div
+              class="hidden rounded-lg bg-gray-50 dark:bg-gray-800"
+              id={example.contentId}
+              aria-labelledby={example.buttonId}
+            >
+              <RemoteCode
+                url={example.url}
+                lang={example.lang}
+                title={example.filename}
+                class:list={["not-format tabbed-code"]}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  :global(.expressive-code.tabbed-code pre) {
+    overflow-y: scroll;
+    max-height: 400px;
+  }
+</style>
+
+<script>
+  import { Tabs } from "flowbite"
+  import type { TabsOptions, TabItem } from "flowbite"
+
+  const tabsElement: HTMLElement | null =
+    document.getElementById("example-code-tabs")
+
+  if (tabsElement) {
+    let tabElements: TabItem[] = []
+
+    tabsElement.querySelectorAll("button").forEach((button) => {
+      const triggerId = button.id
+      const triggerElement = document.getElementById(triggerId)
+      const targetId = button.dataset.tabTargetId ?? ""
+      const targetElement = document.getElementById(targetId)
+
+      if (triggerElement && targetElement) {
+        tabElements.push({
+          id: triggerId,
+          triggerEl: triggerElement,
+          targetEl: targetElement,
+        })
+      }
+    })
+
+    const options: TabsOptions = {
+      defaultTabId: tabElements[0]?.id,
+      activeClasses: "text-accent-500 dark:text-purple-300",
+      inactiveClasses: "text-gray-600 hover:text-gray-500 dark:text-gray-400",
+    }
+
+    new Tabs(tabsElement, tabElements, options)
+  }
+</script>

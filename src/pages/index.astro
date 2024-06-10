@@ -1,0 +1,48 @@
+---
+import { SEO } from "astro-seo"
+import Nav from "@components/homepage/Nav.astro"
+import Hero from "@components/homepage/Hero.astro"
+import TabbedCodeExamples from "@components/homepage/TabbedCodeExamples.astro"
+import Personas from "@components/homepage/Personas.astro"
+import Tools from "@components/homepage/Tools.astro"
+import LatestContent from "@components/homepage/LatestContent.astro"
+import Networks from "@components/homepage/Networks.astro"
+import SystemChains from "@components/homepage/SystemChains.astro"
+import Footer from "@components/homepage/Footer.astro"
+---
+
+<!doctype html>
+<html lang="en" class="hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <SEO
+      title="Polkadot Developer Hub - Get started with building for the Polkadot ecosystem."
+    />
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-800">
+    <Nav />
+
+    <Hero />
+
+    <Personas />
+
+    <TabbedCodeExamples />
+
+    <Tools />
+
+    <LatestContent />
+
+    <Networks />
+
+    <SystemChains />
+
+    <Footer />
+
+    <script
+      is:inline
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
+    ></script>
+  </body>
+</html>

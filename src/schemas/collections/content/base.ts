@@ -102,6 +102,13 @@ export const BaseContentCollectionSchema = z.object({
   lastUpdated: z.union([z.date(), z.boolean()]).optional(),
 
   /**
+   * Estimated time to read this piece of content
+   *
+   * If not provided it will be calculated based on the number of words in the content
+   */
+  readingTime: z.string().optional(),
+
+  /**
    * The previous navigation link configuration.
    * Overrides the default previous link text and/or URL.
    * Set to false to disable previous link for page
