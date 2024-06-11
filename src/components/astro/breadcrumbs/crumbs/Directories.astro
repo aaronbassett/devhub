@@ -1,13 +1,6 @@
 ---
 import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
-import { type ContentCollectionKey } from "astro:content"
-import { type BaseContentCollection } from "@schemas/collections/content/base"
-import { getCollection } from "astro:content"
-import Link from "@components/astro/ui/link/Link.astro"
-import { NavTree } from "@components/astro/sidebar/utils/nav"
-import type { Tree, Branch, Leaf } from "@components/astro/sidebar/utils/nav"
 import Directory from "./Directory.astro"
-import clsx from "clsx"
 import _ from "lodash"
 
 interface Props {

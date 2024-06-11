@@ -1,7 +1,5 @@
 ---
 import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
-import { type ContentCollectionKey } from "astro:content"
-import { ContentCollections } from "@config/collections"
 
 import * as Crumbs from "./crumbs"
 
@@ -10,7 +8,7 @@ interface Props {
   paths: Path<DocsEntry>[]
 }
 
-const { entry, paths } = Astro.props
+const { entry } = Astro.props
 const { collection } = entry
 ---
 
