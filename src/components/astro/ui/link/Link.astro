@@ -29,7 +29,12 @@ let external: boolean = false
 if (href) {
   // External Link
   external = true
-  if (validate && !config.disable.LINK_VALIDATION) {
+  if (
+    !href.startsWith("/") &&
+    !href.startsWith("#") &&
+    validate &&
+    !config.disable.LINK_VALIDATION
+  ) {
     const response = await fetchWithRetry(href)
     if (response.ok) {
       to = href
