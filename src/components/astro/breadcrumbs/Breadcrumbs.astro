@@ -1,0 +1,32 @@
+---
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+
+import * as Crumbs from "./crumbs"
+
+interface Props {
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const { entry } = Astro.props
+const { collection } = entry
+---
+
+<div
+  class="fixed left-0 right-0 top-[3.55rem] z-30 w-auto mr-0 lg:mr-16 md:ml-64"
+>
+  <div
+    class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
+  >
+    <nav class="justify-between text-gray-700 sm:flex" aria-label="Breadcrumb">
+      <ol
+        class="inline-flex items-center mb-3 space-x-1 md:space-x-2 rtl:space-x-reverse sm:mb-0"
+      >
+        <Crumbs.Home />
+        <Crumbs.Collection collection={collection} />
+        <Crumbs.Directories {...Astro.props} />
+        <Crumbs.Page {...Astro.props} />
+      </ol>
+    </nav>
+  </div>
+</div>

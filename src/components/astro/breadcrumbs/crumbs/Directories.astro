@@ -1,0 +1,31 @@
+---
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+import Directory from "./Directory.astro"
+import _ from "lodash"
+
+interface Props {
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const { entry, paths } = Astro.props
+
+const segments = entry.id.split("/")
+segments.pop() // remove filename
+const directories: string[][] = []
+
+if (segments.length >= 2) {
+  // anything smaller is a content collection index page, no directories
+  for (let i = 1; i <= segments.length; i++) {
+    directories.push(segments.slice(0, i))
+  }
+}
+
+const f = directories.length
+---
+
+{
+  directories.map((directory) => (
+    <Directory entry={entry} directory={directory} paths={paths} />
+  ))
+}

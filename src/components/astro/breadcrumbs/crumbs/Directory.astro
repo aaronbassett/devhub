@@ -1,0 +1,165 @@
+---
+import type { Path, DocsEntry } from "@src/utils/routing/static-paths"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import {
+  labelForEntry,
+  isIndexPage,
+  getIconNameForEntry,
+} from "@src/utils/entry"
+import { toApTitleCase } from "@src/utils/typography/case-conversion"
+import { generateUniqueId } from "@src/utils/uniqueIds"
+import Link from "@components/astro/ui/link/Link.astro"
+import { Icon } from "astro-icon/components"
+
+interface Props {
+  directory: string[]
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const { directory, entry, paths } = Astro.props
+
+const entries = paths
+  .filter((path) => {
+    const id = path.props.entry.id
+    const data = path.props.entry.data as BaseContentCollection
+    // Only directory indexes
+    if (!isIndexPage(id, path.params.slug ?? "")) return false
+
+    // Index page must be published
+    if (data.status !== "published") return false
+
+    const segments = id.split("/")
+    segments.pop() // remove filename
+
+    // Have to be at same "height"
+    if (segments.length !== directory.length) return false
+
+    // Must be in the same parent directory
+    const parentDir = directory.slice(0, directory.length - 1).join("/")
+    if (!id.startsWith(parentDir)) return false
+
+    return true
+  })
+  .sort((a, b) => {
+    // We'll attempt to use the sidebar.group.order from the frontmatter if it exists
+    // One more reason why it's always best to set the group order on the index page
+    const aData = a.props.entry.data as BaseContentCollection
+    const bData = b.props.entry.data as BaseContentCollection
+
+    return (
+      (aData.sidebar?.group?.order ?? 9000) -
+      (bData.sidebar?.group?.order ?? 9000)
+    )
+  })
+
+const getCurrentDirectoryIndex = (
+  directory: string[]
+): Path<DocsEntry> | undefined => {
+  return paths.find((path) => {
+    const id = path.props.entry.id
+    return id.startsWith(`${directory.join("/")}/index`)
+  })
+}
+
+const hasEntries = (
+  currentDirectoryIndex: Path<DocsEntry> | undefined,
+  entries: Path<DocsEntry>[]
+): boolean => {
+  // Check that entries > 0 and that if there is only a single entry that it is not the current index page
+  return currentDirectoryIndex && entries.length === 1
+    ? currentDirectoryIndex.props.entry.id !== entries[0].props.entry.id
+    : entries.length > 0
+}
+
+const dropdownId = generateUniqueId(directory.join(":"))
+const currentDirectoryIndex = getCurrentDirectoryIndex(directory)
+const directoryTitle = directory.pop() ?? ""
+---
+
+<li class="hidden xl:block text-nowrap">
+  <div class="flex items-center">
+    <svg
+      class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 6 10"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m1 9 4-4-4-4"></path>
+    </svg>
+    {
+      hasEntries(currentDirectoryIndex, entries) ? (
+        <>
+          <button
+            data-dropdown-toggle={`breadcrumb-dropdown-${dropdownId}`}
+            class="flex items-center ms-1 text-sm font-medium text-gray-700 hover:text-accent-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+          >
+            {currentDirectoryIndex &&
+              getIconNameForEntry(currentDirectoryIndex.props.entry) && (
+                <Icon
+                  name={getIconNameForEntry(currentDirectoryIndex.props.entry)}
+                  class="w-4 h-4 mr-2 inline-block"
+                />
+              )}
+            {toApTitleCase(directoryTitle.replaceAll("-", " "))}
+          </button>
+
+          <div
+            id={`breadcrumb-dropdown-${dropdownId}`}
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700"
+          >
+            <ul class="text-sm text-gray-700 dark:text-gray-200">
+              {entries.map((dir, index) => (
+                <li>
+                  <Link
+                    collection={dir.props.collection}
+                    slug={dir.props.slug}
+                    class:list={[
+                      "flex items-center block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white",
+                      {
+                        "text-accent-200 hover:text-accent-50":
+                          currentDirectoryIndex &&
+                          currentDirectoryIndex.params.slug === dir.props.slug,
+                        "rounded-t-lg": index === 0,
+                        "rounded-b-lg": index === entries.length - 1,
+                      },
+                    ]}
+                  >
+                    {getIconNameForEntry(dir.props.entry) && (
+                      <Icon
+                        name={getIconNameForEntry(dir.props.entry)}
+                        class="w-4 h-4 mr-2 inline-block"
+                      />
+                    )}
+                    {toApTitleCase(labelForEntry(dir.props.entry))}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      ) : (
+        <>
+          {currentDirectoryIndex ? (
+            <Link
+              collection={currentDirectoryIndex.props.collection}
+              slug={currentDirectoryIndex.params.slug}
+              class:list="ms-1 text-sm font-medium text-gray-700 hover:text-accent-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+              text={toApTitleCase(directoryTitle.replaceAll("-", " "))}
+            />
+          ) : (
+            <span class="cursor-default ms-1 text-sm font-medium text-gray-700 md:ms-2 dark:text-gray-400">
+              {toApTitleCase(directoryTitle.replaceAll("-", " "))}
+            </span>
+          )}
+        </>
+      )
+    }
+  </div>
+</li>

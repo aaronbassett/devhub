@@ -1,0 +1,123 @@
+---
+import type { DocsEntry, Path } from "@src/utils/routing/static-paths"
+import {
+  labelForEntry,
+  isIndexPage,
+  getIconNameForEntry,
+} from "@src/utils/entry"
+import { toApTitleCase } from "@src/utils/typography/case-conversion"
+import { generateUniqueId } from "@src/utils/uniqueIds"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import Link from "@components/astro/ui/link/Link.astro"
+import { Icon } from "astro-icon/components"
+
+interface Props {
+  entry: DocsEntry
+  paths: Path<DocsEntry>[]
+}
+
+const { entry, paths } = Astro.props
+const segments = entry.id.split("/")
+const pageName = segments.pop()
+
+const otherPages = paths
+  .filter((path) => {
+    const id = path.props.entry.id
+    // No index pages
+    if (isIndexPage(id, path.params.slug ?? "")) return false
+
+    const pathSegments = id.split("/")
+    pathSegments.pop()
+
+    // Entry/page must be in the same directory
+    if (pathSegments.join("/") !== segments.join("/")) return false
+
+    return true
+  })
+  .sort((a, b) => {
+    const aData = a.props.entry.data as BaseContentCollection
+    const bData = b.props.entry.data as BaseContentCollection
+
+    return (aData.sidebar?.order ?? 9000) - (bData.sidebar?.order ?? 9000)
+  })
+
+const dropdownId = generateUniqueId(pageName ?? entry.id)
+---
+
+{
+  pageName && !pageName.startsWith("index") && (
+    <li aria-current="page" class="text-nowrap">
+      <div class="flex items-center space-x-2">
+        <svg
+          class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 9 4-4-4-4"
+          />
+        </svg>
+
+        {otherPages.length > 0 ? (
+          <>
+            <button
+              data-dropdown-toggle={`breadcrumb-dropdown-${dropdownId}`}
+              class="flex items-center ms-1 text-sm font-medium text-gray-700 hover:text-accent-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+            >
+              {getIconNameForEntry(entry) && (
+                <Icon
+                  name={getIconNameForEntry(entry)}
+                  class="w-4 h-4 mr-2 inline-block"
+                />
+              )}
+              {toApTitleCase(labelForEntry(entry))}
+            </button>
+
+            <div
+              id={`breadcrumb-dropdown-${dropdownId}`}
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700"
+            >
+              <ul class="text-sm text-gray-700 dark:text-gray-200">
+                {otherPages.map((page, index) => (
+                  <li>
+                    <Link
+                      collection={page.props.collection}
+                      slug={page.props.slug}
+                      class:list={[
+                        "flex items-center block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white",
+                        {
+                          "text-accent-200 hover:text-accent-50":
+                            page.props.entry.id === entry.id,
+                          "rounded-t-lg": index === 0,
+                          "rounded-b-lg": index === otherPages.length - 1,
+                        },
+                      ]}
+                    >
+                      {getIconNameForEntry(page.props.entry) && (
+                        <Icon
+                          name={getIconNameForEntry(page.props.entry)}
+                          class="w-4 h-4 mr-2 inline-block"
+                        />
+                      )}
+                      {toApTitleCase(labelForEntry(page.props.entry))}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        ) : (
+          <span class="cursor-default ms-1 text-sm font-medium text-gray-700 md:ms-2 dark:text-gray-400">
+            {labelForEntry(entry)}
+          </span>
+        )}
+      </div>
+    </li>
+  )
+}

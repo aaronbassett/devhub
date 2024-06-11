@@ -29,7 +29,12 @@ let external: boolean = false
 if (href) {
   // External Link
   external = true
-  if (validate && !config.disable.LINK_VALIDATION) {
+  if (
+    !href.startsWith("/") &&
+    !href.startsWith("#") &&
+    validate &&
+    !config.disable.LINK_VALIDATION
+  ) {
     const response = await fetchWithRetry(href)
     if (response.ok) {
       to = href
@@ -46,14 +51,14 @@ if (href) {
   if (validate && !config.disable.LINK_VALIDATION) {
     const page = await getEntry(collection, slug)
     if (page) {
-      to = `/${collection}/${slug}`
+      to = slug === "index" ? `/${collection}/` : `/${collection}/${slug}`
     } else {
       throw new InternalLinkValidationError(
         `Internal link validation could not find page in collection "${collection}" with slug "${slug}".`
       )
     }
   } else {
-    to = `/${collection}/${slug}`
+    to = slug === "index" ? `/${collection}/` : `/${collection}/${slug}`
   }
 } else {
   // Can't have a Link where href, and collection and slug are all undefined

@@ -1,7 +1,7 @@
 ---
 import Navbar from "@components/astro/Navbar.astro"
 import Sidebar from "@components/astro/sidebar/Sidebar.astro"
-import Breadcrumbs from "@components/astro/Breadcrumbs.astro"
+import Breadcrumbs from "@components/astro/breadcrumbs/Breadcrumbs.astro"
 import Aside from "@components/astro/aside/Aside.astro"
 import RelatedRepos from "@components/astro/article/related/RelatedRepos.astro"
 import ArticleHeader from "@components/astro/article/ArticleHeader.astro"
@@ -69,7 +69,10 @@ const { headings } = await entry.render()
           },
         ]),
         meta: populateExtendMeta(entry, [
-          { name: "viewport", content: "width=device-width" },
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0",
+          },
         ]),
       }}
     />
@@ -78,7 +81,7 @@ const { headings } = await entry.render()
     <div class="bg-gray-50 antialiased dark:bg-gray-900">
       <Navbar />
       <Sidebar {...Astro.props} />
-      <Breadcrumbs />
+      <Breadcrumbs {...Astro.props} />
 
       <main class="bg-gray-50 pt-20 md:ml-64 lg:mr-64 dark:bg-gray-900">
         <div class="p-5">

@@ -1,0 +1,104 @@
+---
+import { type ContentCollectionKey } from "astro:content"
+import { ContentCollections } from "@config/collections"
+import Link from "@components/astro/ui/link/Link.astro"
+
+interface Props {
+  collection: ContentCollectionKey
+}
+
+const { collection } = Astro.props
+
+const contentCollection = ContentCollections[collection] ?? false
+---
+
+{
+  contentCollection && (
+    <li class="hidden md:block text-nowrap">
+      <div class="flex items-center text-gray-700">
+        <svg
+          class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 9 4-4-4-4"
+          />
+        </svg>
+
+        {Object.values(ContentCollections).length > 0 ? (
+          <>
+            <button
+              data-dropdown-toggle="breadcrumb-dropdown-collections"
+              class="ms-1 text-sm font-medium text-gray-700 hover:text-accent-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+            >
+              {contentCollection.icon && (
+                <span class="w-3 h-3 mr-2 inline-block">
+                  <Fragment set:html={contentCollection.icon} />
+                </span>
+              )}
+              {contentCollection.label}
+            </button>
+
+            <div
+              id="breadcrumb-dropdown-collections"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-auto dark:bg-gray-700"
+            >
+              <ul class="text-sm text-gray-700 dark:text-gray-200">
+                {Object.values(ContentCollections).map(
+                  (contentCollection, index) => (
+                    <li>
+                      <Link
+                        collection={
+                          contentCollection.name as ContentCollectionKey
+                        }
+                        slug="index"
+                        class:list={[
+                          "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white",
+                          {
+                            "text-accent-200 hover:text-accent-50":
+                              contentCollection.name === collection,
+                            "rounded-t-lg": index === 0,
+                            "rounded-b-lg":
+                              index ===
+                              Object.values(ContentCollections).length - 1,
+                          },
+                        ]}
+                      >
+                        {contentCollection.icon && (
+                          <span class="w-3 h-3 mr-2 inline-block">
+                            <Fragment set:html={contentCollection.icon} />
+                          </span>
+                        )}
+                        {contentCollection.label}
+                      </Link>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          </>
+        ) : (
+          <Link
+            collection={collection}
+            slug="index"
+            class:list="ms-1 text-sm font-medium text-gray-700 hover:text-accent-600 md:ms-2 dark:text-gray-400"
+          >
+            {contentCollection.icon && (
+              <span class="w-3 h-3 mr-2 inline-block">
+                <Fragment set:html={contentCollection.icon} />
+              </span>
+            )}
+            {contentCollection.label}
+          </Link>
+        )}
+      </div>
+    </li>
+  )
+}

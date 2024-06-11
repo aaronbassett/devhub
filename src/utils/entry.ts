@@ -1,6 +1,7 @@
 import humanizeDuration from "humanize-duration"
 import parseDurationString from "parse-duration"
 import { readingTime } from "reading-time-estimator"
+import { toApTitleCase } from "@src/utils/typography/case-conversion"
 import { type DocsEntry } from "@src/utils/routing/static-paths"
 import { type BaseContentCollection } from "@schemas/collections/content/base"
 
@@ -33,4 +34,20 @@ export const totalReadingTime = (entries: DocsEntry[]) => {
     round: true,
     largest: 3,
   })
+}
+
+export const labelForEntry = (entry: DocsEntry): string => {
+  const data = entry.data as BaseContentCollection
+  if (data.sidebar?.label) {
+    return toApTitleCase(data.sidebar.label)
+  } else if (data.title) {
+    return toApTitleCase(data.title)
+  } else {
+    const filename = entry.id.split("/").pop()?.split(".")[0] as string
+    return toApTitleCase(filename)
+  }
+}
+
+export const getIconNameForEntry = (entry: DocsEntry): string | undefined => {
+  return (entry.data as BaseContentCollection).icon
 }

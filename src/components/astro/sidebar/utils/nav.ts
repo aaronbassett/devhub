@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { BaseContentCollectionSchema } from "@schemas/collections/content/base"
+import { labelForEntry } from "@src/utils/entry"
 import { SidebarEntrySchema } from "@schemas/sidebar"
 import { toSentenceCase } from "@src/utils/typography/case-conversion"
 import type { DocsEntry, Path } from "@src/utils/routing/static-paths"
@@ -17,7 +18,8 @@ export type Leaf = Partial<SidebarConfig> & {
 }
 
 export type Branch = {
-  id: string
+  segment: string
+  segmentId: string
   label: string
   children: (Branch | Leaf)[]
   order: number
@@ -72,9 +74,9 @@ export class NavTree {
             currentLevel.order
           )
         } else {
-          const id = `${part}-${index}`
+          const segmentId = `${part}-${index}`
           let existingLevel = _.find(currentLevel.children, {
-            id: id,
+            segmentId: segmentId,
           }) as Branch
           if (!existingLevel) {
             existingLevel = this.defaultBranch(part, index)
@@ -88,10 +90,11 @@ export class NavTree {
     return this.setBranchesWithIndexes(this.setOpenGroups(this.sortTree(root)))
   }
 
-  private defaultBranch(id: string, index: number = 0): Branch {
+  private defaultBranch(segment: string, index: number = 0): Branch {
     return {
-      id: `${id}-${index}`,
-      label: toSentenceCase(id),
+      segment,
+      segmentId: `${segment}-${index}`,
+      label: toSentenceCase(segment),
       children: [],
       order: 9000,
       hasIndex: false,
@@ -112,15 +115,7 @@ export class NavTree {
   }
 
   private labelForEntry(entry: DocsEntry): string {
-    const data = entry.data as BaseData
-    if (data.sidebar?.label) {
-      return toSentenceCase(data.sidebar.label)
-    } else if (data.title) {
-      return toSentenceCase(data.title)
-    } else {
-      const filename = entry.id.split("/").pop()?.split(".")[0] as string
-      return toSentenceCase(filename)
-    }
+    return labelForEntry(entry)
   }
 
   private entryOrder(entry: DocsEntry): number {
