@@ -34,8 +34,8 @@ const { collection, items, nested } = Astro.props
             <button
       type="button"
       class="flex items-center p-1 px-2 w-full text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-      data-collapse-toggle={`dropdown-${item.id}`}
-      aria-controls={`dropdown-${item.id}`}
+      data-collapse-toggle={`dropdown-${item.segmentId}`}
+      aria-controls={`dropdown-${item.segmentId}`}
     >
       <span class="flex-1 text-left whitespace-nowrap">{item.label}</span>
       <svg
@@ -51,7 +51,7 @@ const { collection, items, nested } = Astro.props
           clip-rule="evenodd"></path>
       </svg>
     </button>
-    <ul id={`dropdown-${item.id}`} class={clsx("p-0 pl-2 space-y-0", {"hidden":!item.isOpen})}>
+    <ul id={`dropdown-${item.segmentId}`} class={clsx("p-0 pl-2 space-y-0", {"hidden":!item.isOpen})}>
                     <Astro.self collection={collection} items={item.children} nested={true} />
                 </ul>
             )}

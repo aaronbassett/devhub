@@ -26,6 +26,12 @@ export const BaseContentCollectionSchema = z.object({
   description: z.string().max(config.article.DESCRIPTION_MAX_LENGTH),
 
   /**
+   * An optional Icon to be used for the current page
+   * Uses Astro Icon component - https://www.astroicon.dev/
+   */
+  icon: z.string().optional(),
+
+  /**
      *  The "canonical" or "preferred" url of a web page.
      If undefined, Astro.url.href will be used as the default value.
      */
