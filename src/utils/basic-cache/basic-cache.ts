@@ -39,7 +39,7 @@ export class BasicCache<CE extends CacheEntry> implements CacheInterface<CE> {
         ? cacheEntry
         : undefined
     } catch (error) {
-      console.warn(error)
+      console.warn(`Cache miss: ${this.getDataPath(id)}`)
       return undefined
     }
   }
