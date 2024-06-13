@@ -88,15 +88,12 @@ const { headings } = await entry.render()
           <ArticleHeader data={data} />
 
           <div
-            class="relative z-20 mx-auto flex max-w-screen-xl justify-between rounded bg-white px-4 pt-8 dark:bg-gray-800"
+            class="relative mx-2 md:mx-4 lg:mx-8 z-20 flex max-w-screen-lg justify-between rounded bg-white px-4 pt-8 dark:bg-gray-800"
           >
-            <article
-              id="main-article-wrapper"
-              class="w-full max-w-none xl:w-[828px] scroll-mt-20"
-            >
+            <article id="main-article-wrapper" class="w-full scroll-mt-20">
               <div class="mb-4 pb-3 lg:mb-8">
                 <div
-                  class="format format-sm format-blue sm:format-base lg:format-lg dark:format-invert dark:text-gray-100"
+                  class="max-w-screen-lg format format-sm format-blue sm:format-base lg:format-lg dark:format-invert dark:text-gray-100"
                 >
                   <article>
                     <slot />
