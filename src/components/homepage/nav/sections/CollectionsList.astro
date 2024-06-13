@@ -1,0 +1,12 @@
+---
+import { ContentCollections } from "@config/collections"
+import CollectionItem from "./CollectionItem.astro"
+---
+
+<ul class="flex flex-col mt-4 font-medium md:flex-row md:mt-0 md:space-x-8">
+  {
+    Object.values(ContentCollections).map((collection) => (
+      <CollectionItem collection={collection} />
+    ))
+  }
+</ul>

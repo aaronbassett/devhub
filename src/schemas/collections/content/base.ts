@@ -32,6 +32,11 @@ export const BaseContentCollectionSchema = z.object({
   icon: z.string().optional(),
 
   /**
+   * Mark entry as a favorite
+   */
+  favorite: z.boolean().default(false).optional(),
+
+  /**
      *  The "canonical" or "preferred" url of a web page.
      If undefined, Astro.url.href will be used as the default value.
      */

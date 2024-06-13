@@ -1,0 +1,40 @@
+---
+import { type ContentCollection } from "@config/collections"
+import { type ContentCollectionKey } from "astro:content"
+import { generateUniqueId } from "@src/utils/uniqueIds"
+import Link from "@components/astro/ui/link/Link.astro"
+import CollectionDropdown from "./CollectionDropdown.astro"
+
+interface Props {
+  collection: ContentCollection
+}
+
+const { collection } = Astro.props
+const uid = generateUniqueId(collection.name)
+---
+
+<li>
+  <div
+    class="flex items-center justify-between w-full py-2 px-3 font-medium text-gray-900 border-b border-gray-100 md:w-auto hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-accent-600 md:p-0 dark:text-white md:dark:hover:text-accent-500 dark:hover:bg-gray-700 dark:hover:text-accent-500 md:dark:hover:bg-transparent dark:border-gray-700"
+  >
+    <button
+      id={`megamenu-${uid}-button`}
+      data-dropdown-toggle={`megamenu-${uid}-dropdown`}
+      data-dropdown-delay="200"
+      data-dropdown-trigger="hover"
+    >
+      <Link
+        collection={collection.name as ContentCollectionKey}
+        slug="index"
+        class:list="text-left"
+      >
+        <span class="block">{collection.label}</span>
+        <span class="block text-xs italic font-extralight opacity-60"
+          >{collection.tagline}</span
+        >
+      </Link>
+    </button>
+  </div>
+
+  <CollectionDropdown uid={uid} {...Astro.props} />
+</li>
