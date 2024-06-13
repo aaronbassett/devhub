@@ -1,0 +1,22 @@
+---
+import ThemeToggle from "@components/astro/ui/ThemeToggle.astro"
+import * as NavSections from "./sections"
+---
+
+<nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
+  <div
+    class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4"
+  >
+    <NavSections.Logo />
+    <NavSections.ToggleNav />
+
+    <div
+      id="mega-menu"
+      class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+    >
+      <NavSections.CollectionsList />
+
+      <span class="block mt-4 md:mt-0 md:ml-4"><ThemeToggle /></span>
+    </div>
+  </div>
+</nav>

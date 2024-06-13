@@ -1,0 +1,25 @@
+---
+import { type ContentCollection } from "@config/collections"
+import { type ContentCollectionKey } from "astro:content"
+import { type ContentCollectionMeta } from "@schemas/collections/data/content-collections-meta"
+import Heading from "@components/user/Heading.astro"
+import Link from "@components/astro/ui/link/Link.astro"
+
+interface Props {
+  collection: ContentCollection
+  meta: ContentCollectionMeta
+}
+
+const { collection, meta } = Astro.props
+---
+
+<div class="p-3">
+  <Link collection={collection.name as ContentCollectionKey} slug="index">
+    <Heading As="h1" className="text-2xl font-extrabold">
+      {meta.title}
+    </Heading>
+    <Heading As="h2" className="text-sm font-light opacity-60">
+      {meta.description}
+    </Heading>
+  </Link>
+</div>

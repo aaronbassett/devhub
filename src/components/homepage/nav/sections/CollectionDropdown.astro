@@ -1,0 +1,36 @@
+---
+import { type ContentCollection } from "@config/collections"
+import { getEntry, type DataCollectionKey } from "astro:content"
+import { type ContentCollectionMeta } from "@schemas/collections/data/content-collections-meta"
+import * as Dropdown from "./dropdown"
+
+interface Props {
+  collection: ContentCollection
+  uid: string
+}
+
+const { collection, uid } = Astro.props
+
+const contentCollectionMeta = await getEntry(
+  "content-collections-meta",
+  collection.name as DataCollectionKey
+)
+
+const meta = contentCollectionMeta?.data as ContentCollectionMeta
+---
+
+<div class="hidden md:block">
+  <div
+    id={`megamenu-${uid}-dropdown`}
+    class="grid hidden absolute max-w-[70vw] right-10 z-10 w-full bg-white border border-gray-100 shadow-md dark:border-gray-700 lg:rounded-lg lg:w-auto lg:grid-cols-12 dark:bg-gray-700"
+  >
+    <div
+      class="py-4 px-4 md:px-6 text-gray-900 bg-white lg:rounded-lg dark:text-white lg:col-span-9 dark:bg-gray-800"
+    >
+      <Dropdown.Header collection={collection} meta={meta} />
+      <Dropdown.Favorites collection={collection} />
+      <Dropdown.RelatedLinks meta={meta} />
+    </div>
+    <Dropdown.AdditionalResources meta={meta} />
+  </div>
+</div>

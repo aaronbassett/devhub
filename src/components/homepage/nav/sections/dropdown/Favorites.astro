@@ -1,0 +1,116 @@
+---
+import { getCollection, type ContentCollectionKey } from "astro:content"
+import { type BaseContentCollection } from "@schemas/collections/content/base"
+import { type ContentCollection } from "@config/collections"
+import { getLastUpdatedForEntry } from "@src/utils/entry"
+import Divider from "@components/user/Divider.astro"
+import Link from "@components/astro/ui/link/Link.astro"
+import { Icon } from "astro-icon/components"
+import _ from "lodash"
+
+interface Props {
+  collection: ContentCollection
+}
+
+type Favorite = {
+  collection: ContentCollectionKey
+  slug: string
+  title: string
+  description: string
+  icon: string | false
+}
+
+const { collection } = Astro.props
+
+let favoriteEntries = await getCollection(
+  collection.name as ContentCollectionKey,
+  (entry) => {
+    const data = entry.data as BaseContentCollection
+    return data.status === "published" && data.favorite === true
+  }
+)
+
+favoriteEntries = favoriteEntries.slice(0, 6)
+
+if (favoriteEntries.length < 6) {
+  const favoriteEntriesIds = favoriteEntries.map((entry) => entry.id)
+  let allEntries = await getCollection(
+    collection.name as ContentCollectionKey,
+    (entry) => {
+      const data = entry.data as BaseContentCollection
+      return (
+        data.status === "published" && !favoriteEntriesIds.includes(entry.id)
+      )
+    }
+  )
+
+  allEntries = _.sampleSize(allEntries, 6 - favoriteEntries.length)
+  favoriteEntries = _.union(favoriteEntries, allEntries)
+}
+
+favoriteEntries = favoriteEntries.sort((a, b) => {
+  const aLastUpdated = getLastUpdatedForEntry(a) || new Date()
+  const bLastUpdated = getLastUpdatedForEntry(b) || new Date()
+
+  return aLastUpdated.getMilliseconds() - bLastUpdated.getMilliseconds()
+})
+
+const favorites: Favorite[] = favoriteEntries.map((entry) => {
+  const data = entry.data as BaseContentCollection
+  return {
+    collection: entry.collection,
+    slug: entry.slug,
+    title: data.title,
+    description: data.description,
+    icon: data.icon ?? false,
+  }
+})
+---
+
+<>
+  {
+    favorites.length > 0 && (
+      <>
+        <Divider type="icon" icon="mdi:star-shooting" />
+        <div class="grid mx-auto mt-3 max-w-screen-xl text-gray-900 dark:text-white md:grid-cols-2 lg:grid-cols-3">
+          {_.chunk(favorites, 2).map((favoriteColum, index) => (
+            <ul class:list={[{ "hidden lg:block": index === 2 }]}>
+              {favoriteColum.map((favorite) => (
+                <li>
+                  <Link
+                    collection={favorite.collection}
+                    slug={favorite.slug}
+                    class:list="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
+                    {favorite.icon ? (
+                      <Icon name={favorite.icon} class="mr-2 w-6 h-6" />
+                    ) : (
+                      <svg
+                        class="mr-2 w-6 h-6"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    )}
+                    <div>
+                      <div class="font-semibold">{favorite.title}</div>
+                      <span class="text-sm font-light text-gray-500 dark:text-gray-400">
+                        {favorite.description}
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </>
+    )
+  }
+</>

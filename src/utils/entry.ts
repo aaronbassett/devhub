@@ -1,9 +1,11 @@
 import humanizeDuration from "humanize-duration"
 import parseDurationString from "parse-duration"
+import { getNewestCommitDate } from "@src/utils/git"
 import { readingTime } from "reading-time-estimator"
 import { toApTitleCase } from "@src/utils/typography/case-conversion"
 import { type DocsEntry } from "@src/utils/routing/static-paths"
 import { type BaseContentCollection } from "@schemas/collections/content/base"
+import { fileURLToPath, pathToFileURL } from "node:url"
 
 export const isIndexPage = (id: string, slug: string) => {
   return (
@@ -50,4 +52,23 @@ export const labelForEntry = (entry: DocsEntry): string => {
 
 export const getIconNameForEntry = (entry: DocsEntry): string | undefined => {
   return (entry.data as BaseContentCollection).icon
+}
+
+export const getLastUpdatedForEntry = (entry: DocsEntry): Date | false => {
+  const data = entry.data as BaseContentCollection
+
+  if (data.lastUpdated instanceof Date || data.lastUpdated === false) {
+    return data.lastUpdated
+  } else {
+    const currentFilePath = fileURLToPath(
+      pathToFileURL(`src/content/${entry.collection}/${entry.id}`)
+    )
+    try {
+      const lastUpdated = getNewestCommitDate(currentFilePath)
+      return lastUpdated
+    } catch {
+      // If the git command fails set lastUpdated to false
+      return false
+    }
+  }
 }

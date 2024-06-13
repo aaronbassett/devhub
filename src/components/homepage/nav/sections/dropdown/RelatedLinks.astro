@@ -1,0 +1,46 @@
+---
+import { type ContentCollectionMeta } from "@schemas/collections/data/content-collections-meta"
+import Divider from "@components/user/Divider.astro"
+import { LinkPreview } from "astro-embed"
+import _ from "lodash"
+
+interface Props {
+  meta: ContentCollectionMeta
+}
+
+const { meta } = Astro.props
+
+const related = meta.relatedLinks ?? false
+---
+
+<>
+  {
+    related && related.length > 0 && (
+      <>
+        <Divider type="icon" icon="mdi:link-variant" />
+        <div class="content-start grid mx-auto mt-3 max-w-screen-xl text-gray-900 dark:text-white md:grid-cols-2 lg:grid-cols-3">
+          {_.sampleSize(related, 3).map((link, index) => (
+            <div
+              class:list={[
+                "p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700",
+                { "hidden lg:block": index === 2 },
+              ]}
+            >
+              <LinkPreview id={link.href} />
+            </div>
+          ))}
+        </div>
+      </>
+    )
+  }
+</>
+
+<style>
+  :global(.link-preview a) {
+    overflow: hidden;
+  }
+  :global(.link-preview a) {
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+  }
+</style>
