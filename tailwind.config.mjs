@@ -15,7 +15,7 @@ export default {
         ...polkadotBrandColors,
       },
       fontFamily: {
-        display: "unbounded, ui-serif",
+        display: "Unbounded Variable, ui-serif",
       },
       typography: {
         DEFAULT: {
@@ -24,16 +24,16 @@ export default {
               color: polkadotBrandColors.pink[500],
             },
             h1: {
-              fontFamily: "unbounded",
+              fontFamily: "Unbounded Variable",
             },
             h2: {
-              fontFamily: "unbounded",
+              fontFamily: "Unbounded Variable",
             },
             h3: {
-              fontFamily: "unbounded",
+              fontFamily: "Unbounded Variable",
             },
             h4: {
-              fontFamily: "unbounded",
+              fontFamily: "Unbounded Variable",
             },
           },
         },

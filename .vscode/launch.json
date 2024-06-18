@@ -5,7 +5,7 @@
       "command": "dotenvx --debug run -- ./node_modules/.bin/astro dev",
       "name": "Development server",
       "request": "launch",
-      "type": "node-terminal"
+      "type": "node-terminal",
     }
   ]
 }

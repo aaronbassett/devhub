@@ -4,13 +4,45 @@ description: Compile, launch, and interact with a single local blockchain node i
 sidebar:
   order: 1
 status: published
+relatedCode:
+  - owner: substrate-developer-hub
+    repo: substrate-node-template
+  - owner: paritytech
+    repo: polkadot-sdk
+  - owner: polkadot-js
+    repo: apps
+relatedLinks:
+  - text: Introduction to Polkadot
+    href: https://education.web3.foundation/docs/introdot
+  - text: The Polkadot Blockchain Academy
+    href: https://polkadot.network/development/blockchain-academy/
+  - text: Polkadot Study
+    href: https://polkadot.study/
+  - text: Polkadot system parachains
+    href: https://polkadot.network/features/system-parachains/
+relatedVideos:
+  - izaaHyPXs-U
+  - 3L7Vu2SX0PE
+  - jL-N_IWiYVA
 ---
+
 
 As you learned in [Blockchain basics](/learn/blockchain-basics/), a blockchain consists of decentralized computers—called nodes—to form a network.
 
 Substrate provides a flexible, open, and extensible development environment that allows you to design and build fully-customized blockchain nodes to suit your application or business model needs.
 
 ## Get started
+
+<Aside type="info" title="Prerequisites">
+
+### For this tutorial, you download and use working code. Before you begin, verify the following:
+
+- You have good internet connection and access to a shell terminal on your local computer.
+- You are generally familiar with software development and use command-line interfaces.
+- You are generally familiar with blockchains and smart contract platforms.
+- You have installed Rust and set up your development environment as described in [Install](/install/).
+
+</Aside>
 
 The first step in becoming a blockchain developer is to learn how to compile and launch a single local blockchain node.
 In this tutorial, you'll build and start a single node blockchain using the node template.
@@ -33,19 +65,7 @@ This is just the first step, but hopefully, it inspires you to continue your jou
 
 This tutorial requires compiling Rust code and takes approximately one to two hours to complete.
 
-## Before you begin
-
-For this tutorial, you download and use working code. Before you begin, verify the following:
-
-- You have good internet connection and access to a shell terminal on your local computer.
-
-- You are generally familiar with software development and use command-line interfaces.
-
-- You are generally familiar with blockchains and smart contract platforms.
-
-- You have installed Rust and set up your development environment as described in [Install](/install/).
-
-## Tutorial objectives
+<Aside type="success" title="Tutorial objectives">
 
 By completing this tutorial, you will accomplish the following objectives:
 
@@ -54,6 +74,7 @@ By completing this tutorial, you will accomplish the following objectives:
 - Install a front-end template to interact with the local blockchain node.
 
 - Use the front-end template to submit a transaction and view the result.
+</Aside>
 
 ## Compile a Substrate node
 
@@ -61,8 +82,8 @@ The [Substrate node template](https://github.com/substrate-developer-hub/substra
 
 If you have already compiled the node template on the local computer, you can skip this section and continue to [Start the local node](#start-the-local-node).
 
-To compile the Substrate node template:
 
+<Steps>
 1. Open a terminal shell on your computer.
 
 1. Clone the node template repository by running the following command:
@@ -109,11 +130,13 @@ To compile the Substrate node template:
    Finished release [optimized] target(s) in 11m 23s
    ```
 
+</Steps>
+
 ## Start the local node
 
 After your node compiles, you are ready to start exploring what it does using the front-end template.
 
-To start the local Substrate node:
+<Steps>
 
 1. In the same terminal where you compiled your node, you can now start the node in development mode by running the following command:
 
@@ -157,6 +180,8 @@ To start the local Substrate node:
 
 3. Keep the terminal that displays the node output open to continue.
 
+</Steps>
+
 ## Install the front-end template
 
 The front-end template uses [ReactJS](https://reactjs.org/) to render a web browser interface that enables you to interact with the Substrate-based blockchain node.
@@ -164,7 +189,7 @@ You can use this Front-end template as a starting point for creating user interf
 
 The front-end template requires [Yarn](https://yarnpkg.com/) and [Node.js](https://nodejs.org/). If you don't have these tools, install them first.
 
-To install the front-end template:
+<Steps>
 
 1. Open a new terminal window on your computer.
 2. Check whether `node` is installed on your local computer by running the following command:
@@ -207,11 +232,13 @@ To install the front-end template:
    yarn install
    ```
 
+</Steps>
+
 ## Start the front-end template
 
 The Substrate front-end template consists of user interface components to enable you to interact with the Substrate node and perform a few common tasks.
 
-To use the front-end template:
+<Steps>
 
 1. Verify that your current working directory is the root directory where you installed the front-end template in the previous section.
 
@@ -227,12 +254,15 @@ To use the front-end template:
    The top section has an Account selection list for selecting the account to work with when you want to perform on-chain operations.
    The top section of the template also displays information about the chain to which you're connected.
 
-   ![Front-end template top section](/media/images/docs/tutorials/build-local-blockchain/blockchain-top.png)
+   ![Front-end template top section](./media/blockchain-top.png)
+   
 
    You might also notice that the front-end template displays a Balances table with some predefined accounts and that a few of those accounts are preconfigured with funds.
    You can use this sample data to try out operations like transferring funds.
 
-   ![Predefined accounts and balances](/media/images/docs/tutorials/build-local-blockchain/balances.png)
+   ![Predefined accounts and balances](./media/balances.png)
+
+</Steps>
 
 ## Transfer funds from an account
 
@@ -241,11 +271,11 @@ Now that you have a blockchain node running on your local computer and you have 
 By default, the front-end template includes several components that allow you to try different common tasks.
 For this tutorial, you can perform a simple transfer operation that moves funds from one account to another.
 
-To transfer funds to an account:
+<Steps>
 
 1. In the Balances table, notice the predefined accounts—such as dave—that have no funds associated with them.
 
-   ![Locate an account with zero funds](/media/images/docs/tutorials/build-local-blockchain/dave-account.png)
+   ![Locate an account with zero funds](./media/dave-account.png)
 
    Under the Balances table, the front-end template also displays a **Transfer** component.
    You use this component to transfer funds from one account to another.
@@ -254,29 +284,31 @@ To transfer funds to an account:
 
 1. Specify at least **1000000000000** as the amount to transfer, then click **Submit**.
 
-   ![Transfer funds to an account](/media/images/docs/tutorials/build-local-blockchain/transfer-filled.png)
+   ![Transfer funds to an account](./media/transfer-filled.png)
 
 1. Notice that the values in Balances table is updated with the transfer.
 
-   ![Updated balance displayed](/media/images/docs/tutorials/build-local-blockchain/balance-result.png)
+   ![Updated balance displayed](./media/balance-result.png)
 
 1. Check the **Events** component to see events related to the transfer you just completed.
 
    The Substrate blockchain reports the result of asynchronous operations as events, so you can use the Events components to see details about each operation performed as part of the transfer.
    For example:
 
-   ![Events recorded as results from asynchronous operations](/media/images/docs/tutorials/build-local-blockchain/event-panel.png)
+   ![Events recorded as results from asynchronous operations](./media/event-panel.png)
 
 1. When the transaction has been completed and included in a block, you see a confirmation message similar to the following:
 
    😉 Finalized. Block hash: 0xa50d3f99fcea8a1611806895aa3f4d4d55fdc4989fbb2148d4856a043d01f808
+
+</Steps>
 
 ## Stop the local node
 
 After a successful transfer, you can continue to explore the front-end template components or stop the local Substrate node to erase any state changes you have made.
 Because you specified the `--dev` option when you started the node, stopping the local node stops the blockchain and purges all persistent block data so that you can start with a clean state next time you start the node.
 
-To stop the local Substrate node:
+<Steps>
 
 1. Return to the terminal shell where the node output is displayed.
 
@@ -284,23 +316,4 @@ To stop the local Substrate node:
 
 3. Verify your terminal returns to the terminal prompt in the `substrate-node-template` directory.
 
-## Next steps
-
-Congratulations!
-
-In this tutorial, you learned:
-
-- How to start a working Substrate-based blockchain node using the node template.
-
-- How to view and interact with the blockchain node using a front-end user interface.
-
-- How to make a simple transfer from one account to another.
-
-The front-end template includes several additional components for you to experiment with while you're connected to a local development node.
-You can explore these components on your own or learn more in the following topics:
-
-- [Architecture](/learn/architecture/)
-- [Networks and blockchains](/learn/node-and-network-types/)
-- [Simulate a network](/tutorials/build-a-blockchain/simulate-network/)
-- [Submit an issue](https://github.com/substrate-developer-hub/substrate-docs/issues/new/choose)
-- [Substrate Stack Exchange](https://substrate.stackexchange.com/)
+</Steps>

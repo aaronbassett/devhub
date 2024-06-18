@@ -1,4 +1,5 @@
 ---
+import '@fontsource-variable/unbounded'
 import Navbar from "@components/astro/Navbar.astro"
 import Sidebar from "@components/astro/sidebar/Sidebar.astro"
 import Breadcrumbs from "@components/astro/breadcrumbs/Breadcrumbs.astro"
@@ -61,12 +62,6 @@ const { headings } = await entry.render()
         link: populateExtendLinks(entry, [
           { rel: "icon", href: faviconSvg.src, type: "image/svg+xml" },
           { rel: "apple-touch-icon", href: appleTouchIcon.src },
-          { rel: "preconnect", href: "https://fonts.googleapis.com" },
-          { rel: "preconnect", href: "https://fonts.gstatic.com" },
-          {
-            rel: "stylesheet",
-            href: "https://fonts.googleapis.com/css2?family=Sedan+SC&family=Unbounded:wght@200..900&display=swap",
-          },
         ]),
         meta: populateExtendMeta(entry, [
           {
@@ -110,11 +105,7 @@ const { headings } = await entry.render()
 
         <NextAndPrevLinks {...Astro.props} />
 
-        <div
-          class="mx-auto max-w-screen-xl rounded bg-white px-4 py-6 dark:bg-gray-800"
-        >
-          <RelatedPosts {...Astro.props} />
-        </div>
+        
       </main>
 
       <Aside headings={headings} {...Astro.props} />
